@@ -79,11 +79,13 @@ for(i in  seq_along(species.vec)){
   chain.fes <- do.call(rbind,chain.3.ls.new)
   
   # 
-  # sample.index <- sample(1:nrow(chain.fes),1000)
+  set.seed(1935)
+  sample.index <- sample(1:nrow(chain.fes),200)
   
   # tmp.m <- apply(chain.fes, 2, sample,size=100)
+  
   tmp.m <- as.data.frame(chain.fes[sample.index,])
-  # tmp.m <- as.data.frame(tmp.m)
+  tmp.m <- as.data.frame(tmp.m)
   tmp.m$spc <- species.vec[i]
   
   
@@ -98,7 +100,7 @@ for(i in  seq_along(species.vec)){
   #   
   # }
 }
-
+hist(tmp.m[,2])
 
 
 # get.threshold.func <- function(gcc.vec = seq(0.1,1,by=0.01),
@@ -185,8 +187,8 @@ for(i in  seq_along(species.vec)){
 # abline(h=0.05,lty='dashed')
 # legend('topleft',legend = out.df$spc,
 #        lty='solid',col=palette())
-solve.intersect.func <- function(vwc.in){
-  swc.norm <-  (vwc.in- swc.wilt)/ (swc.capacity - swc.wilt)
+solve.intersect.func <- function(swc.norm){
+  # swc.norm <-  (vwc.in- swc.wilt) / (swc.capacity - swc.wilt)
   loss.f <- swc.norm^q
   loss.f.s <- (1-swc.norm)^q.s
   
@@ -290,9 +292,9 @@ for (iter.nm in seq_along(species.vec)) {
     #   swc.wilt = 0.05
     #   bucket.size=300
     # }
-  # 
-  swc.capacity <- 0
-  swc.wilt <- 1
+  # # 
+  # swc.capacity <- 0
+  # swc.wilt <- 1
   # 
   tmp.df <- out.sample.ls[[iter.nm]]
 
@@ -317,7 +319,7 @@ for (iter.nm in seq_along(species.vec)) {
       f.growth <- tmp.df[j,3]
       f.sen <- tmp.df[j,4]
       
-      x <- try(uniroot(solve.intersect.func,interval = c(0.05,0.3))$root)
+      x <- try(uniroot(solve.intersect.func,interval = c(0,1))$root)
       
       if(class(x)=='try-error'){
         x = NA
@@ -379,6 +381,8 @@ layout(matrix(c(1:6,7,8,11,9,10,11),3,4, byrow = FALSE),
 
 par(mar=rep(2,4),xpd=TRUE,oma=rep(2,4))
 
+
+species.vec.nm <- c('Bis','Med','Dig','The','Chl','Fes','Pha','Lol','YM','Flux Tower')
 # par(mfrow=c(4,3))
 letter.nm=1
 for (i in c(3:10,1,2)) {
@@ -389,8 +393,8 @@ for (i in c(3:10,1,2)) {
  
   polygon(c(0,cover.vec,1),c(0,mid.df,0),col=col.df$auLandscape[3])
   polygon(c(0,1,rev(cover.vec),0),c(1,1,rev(mid.df),0),col=col.df$auLandscape[2])
-  species.vec.nm <- species.vec
-  species.vec.nm[species.vec.nm=='Flux'] <- 'Flux Tower'
+  # species.vec.nm <- species.vec
+  # species.vec.nm[species.vec.nm=='Flux'] <- 'Flux Tower'
   legend('topleft',legend = paste0('(',letters[letter.nm],') ',species.vec.nm[i]))
   
   points(q.05~cover,data = pred.ci.ls[[i]],type='l',lty='dashed',lwd=2)
@@ -401,7 +405,7 @@ for (i in c(3:10,1,2)) {
            pch=15,col=col.df$auLandscape[2:3])
   }
   if(letter.nm==2){
-    mtext('Soil moisture',side=2,xpd=T,line=3)
+    mtext('Soil moisture availability',side=2,xpd=T,line=3)
   }
   if(letter.nm==6){
     mtext('Cover',side=1,xpd=T,line=3,adj=1)
@@ -429,8 +433,8 @@ points(q.5~cover,data = pred.ci.ls[[8]],type='l',col=3,lwd=2,lty=3)
 points(q.5~cover,data = pred.ci.ls[[9]],type='l',col=4,lwd=2,lty=2)
 
 legend('topleft',legend = '(k)',bty='n')
-species.vec.nm <- species.vec
-species.vec.nm[species.vec.nm=='Flux'] <-' Flux Tower'
+# species.vec.nm <- species.vec
+# species.vec.nm[species.vec.nm=='Flux'] <-' Flux Tower'
 legend('bottomright',legend = species.vec.nm,
        lty=c(1,2,1,2,3,1,2,3,1,2),col=c(1,1,2,2,2,3,3,3,4,4),lwd=2,
        ncol = 2)
