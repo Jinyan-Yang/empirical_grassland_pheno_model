@@ -1,0 +1,14 @@
+day.lag <- 3
+source('r/pace_data_process.R')
+source('r/ym_data_process.R')
+source('r/v13_common_fun.R')
+source('models/hufkens/hufkensV13.R')
+source('r/process_paddock_gcc_met.R')
+source('r/plot.mcmc.r')
+
+library(zoo)
+library(foreach)
+library(doParallel)
+library(DEoptim)
+devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
+
