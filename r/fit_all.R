@@ -1,22 +1,23 @@
 # set up the environment####
 # this lag day term is outdated but need to be here to use the older version of code
-day.lag <- 3
-source('r/pace_data_process.R')
-source('r/ym_data_process.R')
-source('r/v13_common_fun.R')
-source('models/hufkens/hufkensV13.R')
-source('r/process_paddock_gcc_met.R')
-
-library(zoo)
-library(foreach)
-library(doParallel)
-
+# day.lag <- 3
+# source('r/pace_data_process.R')
+# source('r/ym_data_process.R')
+# source('r/v13_common_fun.R')
+# source('models/hufkens/hufkensV13.R')
+# source('r/process_paddock_gcc_met.R')
+# 
+# library(zoo)
+# library(foreach)
+# library(doParallel)
+source('r/load.R')
+source('r/read_spc_nm.R')
 #read in data 
 ym.18.df <- get.ym.func(18)
 gcc.met.con.df <- get.paddock.func('control')
 
 # 
-species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','ym','flux')
+# species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','ym','flux')
 # species.vec <- 'flux'
 # species.vec <- c('Luc','Dig','Kan','Rho','Fes','Pha','Rye','ym','flux')
 # species.vec <- c('ym','flux')
