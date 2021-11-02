@@ -10,6 +10,7 @@
 
 # Step I: load environment####
 source('r/read_spc_nm.R')
+source('r/load.R')
 
 # Step II: fit model to data####
 source('r/fit_all.R')
