@@ -1,4 +1,5 @@
 source('r/plot.mcmc.r')
+source('r/read_spc_nm.R')
 # 
 devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
 library(doBy)
@@ -31,15 +32,15 @@ plot.ts.func <- function(hufken.pace.pred){
   mtext(yr.vec[(length(yr.vec) - num.yr + 1):length(yr.vec)],side = 1,adj = where.c,line = 3)
   
   # plot model pred
-  points(cover.hufken~Date,data = hufken.pace.pred,type='l',lwd='2',col=col.df$auLandscape[2],lty='solid')
+  points(cover.50~Date,data = hufken.pace.pred,type='l',lwd='2',col=col.df$auLandscape[2],lty='solid')
   
 }
 
 # species.vec <- c("Bis",    "Dig",  "Fes",    "Kan",    
 #                  "Luc",  "Rho",    "Rye",
 #                  'ym')
-species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','flux')
-species.vec.plot.nm <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux Tower')
+# species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','flux')
+# species.vec.plot.nm <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux Tower')
 # #########################################
 palette(c(col.df$iris,col.df$daisy))
 png('figures/obs_fit_TS_scatter.png',height = 400*2,width = 400/.618)
@@ -54,6 +55,7 @@ ci.fm <- ('tmp/ci.smsmv13.2q.chain.ym.Control.Ambient.rds')
 ci.m <- readRDS(ci.fm)
 hufken.pace.pred$cover.05 <- ci.m[1,]
 hufken.pace.pred$cover.95 <- ci.m[2,]
+hufken.pace.pred$cover.50 <- ci.m[3,]
 
 plot.ts.func(hufken.pace.pred)
 
@@ -77,18 +79,24 @@ legend('topright',legend = c('OBS','MOD'),
 for (i in seq_along(species.vec)){
   fn <- sprintf('tmp/pred.smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
   hufken.pace.pred <- readRDS(fn)
-  
+  # 
+  ci.fm <- sprintf('tmp/ci.smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
+  ci.m <- readRDS(ci.fm)
+  # hufken.pace.pred$cover.05 <- ci.m[1,]
+  # hufken.pace.pred$cover.95 <- ci.m[2,]
+  hufken.pace.pred$cover.50 <- ci.m[3,]
+  # 
   if(i == 1){
-    plot(GCC.norm~cover.hufken,data = hufken.pace.pred,
+    plot(GCC.norm~cover.50,data = hufken.pace.pred,
          xlim=c(0,1),ylim=c(0,1),
-         xlab='MOD_cover',ylab = 'OBS_cover',pch=16,col=i)
+         xlab='Modelled cover',ylab = 'Observed cover',pch=16,col=i)
    
   }else{
-    points(GCC.norm~cover.hufken,data = hufken.pace.pred,
+    points(GCC.norm~cover.50,data = hufken.pace.pred,
          xlim=c(0,1),ylim=c(0,1),
-         xlab='MOD_GCC',ylab = 'OBS_GCC',pch=16,col=i)
+         pch=16,col=i)
   }
-  legend('bottomright',legend = species.vec.plot.nm,col=palette(),
+  legend('bottomright',legend = species.vec.nm,col=palette(),
          pch=16,bty='n')
   legend('topleft',legend = '(b)',bty='n')
   abline(a=0,b=1,lty='dashed',col='grey',lwd=2)

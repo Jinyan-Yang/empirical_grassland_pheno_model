@@ -1,4 +1,5 @@
 source('r/plot.mcmc.r')
+source('r/read_spc_nm.R')
 devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
 # # make PDF plots#####
 # pdf('figures/v13.2q.pace.pdf',width = 8,height = 8*0.618)
@@ -33,8 +34,10 @@ devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?
 
 # pdf('figures/v13.2q.diag.pdf',width = 8,height = 8*0.618)
 # fit pace####
+
 # species.vec <- c('Bis','Dig','Luc','Fes','Rye','Kan','Rho','YM','Flux')
-species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
+# species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
+# species.vec.nm <- c('Bis','Med','Dig','The','Chl','Fes','Pha','Lol','YM','Flux Tower')
 # species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
 # legume = 1; C4=2,C3=3,mix=4
 # c(1,1,2,2,2,3,3,3,4,4)
@@ -382,7 +385,7 @@ layout(matrix(c(1:6,7,8,11,9,10,11),3,4, byrow = FALSE),
 par(mar=rep(2,4),xpd=TRUE,oma=rep(2,4))
 
 
-species.vec.nm <- c('Bis','Med','Dig','The','Chl','Fes','Pha','Lol','YM','Flux Tower')
+
 # par(mfrow=c(4,3))
 letter.nm=1
 for (i in c(3:10,1,2)) {

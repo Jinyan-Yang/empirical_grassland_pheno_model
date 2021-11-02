@@ -1,6 +1,8 @@
 day.lag <- 3
 source('r/pace_data_process.R')
 source('r/ym_data_process.R')
+source('r/read_spc_nm.R')
+
 devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
 palette(c(col.df$iris))
 
@@ -53,11 +55,11 @@ mean.annual.reduction <- with(ym.both.df,(mean(GCC.mean.drt) ) /
 # mean.annual.reduction.vwc <- with(ym.both.df,sum(vwc.mean.drt) / sum(vwc.mean.con))
 # pace data
 pace.ls <- list()
-species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye')
+# species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye')
 
 pace.sub.df <- gcc.met.pace.df[month(gcc.met.pace.df$Date) %in% 8:11,]
 pace.sub.df <- pace.sub.df[pace.sub.df$Temperature == 'Ambient',]
-for (i in seq_along(species.vec)) {
+for (i in seq_along(species.vec[1:8])) {
   # fn.con <- sprintf('tmp/pred.smv13.2qchain.%s.Control.Ambient.rds',
   #                   species.vec[i])
   # dat.con <- get.pace.func(gcc.met.pace.df,
@@ -81,7 +83,7 @@ for (i in seq_along(species.vec)) {
   dat.sum.wide$drt.iri <-  (dat.sum.wide$irrig.tot.Drought-0.3) /
     (dat.sum.wide$irrig.tot.Control -0.3)
   
-  dat.sum.wide$species <- (species.vec[i] )
+  dat.sum.wide$species <- species.vec.nm[i] 
   pace.ls[[i]] <-  dat.sum.wide
   
 }
@@ -95,12 +97,12 @@ pace.ls[[9]] <- data.frame(Shelter  = 1,
                            species = 'YM')
 pace.effect.df <- do.call(rbind,pace.ls)
 pace.effect.df$species <- factor(pace.effect.df$species,
-                                 levels = c(species.vec,'YM'))
+                                 levels = c(species.vec.nm))
 
 # 
 pace.model.ls <- list()
-species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM')
-for (i in seq_along(species.vec)) {
+# species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM')
+for (i in seq_along(species.vec[1:9])) {
   fn.con <- sprintf('tmp/pred.smsmv13.2q.chain.%s.Control.Ambient.rds',
                     species.vec[i])
   
@@ -139,23 +141,26 @@ for (i in seq_along(species.vec)) {
   #                                                sum(rain.drt,na.rm=T) / 
   #                                                  sum(rain.con,na.rm=T))
   
-  dat.both.df$spc <- species.vec[i] 
+  dat.both.df$spc <- species.vec.nm[i] 
   
   pace.model.ls[[i]] <-  dat.both.df
   
 }
 
 pace.model.df <- do.call(rbind,pace.model.ls)
-pace.model.df$spc.factoir <- as.numeric(factor(pace.model.df$spc,levels = c(species.vec)))
+pace.model.df$spc.factoir <- as.numeric(factor(pace.model.df$spc,levels = c(species.vec.nm)))
 # 
 pdf('figures/plot.drt.shelter.pdf',width = 8,height = 8*.618)
 
-plot(drt.gcc~species,data = pace.effect.df,xlab='',
-     ylab='Reduction impact on GCC',ylim=c(0.2,1),col=c(1,1,2,2,2,3,3,3,4),
+plot(c(drt.gcc)~species,data = pace.effect.df,xlab='',
+     ylab='Reduction of cover under drought',ylim=c(0,1),
+     col=c(1,1,2,2,2,3,3,3,4),
      pch='')
 # abline(h=1,lwd=2,col='grey',lty='dashed')
 points(mean.annual.reduction.ped~spc.factoir,data = pace.model.df,
        pch=16,cex=2,col='grey30')
 # plot(drt.iri~species,data = pace.effect.df)
 # abline(h=1,lwd=2,col='grey',lty='dashed')
+
+
 dev.off()

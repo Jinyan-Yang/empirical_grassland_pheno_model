@@ -1,3 +1,4 @@
+source('r/read_spc_nm.R')
 # function to get mean
 get.fit.value.func <- function(fn,burin.frac=0.75){
   in.chain =  readRDS(fn)
@@ -31,17 +32,17 @@ get.fit.ci.func <- function(fn,burin.frac=0.75){
 # loop through all params####
 tmp.ls <- list()
 
-spc.vec <-c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
-# spc.vec <-c('Kan','YM','Flux')
-for (spc.i in seq_along(spc.vec)) {
-  fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',spc.vec[spc.i])
+# species.vec <-c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
+# species.vec <-c('Kan','YM','Flux')
+for (spc.i in seq_along(species.vec)) {
+  fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[spc.i])
   
   v13.chain <- get.fit.value.func(fn)
   
   v13.chain.ci <- get.fit.ci.func(fn)
   
   tmp.ls[[spc.i]] <- data.frame(model='v1.1',
-                                site = spc.vec[spc.i],
+                                site = species.vec[spc.i],
                                 
                                 f.t.opt = v13.chain[1],
                                 f.t.opt.05 = v13.chain.ci[1,1],
@@ -82,7 +83,7 @@ all.var.ls <- readRDS('cache/compare.var.rds')
 out.ls <- list()
 for (par.i in seq_along(all.var.ls)) {
   # create empty df to store info
-  spc.condition.df <- data.frame(spc = spc.vec,
+  spc.condition.df <- data.frame(spc = species.vec,
                                  condition.1 = '',
                                  condition.2 = '',
                                  condition.3 = '',
@@ -98,12 +99,12 @@ for (par.i in seq_along(all.var.ls)) {
   tmp.df <- all.var.ls[[par.i]]
   
   tmp.m <- matrix(NA,ncol=11,nrow=10)
-  rownames(tmp.m)<- spc.vec
-  colnames(tmp.m) <- c(spc.vec,'sig')
-  for(spc.nm in seq_along(spc.vec)[-length(spc.vec)]){
+  rownames(tmp.m)<- species.vec
+  colnames(tmp.m) <- c(species.vec,'sig')
+  for(spc.nm in seq_along(species.vec)[-length(species.vec)]){
     
     # subset the 
-    index.spc <- grep(paste0(spc.vec[spc.nm],'-'),tmp.df$pars)
+    index.spc <- grep(paste0(species.vec[spc.nm],'-'),tmp.df$pars)
     
     tmp.m[(spc.nm+1):10,spc.nm] <- tmp.df$sig[index.spc]
   }
@@ -178,14 +179,14 @@ plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm){
     
     chain.fes <- do.call(rbind,chain.3.ls.new)
     
-    tmp.ls[[i]] <- data.frame(spc = spc.vec[i],
+    tmp.ls[[i]] <- data.frame(spc = species.vec.nm[i],
                               par.val = chain.fes[,col2plot])
     
   }
  
   plot.df <- do.call(rbind,tmp.ls)
-  plot.df$spc[plot.df$spc =='flux'] <- 'Flux Tower'
-  plot.df$spc <- factor(plot.df$spc,levels=spc.vec)
+  # plot.df$spc[plot.df$spc =='flux'] <- 'Flux Tower'
+  plot.df$spc <- factor(plot.df$spc,levels=unique(plot.df$spc))
   vioplot(par.val~spc,plot.df,col=col.nm.vec,
           xlab='',ylab=y.nm)
   
@@ -234,9 +235,9 @@ var.vec <- c(1,2,3,4,6,5)
 for (plot.var.nm in seq_along(var.vec)) {
   
   
-  plot.box.func(spc.vec,
-                col2plot = var.vec[var.vec],
-                y.nm = y.nm.vec[var.vec[var.vec]])
+  plot.box.func(spc.vec = species.vec,
+                col2plot = var.vec[plot.var.nm],
+                y.nm = y.nm.vec[var.vec[plot.var.nm]])
   
   legend('topleft',legend = sprintf('(%s)',letters[plot.var.nm]),
          bty='n')
@@ -262,7 +263,7 @@ for(plot.var.nm in c(1,2,3,4,6,5)){
   # subset for only the par needed
   plot.df <- out.ls[[plot.var.nm]]
   plot.m <- as.matrix(plot.df[2:10,1:9])
-  rownames(plot.m)[rownames(plot.m) == 'Flux'] <- 'Flux Tower'
+  rownames(plot.m) <- species.vec.nm[2:10]
   x.nm <- colnames(plot.m)
   y.nm <- rownames(plot.m)
   # conver to a matrix

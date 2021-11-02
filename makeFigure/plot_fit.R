@@ -6,8 +6,12 @@ source('models/hufkens/hufkensV13.R')
 source('r/process_paddock_gcc_met.R')
 devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
 library(zoo)
+library(lubridate)
 source('r/plot.mcmc.r')
+source('r/read_spc_nm.R')
 
+
+# 
 ym.18.df <- get.ym.func(18)
 
 gcc.met.con.df <- get.paddock.func('control')
@@ -15,7 +19,7 @@ gcc.met.con.df <- get.paddock.func('control')
 # species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','ym','flux')
 
 # gcc.met.con.df <- get.paddock.func('control')
-species.vec <- c('Bis','Dig','Luc','Fes','Rye','Kan','Rho','ym','flux')
+# species.vec <- c('Bis','Dig','Luc','Fes','Rye','Kan','Rho','ym','flux')
 # species.vec <- c('Bis','Luc','Dig','Wal','Rho','Fes','Pha','Rye','ym','flux')
 # species.vec <- 'Kan'
 
@@ -127,7 +131,7 @@ for (i in seq_along(species.vec)) {
           col=t_col(col.df$iris[4],60),border = NA
   )
   
-  legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec[i]),
+  legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
          bty='n')
 }
 

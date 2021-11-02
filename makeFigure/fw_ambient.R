@@ -1,10 +1,10 @@
-
+source('r/read_spc_nm.R')
 # species.vec <- c('Luc','Fes','Rye','Kan',
 #                  'YM')
 # species.vec <- c("Bis",    "Dig",  "Fes",    "Kan",    
 #                  "Luc",  "Rho",    "Rye",
 #                  'YM','Flux')
-species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
+# species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
 
 out.df <- data.frame(spc = species.vec,
                      f.t.opt =NA,
@@ -76,8 +76,9 @@ for (i in seq_along(beta.growth.ls)) {
   points(beta.growth.ls[[i]]~swc.vec,type='l',col=col.nm.vec[i],lty=lty.vec[i],lwd=3)
 }
 legend('topleft',legend = '(a)',bty='n')
-out.df$spc[out.df$spc=='Flux'] <- 'Flux Tower'
-legend('bottomright',legend = out.df$spc,
+# out.df$spc[out.df$spc=='Flux'] <- 'Flux Tower'
+
+legend('bottomright',legend = species.vec.nm,
        lty=lty.vec,col=col.nm.vec,ncol = 2,lwd=3)
 
 # 
