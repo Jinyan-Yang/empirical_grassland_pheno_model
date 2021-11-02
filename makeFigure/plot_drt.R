@@ -97,7 +97,7 @@ pace.ls[[9]] <- data.frame(Shelter  = 1,
                            species = 'YM')
 pace.effect.df <- do.call(rbind,pace.ls)
 pace.effect.df$species <- factor(pace.effect.df$species,
-                                 levels = c(species.vec.nm))
+                                 levels = c(species.vec.nm[1:9]))
 
 # 
 pace.model.ls <- list()
@@ -148,12 +148,13 @@ for (i in seq_along(species.vec[1:9])) {
 }
 
 pace.model.df <- do.call(rbind,pace.model.ls)
-pace.model.df$spc.factoir <- as.numeric(factor(pace.model.df$spc,levels = c(species.vec.nm)))
+pace.model.df$spc.factoir <- as.numeric(factor(pace.model.df$spc,levels = c(species.vec.nm[1:9])))
+# pace.model.df$spc.factoir <- droplevels(pace.model.df$spc.factoir)
 # 
 pdf('figures/plot.drt.shelter.pdf',width = 8,height = 8*.618)
 
 plot(c(drt.gcc)~species,data = pace.effect.df,xlab='',
-     ylab='Reduction of cover under drought',ylim=c(0,1),
+     ylab='Cover drought / Cover control',ylim=c(0,1),
      col=c(1,1,2,2,2,3,3,3,4),
      pch='')
 # abline(h=1,lwd=2,col='grey',lty='dashed')

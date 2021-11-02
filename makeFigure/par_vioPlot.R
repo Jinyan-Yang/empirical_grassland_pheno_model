@@ -188,7 +188,7 @@ plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm){
   # plot.df$spc[plot.df$spc =='flux'] <- 'Flux Tower'
   plot.df$spc <- factor(plot.df$spc,levels=unique(plot.df$spc))
   vioplot(par.val~spc,plot.df,col=col.nm.vec,
-          xlab='',ylab=y.nm)
+          xlab='',ylab=y.nm,las = 2)
   
 
   # sig.df <- out.ls[[col2plot]]
@@ -224,12 +224,17 @@ par(mar=c(5,5,1,1))
 #                 'f.sec','f.growth', 
 #                 'q','q.s')
 
-y.nm.vec <- c(expression('Opt. T '*(degree*C)),
-              expression('Max. tran. rate '*(mm~d^-1)),
-              expression('Senescence rate '*(cover~d^-1)),
-              expression('Growth rate '*(cover~d^-1)),
-              expression('q (growth)'),
-              expression(q[s]~(Senescence)))
+# y.nm.vec <- c(expression('Opt. T '*(degree*C)),
+#               expression('Max. tran. rate '*(mm~d^-1)),
+#               expression('Senescence rate '*(cover~d^-1)),
+#               expression('Growth rate '*(cover~d^-1)),
+#               expression('q (growth)'),
+#               expression(q[s]~(Senescence)))
+
+y.nm.vec <- c(expression(T[opt]),expression(r[extract]),
+              expression(r[senescence]),expression(r[growth]),
+              expression(q[growth]),expression(q[senescence]))
+
 
 var.vec <- c(1,2,3,4,6,5)
 for (plot.var.nm in seq_along(var.vec)) {
@@ -239,21 +244,32 @@ for (plot.var.nm in seq_along(var.vec)) {
                 col2plot = var.vec[plot.var.nm],
                 y.nm = y.nm.vec[var.vec[plot.var.nm]])
   
-  legend('topleft',legend = sprintf('(%s)',letters[plot.var.nm]),
+  # legend('topleft',legend =paste0('(',letters[index.nm],") " ,
+  #                                 y.nm.vec[plot.var.nm]),
+  #        bty='n')
+  
+  legend('topleft',legend =paste0('(',letters[plot.var.nm],") " ),
          bty='n')
   
 }
 
 
 dev.off()
+
+
 # # plot significance.
 pdf('figures/significance.pdf',width = 4*2,height = 4*3)
-y.nm.vec <- c(('Opt. T '),
-              ('Max. tran. rate '),
-              ('Senescence rate '),
-              ('Growth rate '),
-              ('q[Growth]'),
-              ('q[Senescence]'))
+# y.nm.vec <- c(('Opt. T '),
+#               ('Max. tran. rate '),
+#               ('Senescence rate '),
+#               ('Growth rate '),
+#               ('q[Growth]'),
+#               ('q[Senescence]'))
+
+y.nm.vec <- c(expression((a)~T[opt]),expression((b)~r[extract]),
+              expression((c)~r[senescence]),expression((d)~r[growth]),
+              expression((f)~q[growth]),expression((e)~q[s]))
+
 
 library(raster)
 par(mfrow=c(3,2))
@@ -264,15 +280,17 @@ for(plot.var.nm in c(1,2,3,4,6,5)){
   plot.df <- out.ls[[plot.var.nm]]
   plot.m <- as.matrix(plot.df[2:10,1:9])
   rownames(plot.m) <- species.vec.nm[2:10]
-  x.nm <- colnames(plot.m)
+  x.nm <- species.vec.nm[1:9]
   y.nm <- rownames(plot.m)
   # conver to a matrix
   plot.m <- matrix(as.numeric(plot.m),ncol=9)
   # plot as a raster
   plot(raster(plot.m),breaks=c(-1,0.5,1.1),col=c('grey','black'),legend=F,
        ann=F,axes=F,main = y.nm.vec[plot.var.nm])
-  legend('topleft',legend =paste0('(',letters[index.nm],") " ,
-                                  y.nm.vec[plot.var.nm]),
+  # legend('topleft',legend =paste0('(',letters[index.nm],") " ,
+  #                                 y.nm.vec[plot.var.nm]),
+  #        bty='n')
+  legend('topleft',legend = y.nm.vec[plot.var.nm],
          bty='n')
   # add grid lines
   abline(h=(0:10)/9,lty='dotted')
