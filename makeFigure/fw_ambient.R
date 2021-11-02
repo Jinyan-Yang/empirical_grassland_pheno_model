@@ -1,4 +1,5 @@
 source('r/read_spc_nm.R')
+source('r/load.R')
 # species.vec <- c('Luc','Fes','Rye','Kan',
 #                  'YM')
 # species.vec <- c("Bis",    "Dig",  "Fes",    "Kan",    
@@ -42,13 +43,15 @@ for(i in seq_along(species.vec)){
 
 beta.func <- function(x,a=0.05,b=0.3,q=5,is.q.s = FALSE){
  if(is.q.s){
-   (1-(x - a) / (b - a))^q 
+   # (1-(x - a) / (b - a))^q 
+   (1-x)^q
  }else{
-   ((x - a) / (b - a))^q 
+   # ((x - a) / (b - a))^q 
+   (x)^q
  }
 }
 
-swc.vec <- seq(0.05,0.3,by=0.001)
+swc.vec <- seq(0,1,by=0.01)
 beta.growth.ls <- beta.sene.ls <- list()
 for (i.nm in seq_along(species.vec)) {
   beta.growth.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q[i.nm])
@@ -82,7 +85,7 @@ legend('bottomright',legend = species.vec.nm,
        lty=lty.vec,col=col.nm.vec,ncol = 2,lwd=3)
 
 # 
-plot(beta.sene.ls[[1]]~swc.vec,type='l',col=col.nm.vec[1],xlim=c(0.03,0.3),
+plot(beta.sene.ls[[1]]~swc.vec,type='l',col=col.nm.vec[1],xlim=c(0,1),
       xlab='Soil moisture',ylab=expression(f[w*','*s]),lty=lty.vec[1],lwd=3)
 
 # points(beta.sene.ls[[2]]~swc.vec,type='l',col=2,lwd=3,lty='dashed')

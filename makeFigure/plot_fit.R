@@ -1,14 +1,15 @@
-day.lag <- 3
-source('r/pace_data_process.R')
-source('r/ym_data_process.R')
-source('r/v13_common_fun.R')
-source('models/hufkens/hufkensV13.R')
-source('r/process_paddock_gcc_met.R')
-devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
-library(zoo)
-library(lubridate)
-source('r/plot.mcmc.r')
-source('r/read_spc_nm.R')
+# day.lag <- 3
+# source('r/pace_data_process.R')
+# source('r/ym_data_process.R')
+# source('r/v13_common_fun.R')
+# source('models/hufkens/hufkensV13.R')
+# source('r/process_paddock_gcc_met.R')
+# devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
+# library(zoo)
+# library(lubridate)
+# source('r/plot.mcmc.r')
+# source('r/read_spc_nm.R')
+source('r/load.R')
 
 
 # 
