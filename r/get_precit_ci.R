@@ -9,11 +9,11 @@ source('r/process_paddock_gcc_met.R')
 # devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
 library(zoo)
 # source('r/plot.mcmc.r')
+source('r/read_spc_nm.R')
 
 ym.18.df <- get.ym.func(18)
 gcc.met.con.df <- get.paddock.func('control')
 # species.vec <- c('Bis','Dig','Luc','Fes','Rye','Kan','Rho','ym','flux')
-species.vec <- c('Bis','Dig','Luc','Fes','Rye','Kan','Rho','ym','flux')
 
 for (i in seq_along(species.vec)) {
   
