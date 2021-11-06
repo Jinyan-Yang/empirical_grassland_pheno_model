@@ -10,7 +10,7 @@ library(lubridate)
 source('r/plot.mcmc.r')
 source('r/read_spc_nm.R')
 
-ym.18.df <- get.ym.func('Control')
+ym.18.df <- get.ym.func('Drought')
 # gcc.met.con.df <- get.paddock.func('control')
 # species.vec <- c('Bis','Dig','Luc','Fes','Rye','Kan','Rho','ym')
 # species.vec <- c('Bis','Luc',
@@ -50,7 +50,7 @@ for (i in seq_along(species.vec[1:9])) {
   }
   
   # plot control under control
-  plot.mcmc.func.2q(df,species.vec[i],prep.in='Control',temp.in='Ambient',
+  plot.mcmc.func.2q(df,species.vec[i],prep.in='Drought',temp.in='Ambient',
                     my.fun = phenoGrass.func.v13,
                     nm.note='smv13.2q.',use.smooth = TRUE,day.lag = 3,
                     swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,bucket.size = bucket.size,

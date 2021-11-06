@@ -80,8 +80,8 @@ for (i in seq_along(species.vec[1:8])) {
   dat.sum.wide$drt.gcc <-  (dat.sum.wide$GCC.Drought -0.3) /
     (dat.sum.wide$GCC.Control -0.3)
   
-  dat.sum.wide$drt.iri <-  (dat.sum.wide$irrig.tot.Drought-0.3) /
-    (dat.sum.wide$irrig.tot.Control -0.3)
+  dat.sum.wide$drt.iri <-  (dat.sum.wide$irrig.tot.Drought) /
+    (dat.sum.wide$irrig.tot.Control)
   
   dat.sum.wide$species <- species.vec.nm[i] 
   pace.ls[[i]] <-  dat.sum.wide

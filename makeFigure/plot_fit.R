@@ -8,7 +8,7 @@
 # library(zoo)
 # library(lubridate)
 # source('r/plot.mcmc.r')
-# source('r/read_spc_nm.R')
+source('r/read_spc_nm.R')
 source('r/load.R')
 
 
@@ -51,16 +51,24 @@ for (i in seq_along(species.vec)) {
     swc.wilt = 0.05
     bucket.size=300
   }
-  
+  # do ploting and prediction for v11
   plot.mcmc.func.2q(df,species.vec[i],
                     prep.in='Control',temp.in='Ambient',
                     my.fun = phenoGrass.func.v13,
                     nm.note='smv13.2q.',use.smooth = TRUE,day.lag = 3,
                     swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
                     bucket.size = bucket.size)
-
-
-  plot.title.func(species.vec[i]) 
+  
+# do the predict for v10
+  plot.mcmc.func.2q(df,species.vec[i],
+                    prep.in='Control',temp.in='Ambient',
+                    my.fun = phenoGrass.func.v13,
+                    nm.note='v13.q1.qs0.',use.smooth = TRUE,
+                    day.lag = 3,
+                    swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
+                    bucket.size = bucket.size,
+                    q.s.in=0,q.in=1)
+  # plot.title.func(species.vec[i]) 
 }
 # dev.off()
 
@@ -95,7 +103,7 @@ for (i in seq_along(species.vec)) {
   # timeserie only
   
   plot(GCC.norm~Date,data = hufken.pace.pred,type='p',pch=16,#lwd='2',
-       xlab=' ',ylab=expression(f[cover]),ylim=c(0,1),col = col.df$iris[4],
+       xlab=' ',ylab='Cover',ylim=c(0,1),col = col.df$iris[4],
        xaxt='n')
   
   # add date
