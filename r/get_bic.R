@@ -16,8 +16,12 @@ get.bic.func <- function(model.vec,data.vec,n.fd){
   return(bic)
   # -0.5 *  sum((m.vec - d.vec)^2)/d.sd - n.fd*log(length(m.vec))
 }
+# 
+rmse.func = function(m, o){
+  sqrt(mean((m - o)^2,na.rm=T))
+}
 
-
+# 
 get.r.func <- function(x.vec,y.vec){
   # x.vec = optbb.spots$ALEAF
   # y.vec=spot.amb$Photo
@@ -32,19 +36,51 @@ source('r/read_spc_nm.R')
 pace.ls <- list()
 
 for (i in seq_along(species.vec)) {
-  fn.con <- sprintf('tmp/pred.smsmv13.2q.chain.%s.Control.Ambient.rds',
+  fn.con.11 <- sprintf('tmp/pred.smsmv13.2q.chain.%s.Control.Ambient.rds',
                     species.vec[i])
   
-  dat.con <- readRDS(fn.con)
-  dat.con <- dat.con[,c('cover','cover.hufken')]
+  dat.con.11 <- readRDS(fn.con.11)
+  dat.con.11 <- dat.con.11[,c('cover','cover.hufken')]
 
-  pace.ls[[i]] <-  dat.con
+  pace.ls[[i]] <-  dat.con.11
   
 }
 
 pace.effect.df <- do.call(rbind,pace.ls)
 pace.effect.df <- pace.effect.df[complete.cases(pace.effect.df),]
 
+# same thing but for v10 process
+pace.ls.v10 <- list()
+
+for (i in seq_along(species.vec)) {
+  fn.con.10 <- sprintf('tmp/pred.smv13.q1.qs0.chain.%s.Control.Ambient.rds',
+                    species.vec[i])
+  
+  dat.con.10 <- readRDS(fn.con.10)
+  dat.con.10 <- dat.con.10[,c('cover','cover.hufken')]
+  
+  pace.ls.v10[[i]] <-  dat.con.10
+  
+}
+
+pace.effect.df.v10 <- do.call(rbind,pace.ls.v10)
+pace.effect.df.v10 <- pace.effect.df.v10[complete.cases(pace.effect.df.v10),]
+
 # get bic####
-get.bic.func(pace.effect.df$cover.hufken,pace.effect.df$cover,n.fd=5)
-get.r.func(pace.effect.df$cover.hufken,pace.effect.df$cover)
+# v11
+get.bic.func(pace.effect.df$cover.hufken,
+             pace.effect.df$cover,n.fd=5)
+get.r.func(pace.effect.df$cover.hufken,
+           pace.effect.df$cover)
+rmse.func(pace.effect.df$cover.hufken,
+          pace.effect.df$cover)
+# v10
+get.bic.func(pace.effect.df.v10$cover.hufken,
+             pace.effect.df.v10$cover,n.fd=3)
+get.r.func(pace.effect.df.v10$cover.hufken,
+           pace.effect.df.v10$cover)
+rmse.func(pace.effect.df.v10$cover.hufken,
+          pace.effect.df.v10$cover)
+
+# plot(pace.effect.df.v10$cover.hufken~pace.effect.df$cover.hufken)
+# pace.effect.df.v10$cover.hufken-pace.effect.df$cover.hufken
