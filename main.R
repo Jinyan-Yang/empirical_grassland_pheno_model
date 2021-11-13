@@ -14,6 +14,8 @@ source('r/load.R')
 
 # Step II: fit model to data####
 source('r/fit_all.R')
+# get Ci for fitting
+source('r/get_precit_ci.R')
 
 # Step III: make plots#####
 source('makeFigure/plot_fit.R')
