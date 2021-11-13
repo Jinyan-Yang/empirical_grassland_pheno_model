@@ -61,7 +61,9 @@ get.sig.all.var.func <- function(x){
   all.spc.df$sig <- 0
   all.spc.df$product <- all.spc.df$quantile.05 * all.spc.df$quantile.95
   
-  all.spc.df$sig[all.spc.df$product > 0 ] <- 1
+  all.spc.df$sig[all.spc.df$product > 0 & all.spc.df$quantile.05 >0] <- 1
+  all.spc.df$sig[all.spc.df$product > 0 & all.spc.df$quantile.05 <0] <- -1
+  
   return(all.spc.df)
 }
 
