@@ -194,7 +194,7 @@ plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm,log.y=F,y.range=
     
   }else{
     vioplot(par.val~spc,plot.df,col=col.nm.vec,
-            xlab='',ylab=y.nm,las = 2,ylog = log.y,ylim=c(0.01,15))
+            xlab='',ylab=y.nm,las = 2,ylog = log.y)
     
   }
   
