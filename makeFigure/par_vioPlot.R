@@ -166,7 +166,7 @@ devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?
 palette(c(col.df$iris))
 col.nm.vec <- c(1,1,2,2,2,3,3,3,4,4)
 
-plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm){
+plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm,log.y=F,y.range=F){
   
   tmp.ls <- list()
   for (i in seq_along(spc.vec)) {
@@ -187,9 +187,18 @@ plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm){
   plot.df <- do.call(rbind,tmp.ls)
   # plot.df$spc[plot.df$spc =='flux'] <- 'Flux Tower'
   plot.df$spc <- factor(plot.df$spc,levels=unique(plot.df$spc))
-  vioplot(par.val~spc,plot.df,col=col.nm.vec,
-          xlab='',ylab=y.nm,las = 2)
   
+  if(!y.range){
+    vioplot(par.val~spc,plot.df,col=col.nm.vec,
+            xlab='',ylab=y.nm,las = 2,ylog = log.y)
+    
+  }else{
+    vioplot(par.val~spc,plot.df,col=col.nm.vec,
+            xlab='',ylab=y.nm,las = 2,ylog = log.y,ylim=c(0.01,15))
+    
+  }
+  
+
 
   # sig.df <- out.ls[[col2plot]]
   
@@ -239,10 +248,28 @@ y.nm.vec <- c(expression(T[opt]),expression(r[extract]),
 var.vec <- c(1,2,3,4,6,5)
 for (plot.var.nm in seq_along(var.vec)) {
   
+  if(var.vec[plot.var.nm] == 5){
+    plot.box.func(spc.vec = species.vec,
+                  col2plot = var.vec[plot.var.nm],
+                  y.nm = y.nm.vec[var.vec[plot.var.nm]],log.y = T)
+    abline(h=1,lty='dashed',col='grey',lwd=2)
+    
+    points(c(17,NA,17,NA,17,17,NA,NA,17,17)~
+             factor(species.vec.nm,levels = species.vec.nm),pch='*')
+    
+  }else if(var.vec[plot.var.nm] == 6){
+    plot.box.func(spc.vec = species.vec,
+                  col2plot = var.vec[plot.var.nm],
+                  y.nm = y.nm.vec[var.vec[plot.var.nm]],log.y = T,y.range = T)
+    abline(h=0,lty='dashed',col='grey',lwd=2)
+  }else{
+    plot.box.func(spc.vec = species.vec,
+                  col2plot = var.vec[plot.var.nm],
+                  y.nm = y.nm.vec[var.vec[plot.var.nm]])
+  }
+
+
   
-  plot.box.func(spc.vec = species.vec,
-                col2plot = var.vec[plot.var.nm],
-                y.nm = y.nm.vec[var.vec[plot.var.nm]])
   
   # legend('topleft',legend =paste0('(',letters[index.nm],") " ,
   #                                 y.nm.vec[plot.var.nm]),

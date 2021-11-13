@@ -422,7 +422,7 @@ plot(q.5~cover,
      ylim=c(0,1),
      xlab = ' ',
      ylab = ' ',
-     type='l',lwd=2,col = 4,lty=1)
+     type='l',lwd=2,col = 4,lty=2)
 
 points(q.5~cover,data = pred.ci.ls[[1]],type='l',col=1,lwd=2,lty=1)
 points(q.5~cover,data = pred.ci.ls[[2]],type='l',col=1,lwd=2,lty=2)
@@ -433,7 +433,7 @@ points(q.5~cover,data = pred.ci.ls[[6]],type='l',col=3,lwd=2,lty=1)
 points(q.5~cover,data = pred.ci.ls[[7]],type='l',col=3,lwd=2,lty=2)
 points(q.5~cover,data = pred.ci.ls[[8]],type='l',col=3,lwd=2,lty=3)
 
-points(q.5~cover,data = pred.ci.ls[[9]],type='l',col=4,lwd=2,lty=2)
+points(q.5~cover,data = pred.ci.ls[[9]],type='l',col=4,lwd=2,lty=1)
 
 legend('topleft',legend = '(k)',bty='n')
 # species.vec.nm <- species.vec
