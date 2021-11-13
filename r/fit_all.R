@@ -20,7 +20,7 @@ gcc.met.con.df <- get.paddock.func('control')
 # species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','ym','flux')
 # species.vec <- 'flux'
 # species.vec <- c('Luc','Dig','Kan','Rho','Fes','Pha','Rye','ym','flux')
-# species.vec <- c('ym','flux')
+species.vec <- c('ym','Pha')
 # species.vec <- c('Bis','Luc','Dig','Rho','Fes','Pha','Rye','flux')
 # loop through all spcies/site
 for (i in seq_along(species.vec)){

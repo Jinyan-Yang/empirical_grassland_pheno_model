@@ -10,5 +10,6 @@ library(zoo)
 library(foreach)
 library(doParallel)
 library(DEoptim)
+library(mvtnorm)
 devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
 
