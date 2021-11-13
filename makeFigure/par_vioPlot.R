@@ -312,7 +312,7 @@ for(plot.var.nm in c(1,2,3,4,6,5)){
   # conver to a matrix
   plot.m <- matrix(as.numeric(plot.m),ncol=9)
   # plot as a raster
-  plot(raster(plot.m),breaks=c(-1,0.5,1.1),col=c('grey','black'),legend=F,
+  plot(raster(plot.m),breaks=c(-1.1,-0.01,0.01,1.1),col=c('coral','grey','navy'),legend=F,
        ann=F,axes=F,main = y.nm.vec[plot.var.nm])
   # legend('topleft',legend =paste0('(',letters[index.nm],") " ,
   #                                 y.nm.vec[plot.var.nm]),
