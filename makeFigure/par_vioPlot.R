@@ -1,79 +1,79 @@
 source('r/read_spc_nm.R')
-# function to get mean
-get.fit.value.func <- function(fn,burin.frac=0.75){
-  in.chain =  readRDS(fn)
-  burnIn = 1
-  chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (1-burin.frac)):nrow(m.in),])
-  
-  chain.fes <- do.call(rbind,chain.3.ls.new)
-  
-  return(colMeans(chain.fes[burnIn:nrow(chain.fes),]))
-}
-# function to get CI
-get.fit.ci.func <- function(fn,burin.frac=0.75){
-  in.chain =  readRDS(fn)
-  burnIn = 1
-  chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (1-burin.frac)):nrow(m.in),])
-  
-  chain.fes <- do.call(rbind,chain.3.ls.new)
-  
-  out.df <- data.frame(f.t.opt = quantile(chain.fes[,1],probs = c(0.05,0.95)),
-                       f.extract = quantile(chain.fes[,2],probs = c(0.05,0.95)),
-                       f.sec = quantile(chain.fes[,3],probs = c(0.05,0.95)),
-                       f.growth= quantile(chain.fes[,4],probs = c(0.05,0.95)),
-                       q = quantile(chain.fes[,5],probs = c(0.05,0.95)),
-                       q.s = quantile(chain.fes[,6],probs = c(0.05,0.95))
-  )
-  
-  return(out.df)
-}
-
+# # function to get mean
+# get.fit.value.func <- function(fn,burin.frac=0.75){
+#   in.chain =  readRDS(fn)
+#   burnIn = 1
+#   chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (1-burin.frac)):nrow(m.in),])
+#   
+#   chain.fes <- do.call(rbind,chain.3.ls.new)
+#   
+#   return(colMeans(chain.fes[burnIn:nrow(chain.fes),]))
+# }
+# # function to get CI
+# get.fit.ci.func <- function(fn,burin.frac=0.75){
+#   in.chain =  readRDS(fn)
+#   burnIn = 1
+#   chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* burin.frac):nrow(m.in),])
+#   
+#   chain.fes <- do.call(rbind,chain.3.ls.new)
+#   
+#   out.df <- data.frame(f.t.opt = quantile(chain.fes[,1],probs = c(0.05,0.95)),
+#                        f.extract = quantile(chain.fes[,2],probs = c(0.05,0.95)),
+#                        f.sec = quantile(chain.fes[,3],probs = c(0.05,0.95)),
+#                        f.growth= quantile(chain.fes[,4],probs = c(0.05,0.95)),
+#                        q = quantile(chain.fes[,5],probs = c(0.05,0.95)),
+#                        q.s = quantile(chain.fes[,6],probs = c(0.05,0.95))
+#   )
+#   
+#   return(out.df)
+# }
 # 
-# loop through all params####
-tmp.ls <- list()
-
-# species.vec <-c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
-# species.vec <-c('Kan','YM','Flux')
-for (spc.i in seq_along(species.vec)) {
-  fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[spc.i])
-  
-  v13.chain <- get.fit.value.func(fn)
-  
-  v13.chain.ci <- get.fit.ci.func(fn)
-  
-  tmp.ls[[spc.i]] <- data.frame(model='v1.1',
-                                site = species.vec[spc.i],
-                                
-                                f.t.opt = v13.chain[1],
-                                f.t.opt.05 = v13.chain.ci[1,1],
-                                f.t.opt.95 = v13.chain.ci[2,1],
-                                
-                                f.extract = v13.chain[2] ,
-                                f.extract.05 = v13.chain.ci[1,2],
-                                f.extract.95 = v13.chain.ci[2,2],
-                                
-                                
-                                f.sec = v13.chain[3] ,
-                                f.sec.05 = v13.chain.ci[1,3],
-                                f.sec.95 = v13.chain.ci[2,3],
-                                
-                                f.growth= v13.chain[4],
-                                f.growth.05 = v13.chain.ci[1,4],
-                                f.growth.95 = v13.chain.ci[2,4],
-                                
-                                q = v13.chain[5],
-                                q.05 = v13.chain.ci[1,5],
-                                q.95 = v13.chain.ci[2,5],
-                                
-                                q.s =v13.chain[6],
-                                q.s.05 = v13.chain.ci[1,6],
-                                q.s.95 = v13.chain.ci[2,6]
-                                
-                                
-  )
-}
-
-out.df = do.call(rbind,tmp.ls)
+# # 
+# # loop through all params####
+# tmp.ls <- list()
+# 
+# # species.vec <-c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
+# # species.vec <-c('Kan','YM','Flux')
+# for (spc.i in seq_along(species.vec)) {
+#   fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[spc.i])
+#   
+#   v13.chain <- get.fit.value.func(fn)
+#   
+#   v13.chain.ci <- get.fit.ci.func(fn)
+#   
+#   tmp.ls[[spc.i]] <- data.frame(model='v1.1',
+#                                 site = species.vec[spc.i],
+#                                 
+#                                 f.t.opt = v13.chain[1],
+#                                 f.t.opt.05 = v13.chain.ci[1,1],
+#                                 f.t.opt.95 = v13.chain.ci[2,1],
+#                                 
+#                                 f.extract = v13.chain[2] ,
+#                                 f.extract.05 = v13.chain.ci[1,2],
+#                                 f.extract.95 = v13.chain.ci[2,2],
+#                                 
+#                                 
+#                                 f.sec = v13.chain[3] ,
+#                                 f.sec.05 = v13.chain.ci[1,3],
+#                                 f.sec.95 = v13.chain.ci[2,3],
+#                                 
+#                                 f.growth= v13.chain[4],
+#                                 f.growth.05 = v13.chain.ci[1,4],
+#                                 f.growth.95 = v13.chain.ci[2,4],
+#                                 
+#                                 q = v13.chain[5],
+#                                 q.05 = v13.chain.ci[1,5],
+#                                 q.95 = v13.chain.ci[2,5],
+#                                 
+#                                 q.s =v13.chain[6],
+#                                 q.s.05 = v13.chain.ci[1,6],
+#                                 q.s.95 = v13.chain.ci[2,6]
+#                                 
+#                                 
+#   )
+# }
+# 
+# out.df = do.call(rbind,tmp.ls)
 
 # prepare significance data####
 # read in significant data
@@ -175,7 +175,7 @@ plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm,log.y=F,y.range=
     
     in.chain =  readRDS(fn)
     burnIn = 1
-    chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (1-burin.frac)):nrow(m.in),])
+    chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
     
     chain.fes <- do.call(rbind,chain.3.ls.new)
     
@@ -242,7 +242,7 @@ par(mar=c(5,5,1,1))
 
 y.nm.vec <- c(expression(T[opt]),expression(r[extract]),
               expression(r[senescence]),expression(r[growth]),
-              expression(q[growth]),expression(q[senescence]))
+              expression(q),expression(q[senescence]))
 
 
 var.vec <- c(1,2,3,4,6,5)

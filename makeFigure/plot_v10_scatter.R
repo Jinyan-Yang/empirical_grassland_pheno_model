@@ -5,7 +5,7 @@ devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?
 palette(c(col.df$iris,col.df$daisy))
 # plot
 png('figures/obs_fit_v10_scatter.png',height = 600,width = 600)
-par(mar=5,5,5,5)
+par(mar=c(5,5,5,5))
 for (i in seq_along(species.vec)){
   fn <- sprintf('tmp/pred.smv13.q1.qs0.chain.%s.Control.Ambient.rds',species.vec[i])
   hufken.pace.pred <- readRDS(fn)

@@ -73,24 +73,24 @@ for (i in seq_along(species.vec)) {
 # dev.off()
 
 # 
-# # 
-# pdf('figures/diag.pdf',width = 8,height = 8*.618)
-# for (i in seq_along(species.vec)) {
-#   
-#   fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
-#   chain.3.ls = readRDS(fn)
-#   lapply(chain.3.ls, plot.check.mcmc.func,species.in=species.vec[i])
-#   
-#   par(mfrow=c(3,2),mar=c(5,5,1,1))
-#   for(par.num in 1:6){
-#     
-#     start.row <- nrow(chain.3.ls[[1]]) / 4*3
-#     
-#     plot.line.mcmc.func(chain.3.ls,par.num,range.iter =  round(start.row:nrow(chain.3.ls[[1]])))
-#     
-#   }
-# }
-# dev.off()
+#
+pdf('figures/diag.pdf',width = 8,height = 8*.618)
+for (i in seq_along(species.vec)) {
+
+  fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
+  chain.3.ls = readRDS(fn)
+  lapply(chain.3.ls, plot.check.mcmc.func,species.in=species.vec[i])
+
+  par(mfrow=c(3,2),mar=c(5,5,1,1))
+  for(par.num in 1:6){
+
+    start.row <- nrow(chain.3.ls[[1]]) / 4*3
+
+    plot.line.mcmc.func(chain.3.ls,par.num,range.iter =  round(start.row:nrow(chain.3.ls[[1]])))
+
+  }
+}
+dev.off()
 
 # ts with ci####
 pdf('figures/v11_ts.pdf',width = 5*2,height = 5*5*.618)

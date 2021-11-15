@@ -103,7 +103,7 @@ for(i in  seq_along(species.vec)){
   #   
   # }
 }
-hist(tmp.m[,2])
+# hist(tmp.m[,2])
 
 
 # get.threshold.func <- function(gcc.vec = seq(0.1,1,by=0.01),

@@ -23,7 +23,7 @@ for(i in seq_along(species.vec)){
   
   chain.3.ls = readRDS(fn)
   
-  chain.3.ls.new = lapply(chain.3.ls,function(m.in)m.in[round(2*nrow(m.in)/3):nrow(m.in),])
+  chain.3.ls.new = lapply(chain.3.ls,function(m.in)m.in[round(0.75*nrow(m.in)):nrow(m.in),])
   chain.fes <- do.call(rbind,chain.3.ls.new)
   
   
@@ -31,13 +31,16 @@ for(i in seq_along(species.vec)){
   
   out.df[i,2:7] <- fitted.val
   
-  q.quant <- quantile(chain.fes[,5],probs = c(.05,.95))
-  qs.quant <- quantile(chain.fes[,6],probs = c(.05,.95))
+  q.quant <- quantile(chain.fes[,5],probs = c(.05,.95,0.5))
+  qs.quant <- quantile(chain.fes[,6],probs = c(.05,.95,0.5))
+
   out.df$q.05[i] <- q.quant[[1]]
   out.df$q.95[i] <- q.quant[[2]]
+  out.df$q.50[i] <- q.quant[[3]]
   
   out.df$q.s.05[i] <- qs.quant[[1]]
   out.df$q.s.95[i] <- qs.quant[[2]]
+  out.df$q.s.50[i] <- qs.quant[[3]]
 }
 
 
@@ -54,8 +57,8 @@ beta.func <- function(x,a=0.05,b=0.3,q=5,is.q.s = FALSE){
 swc.vec <- seq(0,1,by=0.01)
 beta.growth.ls <- beta.sene.ls <- list()
 for (i.nm in seq_along(species.vec)) {
-  beta.growth.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q[i.nm])
-  beta.sene.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q.s[i.nm],is.q.s = TRUE)
+  beta.growth.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q.50[i.nm])
+  beta.sene.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q.s.50[i.nm],is.q.s = TRUE)
 }
 
 

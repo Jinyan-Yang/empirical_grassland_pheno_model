@@ -30,7 +30,7 @@ names(ym.con.df.sum) <- c("Date","GCC.mean.con",
 #   df.27$SubplotID <- 27
 #   df.38 <- readRDS('cache/ym/gcc_38.rds')
 #   df.38$SubplotID <- 38
-plot(Rain_mm_Tot~Date,data = ym.14.df)
+# plot(Rain_mm_Tot~Date,data = ym.14.df)
 ym.14.df <- get.pace.func(get.ym.func(14),
                           species.in='ym',
                           prep.in = 'Drought',
