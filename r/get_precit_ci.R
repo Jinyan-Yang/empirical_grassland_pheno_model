@@ -23,10 +23,10 @@ for (i in seq_along(species.vec)) {
   if(species.vec[i]=='ym'){
     df = ym.18.df
     #
-    c.wd <- getwd()
-    setwd('c:/repo/dn_gcc/')
+    # c.wd <- getwd()
+    # setwd('c:/repo/dn_gcc/')
     ym.met.df <- readRDS('cache/ym.met.rds')
-    setwd(c.wd)
+    # setwd(c.wd)
     #
     swc.ym.con <- quantile(ym.met.df$swc,na.rm=T,probs = c(0.01,0.99))
     swc.cap = round(swc.ym.con[[2]]*10)/10

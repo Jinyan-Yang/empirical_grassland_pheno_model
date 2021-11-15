@@ -8,11 +8,11 @@ get.quantile.func <- function(sm.nm.1,sm.nm.2,var.index){
   burin.frac=0.75
   # combine chains
   in.chain.1 =  readRDS(fn.1)
-  chain.1= lapply(in.chain.1,function(m.in)m.in[round(nrow(m.in)* (1-burin.frac)):nrow(m.in),])
+  chain.1= lapply(in.chain.1,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
   chain.1.full <- do.call(rbind,chain.1)
   
   in.chain.2 =  readRDS(fn.2)
-  chain.2= lapply(in.chain.2,function(m.in)m.in[round(nrow(m.in)* (1-burin.frac)):nrow(m.in),])
+  chain.2= lapply(in.chain.2,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
   chain.2.full <- do.call(rbind,chain.2)
   
   # reorder chains

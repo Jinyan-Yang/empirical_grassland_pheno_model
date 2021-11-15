@@ -61,7 +61,7 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
   if(is.list(in.chain)){
     # assuming 1/3 burn in
     burnIn = 1
-    chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round((1-burn.proportion)*nrow(m.in)):nrow(m.in),])
+    chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round((burn.proportion)*nrow(m.in)):nrow(m.in),])
     
     chain.fes <- do.call(rbind,chain.3.ls.new)
   }else{
