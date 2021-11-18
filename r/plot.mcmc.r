@@ -246,9 +246,9 @@ plot.mcmc.func.2q = function(df = gcc.met.pace.df,
         # gcc.met.pace.df.16$Rain <- gcc.met.pace.df.16$Rain * 0.35
   
       }else{
-        # gcc.met.pace.df.16$irrig.tot[month(gcc.met.pace.df.16$Date) %in% 6:11] <- 
+        # gcc.met.pace.df.16$irrig.tot[month(gcc.met.pace.df.16$Date) %in% 6:11] <-
         #   gcc.met.pace.df.16$irrig.tot[month(gcc.met.pace.df.16$Date) %in% 6:11] * 0.4
-        # gcc.met.pace.df.16$Rain[month(gcc.met.pace.df.16$Date) %in% 6:11] <- 
+        # gcc.met.pace.df.16$Rain[month(gcc.met.pace.df.16$Date) %in% 6:11] <-
         #   gcc.met.pace.df.16$Rain[month(gcc.met.pace.df.16$Date) %in% 6:11] * 0.4
       }
     }

@@ -14,7 +14,7 @@ get.fit.ci.func <- function(fn,burin.frac=0.75){
   chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
   
   chain.fes <- do.call(rbind,chain.3.ls.new)
-  
+  hist(chain.fes[,3])
   out.df <- data.frame(f.t.opt = quantile(chain.fes[,1],probs = c(0.05,0.95,.5)),
                        f.extract = quantile(chain.fes[,2],probs = c(0.05,0.95,.5)),
                        f.sec = quantile(chain.fes[,3],probs = c(0.05,0.95,.5)),
