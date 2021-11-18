@@ -213,7 +213,7 @@ pdf('figures/plot.drt.shelter.pdf',width = 8,height = 8*.618)
 #      col=c(1,1,2,2,2,3,3,3,4),
 #      pch='')
 plot(c(drt.gcc)~species,data = pace.effect.df,xlab='',
-     ylab='Cover drought / Cover control',ylim=c(0.0,1),
+     ylab='Cover drought / Cover control',ylim=c(0.3,1),
      col=c(1,3,1,2,
            2,4,3,3,2),
      pch='')
@@ -239,7 +239,8 @@ par.val.df <- par.val.df[par.val.df$site != 'flux',]
 
 par.val.df$plot.factor <- factor(par.val.df$spc,
                                             levels = pace.obs.mean.df$species)
-points(c(q.s/20)~plot.factor,data = par.val.df,ylim=c(0,20),pch=15,col='coral')
+# points(c(q.s/20)~plot.factor,data = par.val.df,ylim=c(0,20),pch=15,col='coral')
 # points(c(q/20)~plot.factor,data = par.val.df,ylim=c(0,20),col='darkseagreen',pch=15)
 
 dev.off()
+

@@ -242,7 +242,7 @@ par(mar=c(5,5,1,1))
 
 y.nm.vec <- c(expression(T[opt]),expression(r[extract]),
               expression(r[senescence]),expression(r[growth]),
-              expression(q),expression(q[senescence]))
+              expression(q[growth]),expression(q[senescence]))
 
 
 var.vec <- c(1,2,3,4,6,5)
@@ -295,7 +295,7 @@ pdf('figures/significance.pdf',width = 4*2,height = 4*3)
 
 y.nm.vec <- c(expression((a)~T[opt]),expression((b)~r[extract]),
               expression((c)~r[senescence]),expression((d)~r[growth]),
-              expression((f)~q[growth]),expression((e)~q[s]))
+              expression((f)~q[growth]),expression((e)~q[senescence]))
 
 
 library(raster)

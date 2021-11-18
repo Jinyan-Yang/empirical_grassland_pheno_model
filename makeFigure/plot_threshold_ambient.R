@@ -200,7 +200,6 @@ solve.intersect.func <- function(swc.norm){
     (1 - cover.in / cover.max)
   
   senescence.vec <- f.sen*(loss.f.s) *
-    # (1 - cover.pred.vec[nm.day-1])*
     cover.in
   
   return(growth.vec - senescence.vec)
@@ -336,11 +335,12 @@ for (iter.nm in seq_along(species.vec)) {
     tmp.x.df$q.05[i] <- q.tmp[[1]]
     tmp.x.df$q.5[i] <- q.tmp[[2]]
     tmp.x.df$q.95[i] <- q.tmp[[3]]
-}
+  }
   
   pred.ci.ls[[iter.nm]] <- tmp.x.df
 }
 ci.df <- do.call(rbind,pred.ci.ls)
+saveRDS(ci.df,'tmp/threshold.rds')
 # 
 palette(c(col.df$iris))
 
@@ -432,7 +432,6 @@ points(q.5~cover,data = pred.ci.ls[[5]],type='l',col=2,lwd=2,lty=3)
 points(q.5~cover,data = pred.ci.ls[[6]],type='l',col=3,lwd=2,lty=1)
 points(q.5~cover,data = pred.ci.ls[[7]],type='l',col=3,lwd=2,lty=2)
 points(q.5~cover,data = pred.ci.ls[[8]],type='l',col=3,lwd=2,lty=3)
-
 points(q.5~cover,data = pred.ci.ls[[9]],type='l',col=4,lwd=2,lty=1)
 
 legend('topleft',legend = '(k)',bty='n')

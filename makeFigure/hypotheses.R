@@ -74,8 +74,8 @@ y.vec.hh <- plot.shape.func(x.vec,
 points(y.vec.hh~x.vec,ylim=c(0,1),type='l',lwd=2,col=2)
 
 # 
-points(x.vec[which.max(y.vec.ll)],y.vec.ll[which.max(y.vec.ll)],cex=2,pch=3,col='grey')
-points(x.vec[which.max(y.vec.hh)],y.vec.hh[which.max(y.vec.hh)],cex=2,pch=3,col='grey')
+points(x.vec[which.max(y.vec.ll)],y.vec.ll[which.max(y.vec.ll)],cex=2,pch=3,col='grey20')
+points(x.vec[which.max(y.vec.hh)],y.vec.hh[which.max(y.vec.hh)],cex=2,pch=3,col='grey20')
 
 # 
 # legend('bottomright',legend = c('Onset of Brown-down',
@@ -84,9 +84,9 @@ points(x.vec[which.max(y.vec.hh)],y.vec.hh[which.max(y.vec.hh)],cex=2,pch=3,col=
 #        pch=c(3,rep(NA,2)),
 #        lty = 1,lwd=3,
 #        col = c('grey',palette()))
-legend('topright',legend = c('Onset of Brown-down'),bty='n',
+legend('bottom',legend = c('Onset of Brown-down'),bty='n',
        pch=c(3),
-       col = c('grey'))
+       col = c('grey20'))
 # abline(v=hufken.pace.pred.lgls$Date[20],lty='dashed',col='navy')
 legend('topleft',legend = '(c)',bty='n')
 
