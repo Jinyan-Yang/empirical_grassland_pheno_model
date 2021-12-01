@@ -1,6 +1,4 @@
 library(Evapotranspiration)
-# library(doBy)
-# library(zoo)
 # pet fucntion####
 data("constants") #this is used for penman et value; data from Adleide
 pet.func <- function(Date,PPFD,Tair,Tmax,Tmin,RHmax,RHmin,u2,P = 101.3,lat = 33.618891 ){
@@ -69,12 +67,12 @@ scaling.f.func <- function(map,f.h){
 
 # t response function####
 t.func <- function(t.mean,f.t.opt,t.max){
-  # return((t.max-t.mean)/(t.max-f.t.opt)*(t.mean/f.t.opt)^(f.t.opt/(t.max-f.t.opt)))
+  return((t.max-t.mean)/(t.max-f.t.opt)*(t.mean/f.t.opt)^(f.t.opt/(t.max-f.t.opt)))
 
-  h.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = F)
-  l.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = T)
+  # h.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = F)
+  # l.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = T)
 
-  return(min(h.val,l.val)*2)
+  # return(min(h.val,l.val)*2)
 }
 # drainage
 drainage.func <- function(theta,
