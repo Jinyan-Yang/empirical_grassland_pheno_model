@@ -1,3 +1,6 @@
+###################################################################
+# calculate CI of the fitted model by sampling from the chains####
+###################################################################
 # 
 get.mod.ci.func <-  function(df = gcc.met.pace.df,
                              species.in,prep.in,temp.in,subplot=NULL,
@@ -8,7 +11,7 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
                              day.lag=3,
                              do.predict =NULL,
                              burn.proportion = 0.75,q.s.in=NULL,q.in=NULL,sample.size =100){
-  
+  # data processing
   if(is.null(subplot)){
     gcc.met.pace.df.16 <- get.pace.func(df,
                                         species.in = species.in,
@@ -53,7 +56,7 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
     rds.nm = paste0('tmp/ci.',sm.nm,nm.note,'chain.',subplot,'.rds')
   }
   
-  # fn <- ('cache/smsmv13.2q.chain.flux.Control.Ambient.rds')
+  
   # read chains 
   print(paste0('par file used: ',fn))
   in.chain =  readRDS(fn)
@@ -70,17 +73,15 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
   }
   
   chain.sub <- chain.fes[burnIn:nrow(chain.fes),]
-  # chain.sub <- matrix(1:60000,ncol=6)
-  # sample.szie <- 1000
+  
   set.seed(1935)
   
-  # 
+  # sample chain
   len.chain <- nrow(chain.sub)
   sample.index <- sample(1:len.chain,sample.size)
   
-  # chain.sample <- apply(chain.sub,2,sample,size=sample.szie)
   chain.sample <- as.data.frame(chain.sub[sample.index,])
-  
+  # deal with no q
   if(ncol(chain.sample)<5){
     chain.sample[,5] <- q.in
     chain.sample[,6] <- q.s.in
@@ -90,7 +91,7 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
     chain.sample[,6] <- q.s.in
     print(paste0('sensitivitiy of senesence set to ',q.s.in))
   }
-  
+  # make prediction with ci
   gcc.met.pace.df.16 <- gcc.met.pace.df.16[order(gcc.met.pace.df.16$Date),]
   pred.vec <- list()
   for(i in 1:sample.size){
@@ -112,15 +113,14 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
     
     pred.vec[[i]] <- hufken.pace.pred$cover.hufken
   }
+  
+  # save results
   pred.m <- do.call(rbind,pred.vec)
   
   # quantile(pred.m[1,],probs = c(0.05,0.95),na.rm=T)
   pred.ci.m <- apply(pred.m,2,quantile,probs = c(0.05,0.95,0.5),na.rm=T)
   # save prediction for future use
   
-  rds.nm <- 
-    saveRDS(pred.ci.m,rds.nm)
-  
-  
+  rds.nm <-  saveRDS(pred.ci.m,rds.nm)
   
 }

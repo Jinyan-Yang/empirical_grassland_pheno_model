@@ -1,39 +1,23 @@
-# set up the environment####
-# this lag day term is outdated but need to be here to use the older version of code
-# day.lag <- 3
-# source('r/pace_data_process.R')
-# source('r/ym_data_process.R')
-# source('r/v13_common_fun.R')
-# source('models/hufkens/hufkensV13.R')
-# source('r/process_paddock_gcc_met.R')
-# 
-# library(zoo)
-# library(foreach)
-# library(doParallel)
-source('r/load.R')
-source('r/read_spc_nm.R')
-#read in data 
+# Fit model to all data sets#####
+# this file reads data from PACE, DN, and Flux tower
+# and fit CH model to them
+
+# #this bit is not used but kept for debuging purpose
+# source('r/load.R')
+# source('r/read_spc_nm.R')
+
+#read in data #################
 ym.18.df <- get.ym.func(18)
 gcc.met.con.df <- get.paddock.func('control')
 
-# 
-# species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','ym','flux')
-# species.vec <- 'flux'
-# species.vec <- c('Luc','Dig','Kan','Rho','Fes','Pha','Rye','ym','flux')
-species.vec <- c('ym','Pha')
-# species.vec <- c('Bis','Luc','Dig','Rho','Fes','Pha','Rye','flux')
-# loop through all spcies/site
+# loop through all spcies/site##################
 for (i in seq_along(species.vec)){
   
   # use different soil water cap and wilt for different site
   if(species.vec[i]=='ym'){
     df = ym.18.df
-    # 
-    # c.wd <- getwd()
-    # setwd('c:/repo/dn_gcc/')
     ym.met.df <- readRDS('cache/ym/ym.met.rds')
-    # setwd(c.wd)
-    # 
+    
     swc.ym.con <- quantile(ym.met.df$swc,na.rm=T,probs = c(0.01,0.99))
     swc.cap = round(swc.ym.con[[2]]*10)/10
     swc.wilt = round(swc.ym.con[[1]]*100)/100

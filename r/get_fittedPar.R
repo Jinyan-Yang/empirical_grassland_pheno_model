@@ -1,13 +1,8 @@
-# get.fit.value.func <- function(fn,burin.frac=0.75){
-#   in.chain =  readRDS(fn)
-#   burnIn = 1
-#   chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
-#   
-#   chain.fes <- do.call(rbind,chain.3.ls.new)
-#   
-#   return(colMeans(chain.fes[burnIn:nrow(chain.fes),]))
-# }
+# #######################################
+# read fitted par valyes and make table
+# #######################################
 
+# function to get quantiles
 get.fit.ci.func <- function(fn,burin.frac=0.75){
   in.chain =  readRDS(fn)
   # burnIn = 1
@@ -26,7 +21,8 @@ get.fit.ci.func <- function(fn,burin.frac=0.75){
   return(out.df)
 }
 
-source('r/read_spc_nm.R')
+
+# loop for all spc and pars
 tmp.ls <- list()
 
 spc.vec <- species.vec
@@ -70,7 +66,7 @@ for (spc.i in seq_along(spc.vec)) {
   )
 }
 
-
+# save results
 out.df = do.call(rbind,tmp.ls)
 
 write.csv(out.df,'cache/fittedParValue.csv',row.names = F)
