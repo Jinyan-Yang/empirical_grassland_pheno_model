@@ -1,28 +1,10 @@
-# day.lag <- 3
-# source('r/pace_data_process.R')
-# source('r/ym_data_process.R')
-# source('r/v13_common_fun.R')
-# source('models/hufkens/hufkensV13.R')
-# source('r/process_paddock_gcc_met.R')
-# devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
-# library(zoo)
-# library(lubridate)
-# source('r/plot.mcmc.r')
-source('r/read_spc_nm.R')
-source('r/load.R')
-
-
+####################################
+# plot fitted vs obs
+####################################
 # 
 ym.18.df <- get.ym.func(18)
 
 gcc.met.con.df <- get.paddock.func('control')
-# species.vec <- c('Bis','Dig','Luc','Fes','Rye','Kan','Rho','ym','flux')
-# species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','ym','flux')
-
-# gcc.met.con.df <- get.paddock.func('control')
-# species.vec <- c('Bis','Dig','Luc','Fes','Rye','Kan','Rho','ym','flux')
-# species.vec <- c('Bis','Luc','Dig','Wal','Rho','Fes','Pha','Rye','ym','flux')
-# species.vec <- 'Kan'
 
 # pdf('figures/obs_pred.pdf',width = 8,height = 8*.618)
 for (i in seq_along(species.vec)) {
@@ -73,7 +55,7 @@ for (i in seq_along(species.vec)) {
 # dev.off()
 
 # 
-#
+#daisgnostic plot
 pdf('figures/diag.pdf',width = 8,height = 8*.618)
 for (i in seq_along(species.vec)) {
 
@@ -100,8 +82,8 @@ for (i in seq_along(species.vec)) {
   fn <-  paste0('tmp/pred.smsmv13.2q.chain.',species.vec[i],'.Control.Ambient.rds')
   # fn <- paste0('tmp/pred.smv13.q1.qs0.chain.Bis.Control.Ambient.rds')
   hufken.pace.pred <- readRDS(fn)
-  # timeserie only
   
+  # timeserie only
   plot(GCC.norm~Date,data = hufken.pace.pred,type='p',pch=16,#lwd='2',
        xlab=' ',ylab='Cover',ylim=c(0,1),col = col.df$iris[4],
        xaxt='n')
@@ -115,8 +97,6 @@ for (i in seq_along(species.vec)) {
   
   mon.c <- format(mons.vec,'%m')
   axis(1,at = mons.vec,labels = mon.c)
-  # mtext('2018',side = 1,adj=0,line = 3)
-  # mtext('2019',side = 1,adj=0.5,line = 3)
   yr.vec <- unique(year(hufken.pace.pred$Date))
   where.c <- which(mon.c =='01') / length(mon.c)
   num.yr <- length(where.c)
@@ -124,7 +104,6 @@ for (i in seq_along(species.vec)) {
   
 
   # add ci
-  # ci.smv13.2q.07072021.chain.flux.Control.Ambient.rds
   ci.fm <- sprintf('tmp/ci.smsmv13.2q.chain.%s.Control.Ambient.rds',
                    species.vec[i])
   ci.m <- readRDS(ci.fm)

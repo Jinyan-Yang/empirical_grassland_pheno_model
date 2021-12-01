@@ -1,23 +1,8 @@
-day.lag <- 3
-source('r/pace_data_process.R')
-source('r/ym_data_process.R')
-source('r/v13_common_fun.R')
-source('models/hufkens/hufkensV13.R')
-# source('r/process_paddock_gcc_met.R')
-devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
-library(zoo)
-library(lubridate)
-source('r/plot.mcmc.r')
-source('r/read_spc_nm.R')
+###################################################
+# predict drought response with pars from ambient fit
+###################################################
 
 ym.18.df <- get.ym.func('Drought')
-# gcc.met.con.df <- get.paddock.func('control')
-# species.vec <- c('Bis','Dig','Luc','Fes','Rye','Kan','Rho','ym')
-# species.vec <- c('Bis','Luc',
-#                  'Dig','Kan','Rho','Fes',
-#                  'Rye','ym')
-# species.vec <- c('Bis','Luc','Dig','Wal','Rho','Fes','Pha','Rye','ym')
-# species.vec <- 'Kan'
 
 # 
 pdf('figures/pred_drought.pdf',width = 8,height = 8*.618)
@@ -26,12 +11,7 @@ for (i in seq_along(species.vec[1:9])) {
   # use different soil water cap and wilt for different site
   if(species.vec[i]=='ym'){
     df = ym.18.df
-    # df$irrig.tot <-  df$irrig.tot * 0.35
-    # 
-    # c.wd <- getwd()
-    # setwd('c:/repo/dn_gcc/')
     ym.met.df <- readRDS('cache/ym/ym.met.rds')
-    # setwd(c.wd)
     # 
     swc.ym.con <- quantile(ym.met.df$swc,na.rm=T,probs = c(0.01,0.99))
     swc.cap = round(swc.ym.con[[2]]*10)/10
