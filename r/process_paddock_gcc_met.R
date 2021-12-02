@@ -1,20 +1,16 @@
+######################################
+# read and process the met, swc, and gcc for YM
+######################################
+
 # process ym data
 source('r/pace_data_process.R')
 
-
 get.paddock.func <- function(treat){
-  
-  # c.wd <- getwd()
-  # setwd('c:/repo/dn_gcc/')
-  # on.exit(setwd(c.wd))
-  
   # read swc
   flux.swc.df <- readRDS("cache/flux_twoer/flux_swc.df.rds")
   
   # get gcc for specific treat
   if(treat == 'control'){
-    # url.in <- 'https://github.com/Jinyan-Yang/paddock_gcc/raw/main/cache/gcc_control.rds'
-    # download.file(url.in,"cache/gcc_control.rds", method="curl")
     tmp.gcc.df <- readRDS("cache/flux_twoer/gcc_control.rds")
     tmp.gcc.df$SubplotID <- 1000
     p.con <- 'Control'
@@ -78,11 +74,8 @@ get.paddock.func <- function(treat){
   # 
   gcc.met.ym.df <- merge(tmp.gcc.df.daily,ym.met.flu.swc.df,by=c('Date'),all=T)
   
-  # plot(GCC~Date,data = gcc.met.ym.df)
-  # plot(Rain_mm_Tot~Date,data = gcc.met.ym.df)
-  
-  # get names to  be the same
-  # 
+
+  # make names to  be the same
   gcc.met.ym.df$Temperature <- 'Ambient'
   gcc.met.ym.df$Species <- 'flux'
   gcc.met.ym.df$SubplotID <- 1000
@@ -94,13 +87,7 @@ get.paddock.func <- function(treat){
   gcc.met.ym.df$WS_ms_Avg <- gcc.met.ym.df$u2
   
   gcc.met.ym.df$harvest = 0
-  # # use the pace function to get standard gcc and met
-  # gcc.met.ym.processed.df <- get.pace.func(gcc.met.ym.df,
-  #                                  species.in = 'ym',
-  #                                  prep.in = treat,
-  #                                  temp.in = 'Ambient',
-  #                                  subplot = NA)
-  
+
   gcc.met.ym.df <- gcc.met.ym.df[gcc.met.ym.df$Date <gcc.date[2]& gcc.met.ym.df$Date > gcc.date[1],]
   
   return(gcc.met.ym.df)

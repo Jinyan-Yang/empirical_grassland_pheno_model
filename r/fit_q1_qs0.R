@@ -1,15 +1,6 @@
-# set up the environment####
-# this lag day term is outdated but need to be here to use the older version of code
-day.lag <- 3
-source('r/pace_data_process.R')
-source('r/ym_data_process.R')
-source('r/v13_common_fun.R')
-source('models/hufkens/hufkensV13.R')
-source('r/process_paddock_gcc_met.R')
-
-library(zoo)
-library(foreach)
-library(doParallel)
+# Fit model to all data sets#####
+# this file reads data from PACE, DN, and Flux tower
+# and fit CH model to them
 
 #read in data 
 ym.18.df <- get.ym.func(18)
@@ -33,7 +24,7 @@ for (i in seq_along(species.vec)){
     # 
     c.wd <- getwd()
     setwd('c:/repo/dn_gcc/')
-    ym.met.df <- readRDS('cache/ym.met.rds')
+    ym.met.df <- readRDS('cache/ym/ym.met.rds')
     setwd(c.wd)
     # 
     swc.ym.con <- quantile(ym.met.df$swc,na.rm=T,probs = c(0.01,0.99))
@@ -72,21 +63,3 @@ for (i in seq_along(species.vec)){
   
   
 }
-
-# pdf('figures/diag_qs_1.pdf',width = 8,height = 8*.618)
-# for (i in seq_along(species.vec)) {
-#   
-#   fn <- sprintf('cache/smv13.qs1.chain.%s.Control.Ambient.rds',species.vec[i])
-#   chain.3.ls = readRDS(fn)
-#   lapply(chain.3.ls, plot.check.mcmc.func,species.in=species.vec[i])
-#   
-#   par(mfrow=c(3,2),mar=c(5,5,1,1))
-#   for(par.num in 1:5){
-#     
-#     start.row <- nrow(chain.3.ls[[1]]) / 4*3
-#     
-#     plot.line.mcmc.func(chain.3.ls,par.num,range.iter =  round(start.row:nrow(chain.3.ls[[1]])))
-#     
-#   }
-# }
-# dev.off()

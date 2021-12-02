@@ -1,4 +1,6 @@
-source('r/read_spc_nm.R')
+# test whther the fitted par are different each other
+# 
+
 # function to get the 5% and 95% quantiles of the difference between the par vals of two fit
 get.quantile.func <- function(sm.nm.1,sm.nm.2,var.index){
   # read chain
@@ -33,9 +35,9 @@ get.quantile.func <- function(sm.nm.1,sm.nm.2,var.index){
   return(out.df)
 }
 
-# function to do all species and params
+# wrap function to do all species and params
 get.sig.all.var.func <- function(x){
-  spc.vec <- species.vec#c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
+  spc.vec <- species.vec
   nm.var.tot<-  length(spc.vec)
   
   out.ls <- list()
@@ -67,8 +69,8 @@ get.sig.all.var.func <- function(x){
   return(all.spc.df)
 }
 
+# do for all par and spc
 all.var.ls <- lapply(1:6,get.sig.all.var.func)
 saveRDS(all.var.ls,'cache/compare.var.rds')
-# index.spc <- grep(paste0(spc.vec[1],'-'),all.spc.df$pars)
-# df.sub <- all.spc.df[index.spc,]
+
 

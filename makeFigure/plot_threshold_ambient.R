@@ -1,9 +1,6 @@
-
-# Get ready
-source('r/plot.mcmc.r')
-source('r/read_spc_nm.R')
-devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
-
+# ###############################
+# calculate onset of browndown
+# ###############################
 
 out.sample.ls <- list()
 
@@ -107,7 +104,7 @@ saveRDS(ci.df,'tmp/threshold_BM.rds')
 palette(c(col.df$iris))
 
 
-png('figures/threshold_BM.png',width = 800,height = 800)
+png('figures/threshold.png',width = 800,height = 800)
 layout(matrix(c(1:6,7,8,11,9,10,11),3,4, byrow = FALSE), 
        # c(3,1), c(1,3),
        respect = TRUE)

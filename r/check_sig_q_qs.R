@@ -1,8 +1,11 @@
+# check if the fitted values is significantly different from 1###
 
+# read par and compare to a given value
 find.par.func <- function(par.num,set.value){
   
   tmp.ls <- list()
   for (i in seq_along(species.vec)) {
+    # read para
     fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
     # fn <- sprintf('cache/smv13.qs1.chain.%s.Control.Ambient.rds',spc.vec[i])
     
@@ -14,6 +17,7 @@ find.par.func <- function(par.num,set.value){
     
     par.val = chain.fes[,par.num]
     
+    # get difference
     new.chain <- (par.val-set.value)
     
     x <- quantile(new.chain,probs=c(0.05,0.95))
@@ -23,7 +27,7 @@ find.par.func <- function(par.num,set.value){
     }else{
       sig = 0
     }
-    
+    # do for all spc
     tmp.ls[[i]] <- data.frame(spc = species.vec.nm[i],
                               par.num = par.num,
                               sig = sig)
@@ -36,6 +40,7 @@ find.par.func <- function(par.num,set.value){
   return(q.df)
 }
 
+# 
 q.df <- find.par.func(5,set.value=1)
 qs.df <- find.par.func(6,set.value=0)
 

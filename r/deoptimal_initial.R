@@ -1,17 +1,10 @@
-# limits.vec <- limit.ls[[i]]
-# gcc.met.modis.site <- get.pace.func(gcc.met.pace.df=gcc.met.modis.df,
-#                                     species.in=modis.sites.vec[i],
-#                                     prep.in='Control',
-#                                     temp.in='Ambient',
-#                                     norm.min.max=limits.vec)
+# use DEoptim to calculate a reasonable starting value for mcmc
+# library(DEoptim)
 
-library(DEoptim)
-# library(rootSolve)
 # Function to be passed to DE optim
 model.de.func <- function(pars,dat,bucket.size,swc.in.wilt,swc.in.cap,day.lag,use.smooth,q.given,q.s.given){
-
-  #- pull out the parameters from the pars vector
   
+  # deal with missing q
   if(is.null(q.given)){
     q.val = pars[5]
   }else{
@@ -23,7 +16,7 @@ model.de.func <- function(pars,dat,bucket.size,swc.in.wilt,swc.in.cap,day.lag,us
   }else{
     q.s.val = q.given
   }
-
+# make prediction
   hufken.pace.pred <- phenoGrass.func.v13(dat,
                                           f.h = 222,
                                           f.t.opt = pars[1],
@@ -39,7 +32,7 @@ model.de.func <- function(pars,dat,bucket.size,swc.in.wilt,swc.in.cap,day.lag,us
                                           day.lay = day.lag,use.smooth = use.smooth)
   
   
-  #
+  #standardise with sd
   sd.gcc <- sd(hufken.pace.pred$cover,na.rm = T)
 
   resid.gs <- ((hufken.pace.pred$cover.hufken - hufken.pace.pred$cover)/sd.gcc)^2
@@ -49,9 +42,7 @@ model.de.func <- function(pars,dat,bucket.size,swc.in.wilt,swc.in.cap,day.lag,us
 
 
 
-#- Call to DEoptim
-# years <-(year(gcc.met.pace.df.16$Date))
-
+# func to use DEoptim to calaulate initial values
 get.ini.func <- function(par.df,...){
   # setting control parameters and limits to values
   lower <- unname(par.df['min',])

@@ -1,6 +1,4 @@
 library(Evapotranspiration)
-# library(doBy)
-# library(zoo)
 # pet fucntion####
 data("constants") #this is used for penman et value; data from Adleide
 pet.func <- function(Date,PPFD,Tair,Tmax,Tmin,RHmax,RHmin,u2,P = 101.3,lat = 33.618891 ){
@@ -73,7 +71,11 @@ t.func <- function(t.mean,f.t.opt,t.max){
 
   # h.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = F)
   # l.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = T)
+<<<<<<< HEAD
   # 
+=======
+
+>>>>>>> 4bdf5e6ca3c82404c41dfb00c495b53d255775a4
   # return(min(h.val,l.val)*2)
 }
 # drainage

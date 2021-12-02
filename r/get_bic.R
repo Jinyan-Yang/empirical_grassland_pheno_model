@@ -1,3 +1,7 @@
+# #######################################
+# get stats for fitting##
+# #######################################
+
 # function to get BIC value for each model#####
 get.bic.func <- function(model.vec,data.vec,n.fd){
   d.vec <- model.vec
