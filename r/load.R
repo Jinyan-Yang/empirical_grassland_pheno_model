@@ -5,6 +5,7 @@ source('r/v13_common_fun.R')
 source('models/hufkens/hufkensV13.R')
 source('r/process_paddock_gcc_met.R')
 source('r/plot.mcmc.r')
+source('r/function_get_ci.R')
 
 library(zoo)
 library(foreach)
