@@ -22,8 +22,6 @@ source('r/fit_q1_qs0.R')#v10
 source('r/get_precit_ci.R')
 
 # Step III: make plots#####
-# get ci first
-source('r/get_precit_ci.R')
 #  check if par differ significantly
 source('r/compare_chain.R')
 
