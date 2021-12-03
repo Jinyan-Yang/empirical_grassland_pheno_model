@@ -71,11 +71,7 @@ t.func <- function(t.mean,f.t.opt,t.max){
 
   # h.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = F)
   # l.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = T)
-<<<<<<< HEAD
-  # 
-=======
 
->>>>>>> 4bdf5e6ca3c82404c41dfb00c495b53d255775a4
   # return(min(h.val,l.val)*2)
 }
 # drainage

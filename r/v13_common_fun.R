@@ -17,7 +17,8 @@ fit.mcmc.2q.func <- function(df = gcc.met.pace.df,
                              n.iter = 10000,
                              norm.min.max=NULL,
                              cal.initial=F,
-                             par.df,q.given =NULL,q.s.given=NULL){
+                             par.df,q.given =NULL,q.s.given=NULL,
+                             use.mcmc=TRUE){
   
   # check for error in input
   if(ncol(par.df)==6 & !is.null(q.s.given)){
@@ -45,6 +46,7 @@ fit.mcmc.2q.func <- function(df = gcc.met.pace.df,
   swc.wilt <<-  swc.wilt
   n.iter <<-  n.iter
   
+  # get deoptim to fit initial values
   if(cal.initial){
     source('r/deoptimal_initial.R')
     initial.vec <- get.ini.func(par.df = par.df,q.given =q.given,q.s.given=q.s.given)
@@ -53,67 +55,67 @@ fit.mcmc.2q.func <- function(df = gcc.met.pace.df,
     }else{
     initial.vec<-NULL
   }
-
-  # this assume 100% of the data falls into the max min range
-  # in a normal distribution for proposal.func
-  if(is.null(initial.vec)){
-    par.df['initial',] <- c(20,0.5,0.005,0.15,3,0.5)[seq_along(par.df['initial',])]
-  }else{
-    par.df['initial',] <- initial.vec
-    # par.df['max',] <- initial.vec*2
-    # par.df['min',] <- initial.vec/2
+# decide if mcmc should be use
+  if(use.mcmc){
+    # prepare param
+    if(is.null(initial.vec)){
+      par.df['initial',] <- c(20,0.5,0.005,0.15,3,0.5)[seq_along(par.df['initial',])]
+    }else{
+      par.df['initial',] <- initial.vec
+    }
+    par.df['stdv',] <- (par.df['max',] - par.df['min',])/100
+    
+    par.df <<- par.df
+    
+    #setup parallel backend to use many processors
+    cores=3#detectCores(logical = FALSE)
+    cl <- makeCluster(cores[1]) #not to overload your computer
+    registerDoParallel(cl)
+    
+    on.exit(stopCluster(cl))
+    
+    chain.fes <- foreach(i=1:3,
+                         .packages = 'mvtnorm',
+                         .export=ls(envir=globalenv())) %dopar% {
+                           
+                           chain.tmp = mh.MCMC.func.2q(iterations=n.iter,
+                                                       par.df = par.df,
+                                                       gcc.met.pace.df.16 = gcc.met.pace.df.16,
+                                                       bucket.size = bucket.size,
+                                                       day.lay = day.lag,
+                                                       swc.capacity = swc.capacity,
+                                                       swc.wilt = swc.wilt,
+                                                       my.fun = phenoGrass.func.v13,
+                                                       use.smooth = T,q.given =q.given,q.s.given=q.s.given)
+                         }
+    
+    
+    
+    # save file
+    if(use.smooth==TRUE){
+      smooth.nm='sm'
+    }else{
+      smooth.nm=''
+    }
+    
+    if(is.na(subplot)){
+      out.name <- sprintf('cache/%s%schain.%s.%s.%s.rds',smooth.nm,out.nm.note,species.in,prep.in,temp.in)
+    }else{
+      out.name <- sprintf('cache/%schain.%s.rds',out.nm.note,subplot)
+    }
+    
+    saveRDS(chain.fes,out.name)
+    
+    time.used <- (Sys.time() - s.time)
+    
+    df <- data.frame(site = species.in,
+                     time = time.used,
+                     when = Sys.time())
+    
+    write.table(df, file = "time.used.txt", sep = "\t",append = T,
+                row.names = FALSE)
   }
-  par.df['stdv',] <- (par.df['max',] - par.df['min',])/100
   
-  par.df <<- par.df
-
-  #setup parallel backend to use many processors
-  cores=3#detectCores(logical = FALSE)
-  cl <- makeCluster(cores[1]) #not to overload your computer
-  registerDoParallel(cl)
-  
-  on.exit(stopCluster(cl))
-  
-  chain.fes <- foreach(i=1:3,
-                       .packages = 'mvtnorm',
-                       .export=ls(envir=globalenv())) %dopar% {
-                         
-                         chain.tmp = mh.MCMC.func.2q(iterations=n.iter,
-                                                     par.df = par.df,
-                                                     gcc.met.pace.df.16 = gcc.met.pace.df.16,
-                                                     bucket.size = bucket.size,
-                                                     day.lay = day.lag,
-                                                     swc.capacity = swc.capacity,
-                                                     swc.wilt = swc.wilt,
-                                                     my.fun = phenoGrass.func.v13,
-                                                     use.smooth = T,q.given =q.given,q.s.given=q.s.given)
-                       }
-
-
-  
-  # save file
-  if(use.smooth==TRUE){
-    smooth.nm='sm'
-  }else{
-    smooth.nm=''
-  }
-  
-  if(is.na(subplot)){
-    out.name <- sprintf('cache/%s%schain.%s.%s.%s.rds',smooth.nm,out.nm.note,species.in,prep.in,temp.in)
-  }else{
-    out.name <- sprintf('cache/%schain.%s.rds',out.nm.note,subplot)
-  }
-  
-  saveRDS(chain.fes,out.name)
-  
-  time.used <- (Sys.time() - s.time)
-  
-  df <- data.frame(site = species.in,
-                   time = time.used,
-                   when = Sys.time())
-  
-  write.table(df, file = "time.used.txt", sep = "\t",append = T,
-              row.names = FALSE)
 }
 
 # generic function to do mcmc in paralle
