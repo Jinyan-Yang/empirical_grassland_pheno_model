@@ -38,7 +38,9 @@ source('makeFigure/par_vioPlot.R')
 # fig 7 brown-down thresholds
 source('makeFigure/plot_threshold_ambient.R')
 # fig 8 drought
+# first make prediction
 source('makeFigure/plot_predc_drt.R')
+# then make bar plot
 source('makeFigure/plot_drt.R')
 
 # fig s1 ts for v10
