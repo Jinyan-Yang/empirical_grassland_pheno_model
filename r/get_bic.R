@@ -4,18 +4,25 @@
 
 # function to get BIC value for each model#####
 get.bic.func <- function(model.vec,data.vec,n.fd){
-  d.vec <- model.vec
-  m.vec <- data.vec
+  # old way of doing bic based on assumed ll########
+  # d.vec <- model.vec
+  # m.vec <- data.vec
+  # 
+  # res <- model.vec - data.vec
+  # n <- length(data.vec)  
+  # w <- rep(1,n) #not applicable
+  # 
+  # ll <- 0.5 * (sum(log(w)) - n * (log(2 * pi) + 1 - log(n) + log(sum(w * res^2))))
+  # # Cll-logLik(m)==0 #TRUE
+  # k.original<-n.fd
+  # df.ll<-k.original+1 
+  # bic<- -2 * ll + log(n) * df.ll
   
-  res <- model.vec - data.vec
+  # new way to do bic bsaed on mse####
   n <- length(data.vec)  
-  w <- rep(1,n) #not applicable
+  mse <- mean((model.vec - data.vec)^2)
   
-  ll<-0.5 * (sum(log(w)) - n * (log(2 * pi) + 1 - log(n) + log(sum(w * res^2))))
-  # Cll-logLik(m)==0 #TRUE
-  k.original<-n.fd
-  df.ll<-k.original+1 
-  bic<- -2 * ll + log(n) * df.ll
+  bic <- n * log(mse) + n.fd * log(n)
   
   return(bic)
   # -0.5 *  sum((m.vec - d.vec)^2)/d.sd - n.fd*log(length(m.vec))
