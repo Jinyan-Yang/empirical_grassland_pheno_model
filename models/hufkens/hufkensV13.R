@@ -163,7 +163,7 @@ phenoGrass.func.v13 <- function(gcc.df,
     swc.vec[nm.day] <- max(0,swc.vec[nm.day])
   }
   
-  # 3.organise output
+  # 3.organise output####
   gcc.df$ppt <- gcc.df$Rain
   gcc.df$cover.hufken <- cover.pred.vec
   gcc.df$swc.hufken <- swc.vec
