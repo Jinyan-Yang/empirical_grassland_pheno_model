@@ -1,6 +1,7 @@
 # use DEoptim to calculate a reasonable starting value for mcmc
 # library(DEoptim)
-
+library(foreach)
+library(doParallel)
 # Function to be passed to DE optim
 model.de.func <- function(pars,dat,bucket.size,swc.in.wilt,swc.in.cap,day.lag,use.smooth,q.given,q.s.given){
   
@@ -54,7 +55,7 @@ get.ini.func <- function(par.df,...){
   OptBB.de.fit <- DEoptim(fn=model.de.func,lower=lower,upper=upper,
                           dat=gcc.met.pace.df.16,
                           DEoptim.control(VTR = 1,
-                                          NP = NPmax,itermax=maxiter,trace=1,parallelType =0,
+                                          NP = NPmax,itermax=maxiter,trace=1,parallelType = 0,
                                           parVar = globalenv(),
                                           packages=list("lubridate",'Evapotranspiration')),
                           use.smooth = use.smooth,

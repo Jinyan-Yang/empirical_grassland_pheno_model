@@ -18,7 +18,8 @@ fit.mcmc.2q.func <- function(df = gcc.met.pace.df,
                              norm.min.max=NULL,
                              cal.initial=F,
                              par.df,q.given =NULL,q.s.given=NULL,
-                             use.mcmc=TRUE){
+                             use.mcmc=TRUE,
+                             de.note=''){
   
   # check for error in input
   if(ncol(par.df)==6 & !is.null(q.s.given)){
@@ -50,7 +51,7 @@ fit.mcmc.2q.func <- function(df = gcc.met.pace.df,
   if(cal.initial){
     source('r/deoptimal_initial.R')
     initial.vec <- get.ini.func(par.df = par.df,q.given =q.given,q.s.given=q.s.given)
-     out.nm <- paste0('tmp/deopt_',species.in,prep.in,temp.in,'.rds')
+     out.nm <- paste0('tmp/deopt_',de.note,species.in,prep.in,temp.in,'.rds')
      saveRDS(initial.vec,out.nm)
     }else{
     initial.vec<-NULL

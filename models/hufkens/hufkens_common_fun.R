@@ -67,13 +67,21 @@ scaling.f.func <- function(map,f.h){
 
 # t response function####
 t.func <- function(t.mean,f.t.opt,t.max){
-  return((t.max-t.mean)/(t.max-f.t.opt)*(t.mean/f.t.opt)^(f.t.opt/(t.max-f.t.opt)))
-
-  # h.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = F)
-  # l.val <- pnorm(t.mean,mean=f.t.opt,sd = 2,lower.tail = T)
-
+  # need to determine which is the best way
+  
+  # #1.ch tyope of t dependence
+  # return((t.max-t.mean)/(t.max-f.t.opt)*(t.mean/f.t.opt)^(f.t.opt/(t.max-f.t.opt)))
+  
+  # #2. p based sharp decline
+  # h.val <- pnorm(t.mean,mean=f.t.opt,sd = 15,lower.tail = F)
+  # l.val <- pnorm(t.mean,mean=f.t.opt,sd = 15,lower.tail = T)
   # return(min(h.val,l.val)*2)
+  
+  # #3. sin function 
+  f.t <- sin(t.mean/f.t.opt * pi/2)
+  return(max(0,f.t))
 }
+
 # drainage
 drainage.func <- function(theta,
                           theta.sat = 0.3,
