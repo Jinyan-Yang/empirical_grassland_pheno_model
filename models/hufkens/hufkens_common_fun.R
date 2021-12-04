@@ -67,7 +67,7 @@ scaling.f.func <- function(map,f.h){
 
 # t response function####
 t.func <- function(t.mean,f.t.opt,t.max){
-  # need to determine which is the best way
+  # need to determine which is the best way#
   
   # #1.ch tyope of t dependence
   # return((t.max-t.mean)/(t.max-f.t.opt)*(t.mean/f.t.opt)^(f.t.opt/(t.max-f.t.opt)))
