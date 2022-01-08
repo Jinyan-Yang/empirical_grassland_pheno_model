@@ -19,8 +19,8 @@ logLikelihood.func <- function (model.out){
   }
   
   logLi <-  - (0.5 * ((mod - obs)/obs.sd)^2 + log(obs.sd) + 0.5*log(2*pi))
-  
-  # return(sum(logLi,na.rm=TRUE))
+  # mse <- mean((mod - obs)^2,na.rm=T)
+  # logLi <- log(mse)
   return(sum(logLi,na.rm=T))
 }
 
@@ -55,7 +55,7 @@ proposal.func <- function(param,par.df){
 
   for(i in seq_along(param)){
     par.val <- as.numeric(param[i])
-    prop.vec[i] <- rnorm(1,mean = par.val, sd = par.val/70)#par.df['stdv',i])
+    prop.vec[i] <- rnorm(1,mean = par.val, sd = par.val*0.007)#par.df['stdv',i])
 
     # prop.vec[i] <- rgamma(1,shape = as.numeric(param[i]))+0.001
   }

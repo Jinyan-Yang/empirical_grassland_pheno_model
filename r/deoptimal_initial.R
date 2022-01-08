@@ -45,25 +45,29 @@ model.de.func <- function(pars,dat,bucket.size,swc.in.wilt,swc.in.cap,day.lag,us
 
 # func to use DEoptim to calaulate initial values
 get.ini.func <- function(par.df,...){
+  # on.exit(stopCluster(cl = NULL))
   # setting control parameters and limits to values
   lower <- unname(par.df['min',])
   upper <- unname(par.df['max',]) 
   NPmax <- 100
-  maxiter <- 50
+  maxiter <- 100
   # 
   set.seed(1935)
   OptBB.de.fit <- DEoptim(fn=model.de.func,lower=lower,upper=upper,
                           dat=gcc.met.pace.df.16,
                           DEoptim.control(VTR = 1,
-                                          NP = NPmax,itermax=maxiter,trace=1,parallelType = 0,
-                                          parVar = globalenv(),
+                                          NP = NPmax,itermax=maxiter,trace=1,parallelType = 1,
+                                          parVar = list('phenoGrass.func.v13',
+                                                        'pet.func',
+                                                        't.func',
+                                                        'drainage.func','constants'),#globalenv(),
                                           packages=list("lubridate",'Evapotranspiration')),
                           use.smooth = use.smooth,
                           swc.in.cap = swc.capacity,
                           swc.in.wilt = swc.wilt,
                           bucket.size = bucket.size,
                           day.lag=day.lag,...)
-  
+  Sys.sleep(10)
   initial.vec <- unname(OptBB.de.fit$optim$bestmem)
   return(initial.vec)
 }

@@ -19,13 +19,13 @@ get.bic.func <- function(model.vec,data.vec,n.fd){
   # bic<- -2 * ll + log(n) * df.ll
   
   # new way to do bic bsaed on mse####
+  # https://machinelearningmastery.com/probabilistic-model-selection-measures/
   n <- length(data.vec)  
-  mse <- mean((model.vec - data.vec)^2)
-  
+  mse <- mean((model.vec - data.vec)^2,na.rm=T)
+  # BIC = -2 * LL + log(N) * k
   bic <- n * log(mse) + n.fd * log(n)
   
   return(bic)
-  # -0.5 *  sum((m.vec - d.vec)^2)/d.sd - n.fd*log(length(m.vec))
 }
 # 
 rmse.func = function(m, o){
@@ -34,8 +34,6 @@ rmse.func = function(m, o){
 
 # 
 get.r.func <- function(x.vec,y.vec){
-  # x.vec = optbb.spots$ALEAF
-  # y.vec=spot.amb$Photo
   fit.lm <- lm(y.vec~x.vec)
   return(summary(fit.lm)$r.squared)
 }

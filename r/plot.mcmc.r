@@ -48,14 +48,14 @@ plot.mcmc.func.2q = function(df = gcc.met.pace.df,
       # reduce rainfall for drt species
       
       if(tolower(species.in) == 'ym'){
-        # gcc.met.pace.df.16$irrig.tot <- gcc.met.pace.df.16$irrig.tot * 0.35
-        # gcc.met.pace.df.16$Rain <- gcc.met.pace.df.16$Rain * 0.35
+        gcc.met.pace.df.16$irrig.tot <- gcc.met.pace.df.16$irrig.tot * 0.35
+        gcc.met.pace.df.16$Rain <- gcc.met.pace.df.16$Rain * 0.35
   
       }else{
-        # gcc.met.pace.df.16$irrig.tot[month(gcc.met.pace.df.16$Date) %in% 6:11] <-
-        #   gcc.met.pace.df.16$irrig.tot[month(gcc.met.pace.df.16$Date) %in% 6:11] * 0.4
-        # gcc.met.pace.df.16$Rain[month(gcc.met.pace.df.16$Date) %in% 6:11] <-
-        #   gcc.met.pace.df.16$Rain[month(gcc.met.pace.df.16$Date) %in% 6:11] * 0.4
+        gcc.met.pace.df.16$irrig.tot[month(gcc.met.pace.df.16$Date) %in% 6:11] <-
+          gcc.met.pace.df.16$irrig.tot[month(gcc.met.pace.df.16$Date) %in% 6:11] * 0.4
+        gcc.met.pace.df.16$Rain[month(gcc.met.pace.df.16$Date) %in% 6:11] <-
+          gcc.met.pace.df.16$Rain[month(gcc.met.pace.df.16$Date) %in% 6:11] * 0.4
       }
     }
     
@@ -99,31 +99,33 @@ plot.mcmc.func.2q = function(df = gcc.met.pace.df,
     burnIn = nrow(in.chain)/3
     chain.fes <- in.chain
   }
+
+  # # # see how it works#####
+  # par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
+  #   f.t.opt = c(10,15,20,NA,NA,NA),
+  #   f.extract = c(0.05,0.075,0.1,NA,NA,NA),
+  #   f.sec = c(0.05,0.1,0.15,NA,NA,NA),
+  #   f.growth = c(0.1,0.2,0.3,NA,NA,NA),
+  #   q = c(0.001,1,2,NA,NA,NA),
+  #   q.s = c(0.001,1,2,NA,NA,NA))
+  # row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
   
-  # # check acceptance so that the 
-  
-  # acceptance = 1-mean(duplicated(chain.fes[-(1:burnIn),])) #should be >20% but <60%; 20-25% were suggested
-  # 
-  # # 
-  # hist(chain.fes[8000:30000,1])
-  # plot(chain.fes[,1])
-  # plot(chain.fes[,2])
-  # plot(chain.fes[,3])
-  # plot(chain.fes[,4])
-  # 
-  # # see how it works#####
-  par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
-    f.t.opt = c(10,15,20,NA,NA,NA),
-    f.extract = c(0.05,0.075,0.1,NA,NA,NA),
-    f.sec = c(0.05,0.1,0.15,NA,NA,NA),
-    f.growth = c(0.1,0.2,0.3,NA,NA,NA),
-    q = c(0.001,1,2,NA,NA,NA),
-    q.s = c(0.001,1,2,NA,NA,NA))
-  row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
   # par.df["fit",] <- colMeans(chain.fes[burnIn:nrow(chain.fes),])
   
-  fit.par.vec <- apply(chain.fes[burnIn:nrow(chain.fes),],2,median)
+  # fit.par.vec <- apply(chain.fes[burnIn:nrow(chain.fes),],2,median)
+
+  # # read tge best performing par
+  # fn = paste0('tmp/bic.',sm.nm,nm.note,'chain.',
+  #             species.in,'.',
+  #             prep.in,'.',
+  #             temp.in,'.rds')
+  # in.chain =  readRDS(fn)
+  # fit.par.vec <- in.chain[which(in.chain$bic==min(in.chain$bic)),]
+  # 
+  chain.fes <- do.call(rbind,in.chain)
+  fit.par.vec <- subset(chain.fes[which(chain.fes$ll==max(chain.fes$ll)),],select=-c(ll))
   
+  # 
   if(length(fit.par.vec)<5){
     fit.par.vec[5:6] <-c(q.in,q.s.in)
     print(paste0('sensitivities of growth and senesence set to ',c(q.in,q.s.in)))
@@ -365,7 +367,7 @@ plot.mcmc.func.2q.modis = function(df = gcc.met.pace.df,
 # functions to ckeck if fitting makes sense##############
 plot.check.mcmc.func=function(chain.in,species.in='',nm.vec = c('Topt','f.extract','senescence','growth','q','qs')){
   
-  burnIn = round(nrow(chain.in) / 2)
+  burnIn = round(nrow(chain.in) / 4*3)
   
   par(mfrow=c(3,2),mar=c(5,5,1,1))
   

@@ -39,7 +39,7 @@ for (i in seq_along(species.vec)) {
                   nm.note='smv13.2q.',use.smooth = TRUE,day.lag = 3,
                   swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
                   bucket.size = bucket.size,
-                  sample.size = 200)
+                  sample.size = 1000)
 
 }
 
@@ -76,7 +76,7 @@ for (i in seq_along(species.vec)) {
                   my.fun = phenoGrass.func.v13,
                   nm.note='v13.q1.qs0.',use.smooth = TRUE,day.lag = 3,
                   swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
-                  bucket.size = bucket.size,q.s.in=0,q.in=1)
+                  bucket.size = bucket.size,q.s.in=0,q.in=1,sample.size = 1000)
 
 }
 

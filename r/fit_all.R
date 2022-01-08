@@ -38,10 +38,10 @@ for (i in seq_along(species.vec)){
   
   # par values####
   par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
-    f.t.opt = c(5,20,40,NA,NA,NA),
-    f.extract = c(1,1.5,5,NA,NA,NA),
-    f.sec = c(0.1,0.15,0.5,NA,NA,NA),
-    f.growth = c(0.1,0.15,0.5,NA,NA,NA),
+    f.t.opt = c(10,25,40,NA,NA,NA),
+    f.extract = c(0.2,1.5,8,NA,NA,NA),
+    f.sec = c(0.05,0.15,0.5,NA,NA,NA),
+    f.growth = c(0.05,0.15,0.5,NA,NA,NA),
     q = c(0.1,3,15,NA,NA,NA),
     q.s = c(0.1,1,15,NA,NA,NA))
   row.names(par.df) <- c('min','initial','max','fit','stdv','prop')

@@ -58,29 +58,36 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
   
   
   # read chains 
+  # read only the best fits that were selected
+  tmp.str <- gsub('sm',replacement = '',nm.note)
+  fn <- sprintf('cache/%schain.%s.bestfit.rds',tmp.str,species.in)
   print(paste0('par file used: ',fn))
-  in.chain =  readRDS(fn)
-  
-  if(is.list(in.chain)){
-    # assuming 1/3 burn in
-    burnIn = 1
-    chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round((burn.proportion)*nrow(m.in)):nrow(m.in),])
-    
-    chain.fes <- do.call(rbind,chain.3.ls.new)
-  }else{
-    burnIn = nrow(in.chain)/3
-    chain.fes <- in.chain
-  }
-  
-  chain.sub <- chain.fes[burnIn:nrow(chain.fes),]
-  
-  set.seed(1935)
-  
-  # sample chain
-  len.chain <- nrow(chain.sub)
-  sample.index <- sample(1:len.chain,sample.size)
-  
-  chain.sample <- as.data.frame(chain.sub[sample.index,])
+  chain.sample <- readRDS(fn)
+  # in.chain =  readRDS(fn)
+  # 
+  # # if(is.list(in.chain)){
+  # #   # assuming 1/3 burn in
+  # #   burnIn = 1
+  # #   chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round((burn.proportion)*nrow(m.in)):nrow(m.in),])
+  # #   
+  # #   chain.fes <- do.call(rbind,chain.3.ls.new)
+  # # }else{
+  # #   burnIn = nrow(in.chain)/3
+  # #   chain.fes <- in.chain
+  # # }
+  # # 
+  # # # chain.sub <- chain.fes[burnIn:nrow(chain.fes),]
+  # # # 
+  # # # set.seed(1935)
+  # 
+  # chain.fes <- do.call(rbind,in.chain)
+  # best.1000 <- chain.fes[order(chain.fes$ll,decreasing=TRUE),]
+  # # # sample chain
+  # # len.chain <- nrow(chain.sub)
+  # # sample.index <- sample(1:len.chain,sample.size)
+  # 
+  # # chain.sample <- as.data.frame(chain.sub[sample.index,])
+  #   chain.sample <- best.1000[1:sample.size,]
   # deal with no q
   if(ncol(chain.sample)<5){
     chain.sample[,5] <- q.in
@@ -91,12 +98,23 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
     chain.sample[,6] <- q.s.in
     print(paste0('sensitivitiy of senesence set to ',q.s.in))
   }
-  # make prediction with ci
+  # make prediction with ci#####
   gcc.met.pace.df.16 <- gcc.met.pace.df.16[order(gcc.met.pace.df.16$Date),]
   pred.vec <- list()
+
+  # bic.df <- data.frame(f.t.opt = chain.sample[,1],
+  #                      f.extract = chain.sample[,2],
+  #                      f.sec= chain.sample[,3],
+  #                      f.growth = chain.sample[,4],
+  #                      q =  chain.sample[,5],
+  #                      q.s =  chain.sample[,6],
+  #                      bic=NA)
+
+  bic.ls <- list()
+
   for(i in 1:sample.size){
     fit.par.vec <- unlist(unname(chain.sample[i,]))
-    
+
     hufken.pace.pred <- my.fun(gcc.met.pace.df.16,
                                f.h = 222,
                                f.t.opt = fit.par.vec[1],
@@ -110,17 +128,29 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
                                swc.capacity = swc.in.cap ,
                                t.max = 45,
                                day.lay = day.lag,use.smooth = use.smooth)
-    
+
     pred.vec[[i]] <- hufken.pace.pred$cover.hufken
+
+    bic.ls[[i]] <- data.frame(f.t.opt = fit.par.vec[1],
+                              f.extract = fit.par.vec[2],
+                              f.sec= fit.par.vec[3],
+                              f.growth = fit.par.vec[4],
+                              q =  fit.par.vec[5],
+                              q.s =  fit.par.vec[6],
+                              bic = get.bic.func(model.vec = hufken.pace.pred$cover.hufken,
+                                                  data.vec = hufken.pace.pred$cover,n.fd = 6))
+
+
   }
-  
+
   # save results
   pred.m <- do.call(rbind,pred.vec)
-  
+  bic.df <- do.call(rbind,bic.ls)
   # quantile(pred.m[1,],probs = c(0.05,0.95),na.rm=T)
   pred.ci.m <- apply(pred.m,2,quantile,probs = c(0.05,0.95,0.5),na.rm=T)
+
   # save prediction for future use
-  
-  rds.nm <-  saveRDS(pred.ci.m,rds.nm)
-  
+  saveRDS(pred.ci.m,rds.nm)
+  rds.nm.bic <- paste0('tmp/bic.',sm.nm,nm.note,'chain.',species.in,'.',prep.in,'.',temp.in,'.rds')
+  saveRDS(bic.df,rds.nm.bic)
 }

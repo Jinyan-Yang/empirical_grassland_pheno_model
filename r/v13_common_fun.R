@@ -51,8 +51,9 @@ fit.mcmc.2q.func <- function(df = gcc.met.pace.df,
   if(cal.initial){
     source('r/deoptimal_initial.R')
     initial.vec <- get.ini.func(par.df = par.df,q.given =q.given,q.s.given=q.s.given)
-     out.nm <- paste0('tmp/deopt_',de.note,species.in,prep.in,temp.in,'.rds')
-     saveRDS(initial.vec,out.nm)
+     # out.nm <- paste0('tmp/deopt_',q.given,q.s.given,de.note,species.in,prep.in,temp.in,'.rds')
+     # saveRDS(initial.vec,out.nm)
+    # initial.vec <-c(19.4,1,0.198,0.1)
     }else{
     initial.vec<-NULL
   }
@@ -60,7 +61,7 @@ fit.mcmc.2q.func <- function(df = gcc.met.pace.df,
   if(use.mcmc){
     # prepare param
     if(is.null(initial.vec)){
-      par.df['initial',] <- c(20,0.5,0.005,0.15,3,0.5)[seq_along(par.df['initial',])]
+      par.df['initial',] <- c(20,1.5,0.005,0.15,3,0.5)[seq_along(par.df['initial',])]
     }else{
       par.df['initial',] <- initial.vec
     }
@@ -136,9 +137,13 @@ mh.MCMC.func.2q <- function(iterations,par.df,
   # intial
   chain = array(dim = c(iterations+1,ncol(par.df)))
   # chain[1,] = as.numeric(par.df['initial',])
-  chain[1,] = proposal.func(par.df['initial',],par.df)
+  chain <- as.data.frame(chain)
+  names(chain) <- names(par.df)
+  chain[1,] = (par.df['initial',])
   
   # chain move on
+  ll.vec <- c()
+ 
   for (i in 1:iterations){
     # prpose a set of par values based on previous chain value
     proposal = proposal.func(chain[i,],par.df)
@@ -157,41 +162,53 @@ mh.MCMC.func.2q <- function(iterations,par.df,
     }
 
     # prior.prob,data,data.sd,bucket.size = 300,...
-    probab = exp(posterior.func(prior.prob,FUN = my.fun,
-                                gcc.df = gcc.met.pace.df.16,
-                                f.h = 222,
-                                f.t.opt = proposal[1],
-                                f.extract = proposal[2],
-                                f.sec = proposal[3],
-                                f.growth = proposal[4] ,
-                                q = q.val ,
-                                q.s = q.s.val ,
-                                t.max = 45,
-                                day.lay = day.lay,
-                                bucket.size = bucket.size,
-                                swc.wilt = swc.wilt ,
-                                swc.capacity = swc.capacity,
-                                use.smooth = use.smooth) - 
-                   posterior.func(prior.prob,FUN = my.fun,
+    
+    proposal.ll <- posterior.func(prior.prob,FUN = my.fun,
                                   gcc.df = gcc.met.pace.df.16,
                                   f.h = 222,
-                                  f.t.opt = chain[i,1],
-                                  f.extract = chain[i,2],
-                                  f.sec = chain[i,3],
-                                  f.growth = chain[i,4] ,
+                                  f.t.opt = proposal[1],
+                                  f.extract = proposal[2],
+                                  f.sec = proposal[3],
+                                  f.growth = proposal[4] ,
                                   q = q.val ,
                                   q.s = q.s.val ,
                                   t.max = 45,
                                   day.lay = day.lay,
+                                  bucket.size = bucket.size,
                                   swc.wilt = swc.wilt ,
                                   swc.capacity = swc.capacity,
-                                  bucket.size = bucket.size,
-                                  use.smooth = use.smooth))
+                                  use.smooth = use.smooth)
+    former.ll <- posterior.func(prior.prob,FUN = my.fun,
+                                gcc.df = gcc.met.pace.df.16,
+                                f.h = 222,
+                                f.t.opt = chain[i,1],
+                                f.extract = chain[i,2],
+                                f.sec = chain[i,3],
+                                f.growth = chain[i,4] ,
+                                q = q.val ,
+                                q.s = q.s.val ,
+                                t.max = 45,
+                                day.lay = day.lay,
+                                swc.wilt = swc.wilt ,
+                                swc.capacity = swc.capacity,
+                                bucket.size = bucket.size,
+                                use.smooth = use.smooth)
+    # save loglikelhood
+    if(i==1){
+      ll.vec[1] <- former.ll
+    }
+    
+    probab = exp(proposal.ll- former.ll)
     if (runif(1) < probab){
       chain[i+1,] = proposal
+      ll.vec[i+1] <- proposal.ll
     }else{
+      ll.vec[i+1] <- former.ll
       chain[i+1,] = chain[i,]
     }
   }
+  
+  chain$ll <- ll.vec
+  
   return(chain)
 }
