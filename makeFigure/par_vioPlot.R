@@ -1,80 +1,4 @@
 source('r/read_spc_nm.R')
-# # function to get mean
-# get.fit.value.func <- function(fn,burin.frac=0.75){
-#   in.chain =  readRDS(fn)
-#   burnIn = 1
-#   chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (1-burin.frac)):nrow(m.in),])
-#   
-#   chain.fes <- do.call(rbind,chain.3.ls.new)
-#   
-#   return(colMeans(chain.fes[burnIn:nrow(chain.fes),]))
-# }
-# # function to get CI
-# get.fit.ci.func <- function(fn,burin.frac=0.75){
-#   in.chain =  readRDS(fn)
-#   burnIn = 1
-#   chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* burin.frac):nrow(m.in),])
-#   
-#   chain.fes <- do.call(rbind,chain.3.ls.new)
-#   
-#   out.df <- data.frame(f.t.opt = quantile(chain.fes[,1],probs = c(0.05,0.95)),
-#                        f.extract = quantile(chain.fes[,2],probs = c(0.05,0.95)),
-#                        f.sec = quantile(chain.fes[,3],probs = c(0.05,0.95)),
-#                        f.growth= quantile(chain.fes[,4],probs = c(0.05,0.95)),
-#                        q = quantile(chain.fes[,5],probs = c(0.05,0.95)),
-#                        q.s = quantile(chain.fes[,6],probs = c(0.05,0.95))
-#   )
-#   
-#   return(out.df)
-# }
-# 
-# # 
-# # loop through all params####
-# tmp.ls <- list()
-# 
-# # species.vec <-c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
-# # species.vec <-c('Kan','YM','Flux')
-# for (spc.i in seq_along(species.vec)) {
-#   fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[spc.i])
-#   
-#   v13.chain <- get.fit.value.func(fn)
-#   
-#   v13.chain.ci <- get.fit.ci.func(fn)
-#   
-#   tmp.ls[[spc.i]] <- data.frame(model='v1.1',
-#                                 site = species.vec[spc.i],
-#                                 
-#                                 f.t.opt = v13.chain[1],
-#                                 f.t.opt.05 = v13.chain.ci[1,1],
-#                                 f.t.opt.95 = v13.chain.ci[2,1],
-#                                 
-#                                 f.extract = v13.chain[2] ,
-#                                 f.extract.05 = v13.chain.ci[1,2],
-#                                 f.extract.95 = v13.chain.ci[2,2],
-#                                 
-#                                 
-#                                 f.sec = v13.chain[3] ,
-#                                 f.sec.05 = v13.chain.ci[1,3],
-#                                 f.sec.95 = v13.chain.ci[2,3],
-#                                 
-#                                 f.growth= v13.chain[4],
-#                                 f.growth.05 = v13.chain.ci[1,4],
-#                                 f.growth.95 = v13.chain.ci[2,4],
-#                                 
-#                                 q = v13.chain[5],
-#                                 q.05 = v13.chain.ci[1,5],
-#                                 q.95 = v13.chain.ci[2,5],
-#                                 
-#                                 q.s =v13.chain[6],
-#                                 q.s.05 = v13.chain.ci[1,6],
-#                                 q.s.95 = v13.chain.ci[2,6]
-#                                 
-#                                 
-#   )
-# }
-# 
-# out.df = do.call(rbind,tmp.ls)
-
 # prepare significance data####
 # read in significant data
 all.var.ls <- readRDS('cache/compare.var.rds')
@@ -170,15 +94,17 @@ plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm,log.y=F,y.range=
   
   tmp.ls <- list()
   for (i in seq_along(spc.vec)) {
-    fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',spc.vec[i])
-    # fn <- sprintf('cache/smv13.qs1.chain.%s.Control.Ambient.rds',spc.vec[i])
+    # fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',spc.vec[i])
+    # # fn <- sprintf('cache/smv13.qs1.chain.%s.Control.Ambient.rds',spc.vec[i])
+    # 
+    # in.chain =  readRDS(fn)
+    # burnIn = 1
+    # chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
+    # 
+    # chain.fes <- do.call(rbind,chain.3.ls.new)
     
-    in.chain =  readRDS(fn)
-    burnIn = 1
-    chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
-    
-    chain.fes <- do.call(rbind,chain.3.ls.new)
-    
+    fn.1 <- sprintf('cache/v13.2q.chain.%s.bestfit.rds',spc.vec[i])
+    chain.fes <- readRDS(fn.1)
     tmp.ls[[i]] <- data.frame(spc = species.vec.nm[i],
                               par.val = chain.fes[,col2plot])
     
@@ -188,6 +114,7 @@ plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm,log.y=F,y.range=
   # plot.df$spc[plot.df$spc =='flux'] <- 'Flux Tower'
   plot.df$spc <- factor(plot.df$spc,levels=unique(plot.df$spc))
   
+  # the if statement is not used for now
   if(!y.range){
     vioplot(par.val~spc,plot.df,col=col.nm.vec,
             xlab='',ylab=y.nm,las = 2,ylog = log.y)
@@ -198,64 +125,35 @@ plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm,log.y=F,y.range=
     
   }
   
-
-
-  # sig.df <- out.ls[[col2plot]]
-  
-# add significance letter
-    # for (par.i in 1:10) {
-    #   # find the position 
-    #   adj.val <- 0.095 * (par.i-2)+0.172
-    #   # correct for uneven start and end 
-    #   if(par.i==1){
-    #     adj.val <- 0.07
-    #   }
-    #   if(par.i==2){
-    #     adj.val <- 0.172
-    #   }
-    #   if(par.i==9){
-    #     adj.val <- 1-0.172
-    #   }
-    #   if(par.i==10){
-    #     adj.val <- 1-0.07
-    #   }
-    #   mtext(sig.df[par.i,11],side = 3,line = 1+par.i%%2,adj = adj.val,cex=0.8)
-    # }
-
-  
 }
 
 pdf('figures/par.vioplot.pdf',width = 4*2,height = 4*.618*3)
 par(mfrow=c(3,2))
 par(mar=c(5,5,1,1))
 
-# var.nm.vec <- c('f.t.opt', 'f.extract',
-#                 'f.sec','f.growth', 
-#                 'q','q.s')
-
-# y.nm.vec <- c(expression('Opt. T '*(degree*C)),
-#               expression('Max. tran. rate '*(mm~d^-1)),
-#               expression('Senescence rate '*(cover~d^-1)),
-#               expression('Growth rate '*(cover~d^-1)),
-#               expression('q (growth)'),
-#               expression(q[s]~(Senescence)))
-
+# labels
 y.nm.vec <- c(expression(T[opt]),expression(r[extract]),
               expression(r[senescence]),expression(r[growth]),
               expression(q[growth]),expression(q[senescence]))
 
-
+# plot in the right order
 var.vec <- c(1,2,3,4,6,5)
 for (plot.var.nm in seq_along(var.vec)) {
   
   if(var.vec[plot.var.nm] == 5){
+    # make violin plot
     plot.box.func(spc.vec = species.vec,
                   col2plot = var.vec[plot.var.nm],
                   y.nm = y.nm.vec[var.vec[plot.var.nm]],log.y = T)
     abline(h=1,lty='dashed',col='grey',lwd=2)
-    
-    points(c(17,NA,17,NA,17,17,NA,NA,17,17)~
+    # add ssignificant symbol
+    source('r/test_q_sig_from_1.R')
+    pace.q.df$symbol <- NA
+    pace.q.df$symbol[pace.q.df$q.sig==1] <- 17
+    points(pace.q.df$symbol~
              factor(species.vec.nm,levels = species.vec.nm),pch='*')
+    # points(c(17,17,17,17,17,17,17,17,NA,17)~
+    #          factor(species.vec.nm,levels = species.vec.nm),pch='*')
     
   }else if(var.vec[plot.var.nm] == 6){
     plot.box.func(spc.vec = species.vec,
@@ -268,13 +166,7 @@ for (plot.var.nm in seq_along(var.vec)) {
                   y.nm = y.nm.vec[var.vec[plot.var.nm]])
   }
 
-
-  
-  
-  # legend('topleft',legend =paste0('(',letters[index.nm],") " ,
-  #                                 y.nm.vec[plot.var.nm]),
-  #        bty='n')
-  
+# add subplot letter
   legend('topleft',legend =paste0('(',letters[plot.var.nm],") " ),
          bty='n')
   
@@ -286,12 +178,6 @@ dev.off()
 
 # # plot significance.
 pdf('figures/significance.pdf',width = 4*2,height = 4*3)
-# y.nm.vec <- c(('Opt. T '),
-#               ('Max. tran. rate '),
-#               ('Senescence rate '),
-#               ('Growth rate '),
-#               ('q[Growth]'),
-#               ('q[Senescence]'))
 
 y.nm.vec <- c(expression((a)~T[opt]),expression((b)~r[extract]),
               expression((c)~r[senescence]),expression((d)~r[growth]),

@@ -33,6 +33,16 @@ for (i in seq_along(species.vec)) {
     swc.wilt = 0.05
     bucket.size=300
   }
+  # 
+  par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
+    f.t.opt = c(10,25,40,NA,NA,NA),
+    f.extract = c(1,1.5,8,NA,NA,NA),
+    f.sec = c(0.1,0.15,0.5,NA,NA,NA),
+    f.growth = c(0.1,0.15,0.5,NA,NA,NA),
+    q = c(0.1,3,15,NA,NA,NA),
+    q.s = c(0.1,1,15,NA,NA,NA))
+  row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
+  
   # do ploting and prediction for v11
   plot.mcmc.func.2q(df,species.vec[i],
                     prep.in='Control',temp.in='Ambient',
@@ -40,9 +50,11 @@ for (i in seq_along(species.vec)) {
                     nm.note='smv13.2q.',use.smooth = TRUE,day.lag = 3,
                     swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
                     bucket.size = bucket.size)
+  plot.title.func(species.vec[i])
   
-# do the predict for v10
-  plot.mcmc.func.2q(df,species.vec[i],
+# # do the predict for v10
+  plot.mcmc.func.2q(df = df,
+                    species.in=species.vec[i],
                     prep.in='Control',temp.in='Ambient',
                     my.fun = phenoGrass.func.v13,
                     nm.note='v13.q1.qs0.',use.smooth = TRUE,
@@ -50,29 +62,30 @@ for (i in seq_along(species.vec)) {
                     swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
                     bucket.size = bucket.size,
                     q.s.in=0,q.in=1)
-  # plot.title.func(species.vec[i]) 
+  
+  plot.title.func(species.vec[i])
 }
 # dev.off()
 
+# # 
+# #daisgnostic plot
+# pdf('figures/diag.pdf',width = 8,height = 8*.618)
+# for (i in seq_along(species.vec)) {
 # 
-#daisgnostic plot
-pdf('figures/diag.pdf',width = 8,height = 8*.618)
-for (i in seq_along(species.vec)) {
-
-  fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
-  chain.3.ls = readRDS(fn)
-  lapply(chain.3.ls, plot.check.mcmc.func,species.in=species.vec[i])
-
-  par(mfrow=c(3,2),mar=c(5,5,1,1))
-  for(par.num in 1:6){
-
-    start.row <- nrow(chain.3.ls[[1]]) / 4*3
-
-    plot.line.mcmc.func(chain.3.ls,par.num,range.iter =  round(start.row:nrow(chain.3.ls[[1]])))
-
-  }
-}
-dev.off()
+#   fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
+#   chain.3.ls = readRDS(fn)
+#   lapply(chain.3.ls, plot.check.mcmc.func,species.in=species.vec[i])
+# 
+#   par(mfrow=c(3,2),mar=c(5,5,1,1))
+#   for(par.num in 1:6){
+# 
+#     start.row <- nrow(chain.3.ls[[1]]) / 4*3
+# 
+#     plot.line.mcmc.func(chain.3.ls,par.num,range.iter =  round(start.row:nrow(chain.3.ls[[1]])))
+# 
+#   }
+# }
+# dev.off()
 
 # ts with ci####
 pdf('figures/v11_ts.pdf',width = 5*2,height = 5*5*.618)

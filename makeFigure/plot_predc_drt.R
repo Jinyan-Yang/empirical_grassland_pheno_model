@@ -2,7 +2,7 @@
 # predict drought response with pars from ambient fit
 ###################################################
 
-ym.18.df <- get.ym.func('Drought')
+ym.18.df <- get.ym.func('Control')
 
 # 
 pdf('figures/pred_drought.pdf',width = 8,height = 8*.618)
@@ -30,7 +30,7 @@ for (i in seq_along(species.vec[1:9])) {
   }
   
   # plot control under control
-  plot.mcmc.func.2q(df,species.vec[i],prep.in='Drought',temp.in='Ambient',
+  plot.mcmc.func.2q(df,species.vec[i],prep.in='Control',temp.in='Ambient',
                     my.fun = phenoGrass.func.v13,
                     nm.note='smv13.2q.',use.smooth = TRUE,day.lag = 3,
                     swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,bucket.size = bucket.size,

@@ -135,10 +135,12 @@ for (i in seq_along(species.vec[1:9])) {
 }
 
 pace.model.df <- do.call(rbind,pace.model.ls)
-pace.model.df$spc.factoir <- as.numeric(factor(pace.model.df$spc,levels = c(as.character(pace.obs.mean.df$species))))
+pace.model.df$spc.factoir <- as.numeric(factor(pace.model.df$spc,
+                                               levels = c(as.character(pace.obs.mean.df$species))))
 
 # plot 
 pdf('figures/plot.drt.shelter.pdf',width = 8,height = 8*.618)
+palette(c(col.df$iris))
 # obs
 plot(c(drt.gcc)~species,data = pace.effect.df,xlab='',
      ylab='Cover drought / Cover control',ylim=c(0.3,1),

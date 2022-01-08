@@ -19,15 +19,19 @@ out.df <- data.frame(spc = species.vec,
                      q.s.05=NA,
                      q.s.95=NA)
 for(i in seq_along(species.vec)){
-  fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
-  
-  chain.3.ls = readRDS(fn)
-  
-  chain.3.ls.new = lapply(chain.3.ls,function(m.in)m.in[round(0.75*nrow(m.in)):nrow(m.in),])
-  chain.fes <- do.call(rbind,chain.3.ls.new)
-  
-  
-  fitted.val <- colMeans(chain.fes)
+  # fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
+  # 
+  # chain.3.ls = readRDS(fn)
+  # 
+  # chain.3.ls.new = lapply(chain.3.ls,function(m.in)m.in[round(0.75*nrow(m.in)):nrow(m.in),])
+  # chain.fes <- do.call(rbind,chain.3.ls.new)
+  # 
+  # 
+  # fitted.val <- colMeans(chain.fes)
+  # tmp.str <- gsub('sm',replacement = '',nm.note)
+  fn <- sprintf('cache/v13.2q.chain.%s.bestfit.rds',species.vec[i])
+  print(paste0('par file used: ',fn))
+  chain.fes <- readRDS(fn)
   
   out.df[i,2:7] <- fitted.val
   
@@ -54,7 +58,7 @@ beta.func <- function(x,a=0.05,b=0.3,q=5,is.q.s = FALSE){
  }
 }
 
-swc.vec <- seq(0,1,by=0.01)
+swc.vec <- seq(0,1,by=0.001)
 beta.growth.ls <- beta.sene.ls <- list()
 for (i.nm in seq_along(species.vec)) {
   beta.growth.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q.50[i.nm])
@@ -70,7 +74,7 @@ palette(c(col.df$iris))
 col.nm.vec <- c(1,1,2,2,2,3,3,3,4,4)
 lty.vec <- c(1,2,1,2,3,1,2,3,1,2)
 plot(beta.growth.ls[[1]]~swc.vec,type='l',col=col.nm.vec[1],
-     xlab='Soil moisture',ylab=expression(beta),lwd=3,lty=lty.vec[1])
+     xlab='Soil moisture',ylab=expression(beta[growth]),lwd=3,lty=lty.vec[1])
 
 # points(beta.growth.ls[[2]]~swc.vec,type='l',col=2,lwd=3)
 # points(beta.growth.ls[[3]]~swc.vec,type='l',col=3,lwd=3)
