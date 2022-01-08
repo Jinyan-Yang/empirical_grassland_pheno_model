@@ -10,7 +10,6 @@
 # This is because i can and I want to make whoever reads the code suffer =P
 # It's acutally because various versions of model tested are not presented
 
-
 # Step I: load environment####
 source('r/read_spc_nm.R')
 source('r/load.R')
@@ -18,19 +17,23 @@ source('r/load.R')
 # Step II: fit model to data####
 source('r/fit_all.R')#v13
 source('r/fit_q1_qs0.R')#v10
+# get best fits
+source('r/get_best_fit.R')
 # get Ci for fitting
 source('r/get_precit_ci.R')
 
 # Step III: make plots#####
 #  check if par differ significantly
 source('r/compare_chain.R')
+# predict according to fitted param
+source('makeFigure/plot_fit.R')
 
 # fig 1 theoretical plot
 source('makeFigure/hypotheses.R')
 # fig 3 ts for v10
 source('makeFigure/plot_v10_scatter.R')
 # fig 4 ts and scatter v13
-source('makeFigure/plot_fit.R')
+source('makeFigure/plot_fit_TS_scatter.R')
 # fig 5 beta
 source('makeFigure/fw_ambient.R')
 # fig 6 par distributions
