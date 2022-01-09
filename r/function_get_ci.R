@@ -2,6 +2,7 @@
 # calculate CI of the fitted model by sampling from the chains####
 ###################################################################
 # 
+
 get.mod.ci.func <-  function(df = gcc.met.pace.df,
                              species.in,prep.in,temp.in,subplot=NULL,
                              nm.note='',use.smooth=FALSE,
@@ -63,6 +64,7 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
   fn <- sprintf('cache/%schain.%s.bestfit.rds',tmp.str,species.in)
   print(paste0('par file used: ',fn))
   chain.sample <- readRDS(fn)
+  chain.sample <-  subset(chain.sample,select=-c(ll))
   # in.chain =  readRDS(fn)
   # 
   # # if(is.list(in.chain)){
@@ -89,13 +91,13 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
   # # chain.sample <- as.data.frame(chain.sub[sample.index,])
   #   chain.sample <- best.1000[1:sample.size,]
   # deal with no q
-  if(ncol(chain.sample)<5){
-    chain.sample[,5] <- q.in
-    chain.sample[,6] <- q.s.in
+  if(!('q' %in% names(chain.sample))){
+    chain.sample$q <- q.in
     print(paste0('sensitivities of growth and senesence set to ',
-                 q.in,' and ',q.s.in))
-  }else if(ncol(chain.sample)<6){
-    chain.sample[,6] <- q.s.in
+                 q.in))
+  }
+  if(!('q.s' %in% names(chain.sample))){
+    chain.sample$q.s <- q.s.in
     print(paste0('sensitivitiy of senesence set to ',q.s.in))
   }
   # make prediction with ci#####
