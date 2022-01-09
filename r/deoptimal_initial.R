@@ -50,7 +50,7 @@ get.ini.func <- function(par.df,...){
   lower <- unname(par.df['min',])
   upper <- unname(par.df['max',]) 
   NPmax <- 100
-  maxiter <- 100
+  maxiter <- 200
   # 
   set.seed(1935)
   OptBB.de.fit <- DEoptim(fn=model.de.func,lower=lower,upper=upper,
@@ -67,7 +67,7 @@ get.ini.func <- function(par.df,...){
                           swc.in.wilt = swc.wilt,
                           bucket.size = bucket.size,
                           day.lag=day.lag,...)
-  Sys.sleep(10)
+  # Sys.sleep(10)
   initial.vec <- unname(OptBB.de.fit$optim$bestmem)
   return(initial.vec)
 }
