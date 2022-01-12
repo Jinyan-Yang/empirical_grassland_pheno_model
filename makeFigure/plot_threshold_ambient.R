@@ -113,7 +113,7 @@ layout(matrix(c(1:6,7,8,11,9,10,11),3,4, byrow = FALSE),
        # c(3,1), c(1,3),
        respect = TRUE)
 
-par(mar=rep(2,4),xpd=TRUE,oma=rep(2,4))
+par(mar=rep(2,4),xpd=TRUE,oma=rep(2.2,4))
 
 
 
@@ -142,7 +142,7 @@ for (i in c(3:10,1,2)) {
     mtext('Cover',side=2,xpd=T,line=3)
   }
   if(letter.nm==6){
-    mtext('swc',side=1,xpd=T,line=3,adj=1)
+    mtext('Soil moisture availability',side=1,xpd=T,line=3,adj=1)
   }
   letter.nm =letter.nm+1
 }

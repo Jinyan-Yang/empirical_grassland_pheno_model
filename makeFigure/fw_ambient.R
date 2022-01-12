@@ -76,7 +76,7 @@ palette(c(col.df$iris))
 col.nm.vec <- c(1,1,2,2,2,3,3,3,4,4)
 lty.vec <- c(1,2,1,2,3,1,2,3,1,2)
 plot(beta.growth.ls[[1]]~swc.vec,type='l',col=col.nm.vec[1],
-     xlab='Soil moisture',ylab=expression(beta[growth]),lwd=3,lty=lty.vec[1])
+     xlab='Soil moisture availability',ylab=expression(beta[growth]),lwd=3,lty=lty.vec[1])
 
 # points(beta.growth.ls[[2]]~swc.vec,type='l',col=2,lwd=3)
 # points(beta.growth.ls[[3]]~swc.vec,type='l',col=3,lwd=3)
@@ -95,7 +95,7 @@ legend('bottomright',legend = species.vec.nm,
 
 # 
 plot(beta.sene.ls[[1]]~swc.vec,type='l',col=col.nm.vec[1],xlim=c(0,1),
-      xlab='Soil moisture',ylab=expression(beta[senescence]),lty=lty.vec[1],lwd=3)
+      xlab='Soil moisture availability',ylab=expression(beta[senescence]),lty=lty.vec[1],lwd=3)
 
 # points(beta.sene.ls[[2]]~swc.vec,type='l',col=2,lwd=3,lty='dashed')
 for (i in seq_along(beta.sene.ls)) {
