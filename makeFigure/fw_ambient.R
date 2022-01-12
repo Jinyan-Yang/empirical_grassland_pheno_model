@@ -33,7 +33,9 @@ for(i in seq_along(species.vec)){
   print(paste0('par file used: ',fn))
   chain.fes <- readRDS(fn)
   
-  out.df[i,2:7] <- fitted.val
+  # fitted.val <- subset(chain.fes,select=-c(ll))
+  
+  # out.df[i,2:7] <- fitted.val
   
   q.quant <- quantile(chain.fes[,5],probs = c(.05,.95,0.5))
   qs.quant <- quantile(chain.fes[,6],probs = c(.05,.95,0.5))

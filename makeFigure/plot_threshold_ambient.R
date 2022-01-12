@@ -103,7 +103,7 @@ for (iter.nm in seq_along(species.vec)) {
 }
 
 ci.df <- do.call(rbind,pred.ci.ls)
-saveRDS(ci.df,'tmp/threshold_BM.rds')
+# saveRDS(ci.df,'tmp/threshold_BM.rds')
 # 
 palette(c(col.df$iris))
 
