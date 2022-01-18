@@ -15,7 +15,7 @@ logLikelihood.func <- function (model.out){
   if(sum(model.out$GCC.norm.sd,na.rm = T) != 0){
     obs.sd <- model.out$GCC.norm.sd 
   }else{
-    obs.sd <- model.out$GCC.norm * 0.1
+    obs.sd <- sd(model.out$GCC.norm,na.rm=T) 
   }
   
   logLi <-  - (0.5 * ((mod - obs)/obs.sd)^2 + log(obs.sd) + 0.5*log(2*pi))
