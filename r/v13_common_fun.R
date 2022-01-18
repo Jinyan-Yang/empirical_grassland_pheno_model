@@ -151,14 +151,16 @@ mh.MCMC.func.2q <- function(iterations,par.df,
     # deal with missing q 
     if(is.null(q.given)){
       q.val = proposal[5]
+      q.past <- chain[i,5]
     }else{
-      q.val = q.given
+      q.past = q.val = q.given
     }
     
     if(is.null(q.s.given)){
       q.s.val = proposal[6]
+      q.s.past <- chain[i,6]
     }else{
-      q.s.val = q.given
+      q.s.past = q.s.val = q.given
     }
 
     # prior.prob,data,data.sd,bucket.size = 300,...
@@ -185,8 +187,8 @@ mh.MCMC.func.2q <- function(iterations,par.df,
                                 f.extract = chain[i,2],
                                 f.sec = chain[i,3],
                                 f.growth = chain[i,4] ,
-                                q = chain[i,5] ,
-                                q.s = chain[i,6] ,
+                                q =  q.past,
+                                q.s = q.s.past ,
                                 t.max = 45,
                                 day.lay = day.lay,
                                 swc.wilt = swc.wilt ,
