@@ -213,8 +213,8 @@ plot.mcmc.func.2q = function(df = gcc.met.pace.df,
   
   # legend('topleft',legend = paste0(species.in,prep.in,temp.in),bty='n')
   
-  clip(min(hufken.pace.pred$Date), max(hufken.pace.pred$Date), 0.0, 0.1)
-  abline(v = hufken.pace.pred$Date[hufken.pace.pred$harvest ==1],lty='dotted')
+  # clip(min(hufken.pace.pred$Date), max(hufken.pace.pred$Date), 0.0, 0.1)
+  # abline(v = hufken.pace.pred$Date[hufken.pace.pred$harvest ==1],lty='dotted')
   
   # par(new=T)
   # 
