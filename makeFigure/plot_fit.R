@@ -6,7 +6,7 @@ ym.18.df <- get.ym.func(18)
 
 gcc.met.con.df <- get.paddock.func('control')
 
-# pdf('figures/obs_pred.pdf',width = 8,height = 8*.618)
+pdf('figures/obs_pred.pdf',width = 8,height = 8*.618)
 for (i in seq_along(species.vec)) {
   
   # use different soil water cap and wilt for different site
@@ -52,20 +52,20 @@ for (i in seq_along(species.vec)) {
                     bucket.size = bucket.size)
   plot.title.func(species.vec[i])
   
-# # do the predict for v10
-  plot.mcmc.func.2q(df = df,
-                    species.in=species.vec[i],
-                    prep.in='Control',temp.in='Ambient',
-                    my.fun = phenoGrass.func.v13,
-                    nm.note='v13.q1.qs0.',use.smooth = TRUE,
-                    day.lag = 3,
-                    swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
-                    bucket.size = bucket.size,
-                    q.s.in=0,q.in=1)
-  
-  plot.title.func(species.vec[i])
+# # # do the predict for v10
+#   plot.mcmc.func.2q(df = df,
+#                     species.in=species.vec[i],
+#                     prep.in='Control',temp.in='Ambient',
+#                     my.fun = phenoGrass.func.v13,
+#                     nm.note='v13.q1.qs0.',use.smooth = TRUE,
+#                     day.lag = 3,
+#                     swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
+#                     bucket.size = bucket.size,
+#                     q.s.in=0,q.in=1)
+#   
+#   plot.title.func(species.vec[i])
 }
-# dev.off()
+dev.off()
 
 # # 
 # #daisgnostic plot
