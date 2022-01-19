@@ -124,15 +124,23 @@ plot.mcmc.func.2q = function(df = gcc.met.pace.df,
   # 
   chain.fes <- do.call(rbind,in.chain)
   fit.par.vec <- subset(chain.fes[which(chain.fes$ll==max(chain.fes$ll)),],select=-c(ll))
-  
+  fit.par.vec <- fit.par.vec[!duplicated(fit.par.vec),]
   # 
-  if(length(fit.par.vec)<5){
-    fit.par.vec[5:6] <-c(q.in,q.s.in)
-    print(paste0('sensitivities of growth and senesence set to ',c(q.in,q.s.in)))
-  }else if(length(fit.par.vec)<6){
-    fit.par.vec[6] <- q.s.in
-    print(paste0('sensitivitiy of senesence set to 1',q.s.in))
+  
+  if(!'q' %in% names(fit.par.vec)){
+    print(paste0('sensitivities of growth set to ',c(q.in)))
   }
+  if(!'q.s' %in% names(fit.par.vec)){
+    print(paste0('sensitivities of senesence set to ',c(q.s.in)))
+  }
+  
+  # if(length(fit.par.vec)<5){
+  #   fit.par.vec[5:6] <-c(q.in,q.s.in)
+  #   print(paste0('sensitivities of growth and senesence set to ',c(q.in,q.s.in)))
+  # }else if(length(fit.par.vec)<6){
+  #   fit.par.vec[6] <- q.s.in
+  #   print(paste0('sensitivitiy of senesence set to 1',q.s.in))
+  # }
 
   par.df["fit",] <- fit.par.vec
   print(fit.par.vec)

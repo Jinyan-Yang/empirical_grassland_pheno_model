@@ -55,10 +55,12 @@ proposal.func <- function(param,par.df){
 
   for(i in seq_along(param)){
     par.val <- as.numeric(param[i])
-    prop.vec[i] <- rnorm(1,mean = par.val, sd = par.val*0.007)#par.df['stdv',i])
+    prop.vec[i] <- rnorm(1,mean = par.val, sd = par.val*0.014)#par.df['stdv',i])
 
     # prop.vec[i] <- rgamma(1,shape = as.numeric(param[i]))+0.001
   }
+  
+  # do not make the proposed value go beyond the limits
   params.upper <- unlist(par.df['max',]) 
   reflectionFromMax <- pmax( 0, 
                              unname(prop.vec-params.upper) )
