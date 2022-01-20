@@ -48,13 +48,14 @@ for (i in seq_along(species.vec)){
   
   # mcmc fitting
   fit.mcmc.2q.func(df,
-                   n.iter = 20000,
+                   n.iter = 50000,
                    species.in=species.vec[i],
                    prep.in = 'Control', temp.in ='Ambient',
                    my.fun = phenoGrass.func.v13,
-                   out.nm.note='smv13.2q.', 
+                   out.nm.note='v1.2q.', 
                    use.smooth = TRUE,cal.initial = TRUE,day.lag = 3,
                    swc.capacity = swc.cap,swc.wilt = swc.wilt,
                    bucket.size = bucket.size,
                    par.df = par.df,q.given =NULL,q.s.given=NULL)
 }
+
