@@ -46,7 +46,7 @@ for (i in seq_along(species.vec)){
                    species.in=species.vec[i],
                    prep.in = 'Control', temp.in ='Ambient',
                    my.fun = phenoGrass.func.v13,
-                   out.nm.note='v13.q1.qs0.', 
+                   out.nm.note='v0.', 
                    use.smooth = TRUE,cal.initial = TRUE,day.lag = 3,
                    swc.capacity = swc.cap,swc.wilt = swc.wilt,bucket.size = bucket.size,
                    par.df = par.df,q.given =1,q.s.given = 0)
