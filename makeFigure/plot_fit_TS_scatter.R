@@ -48,10 +48,10 @@ par(mfrow =c(2,1))
 
 # plot obs cover
 par(mar=c(5,5,1,5))
-fn <- 'tmp/pred.smsmv13.2q.chain.ym.Control.Ambient.rds'
+fn <- 'tmp/pred.smv1.2q.chain.ym.Control.Ambient.rds'
 hufken.pace.pred <- readRDS(fn)
 
-ci.fm <- ('tmp/ci.smsmv13.2q.chain.ym.Control.Ambient.rds')
+ci.fm <- ('tmp/ci.smv13.2q.chain.ym.Control.Ambient.rds')
 ci.m <- readRDS(ci.fm)
 hufken.pace.pred$cover.05 <- ci.m[1,]
 hufken.pace.pred$cover.95 <- ci.m[2,]
@@ -77,10 +77,10 @@ legend('topright',legend = c('OBS','MOD'),
        bty='n')
 
 for (i in seq_along(species.vec)){
-  fn <- sprintf('tmp/pred.smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
+  fn <- sprintf('tmp/pred.smv1.2q.chain.%s.Control.Ambient.rds',species.vec[i])
   hufken.pace.pred <- readRDS(fn)
   # 
-  ci.fm <- sprintf('tmp/ci.smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
+  ci.fm <- sprintf('tmp/ci.smv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
   ci.m <- readRDS(ci.fm)
   # hufken.pace.pred$cover.05 <- ci.m[1,]
   # hufken.pace.pred$cover.95 <- ci.m[2,]

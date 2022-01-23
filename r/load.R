@@ -7,7 +7,7 @@ source('r/functions_mcmc_V12.R')
 source('r/process_paddock_gcc_met.R')
 source('r/plot.mcmc.r')
 source('r/function_get_ci.R')
-source('r/get_bic.R')
+# source('r/get_bic.R')
 
 library(zoo)
 library(foreach)

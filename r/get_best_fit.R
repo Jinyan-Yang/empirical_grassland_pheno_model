@@ -20,7 +20,7 @@ sample.size <- 1000
 for(spc.i in seq_along(species.vec)){
   species.in <- species.vec[spc.i]
   # get param for v`13`
-  fn.v13=sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',
+  fn.v13=sprintf('cache/smv1.2q.chain.%s.Control.Ambient.rds',
             species.in)
   # 
   par.v13 <- get.par.func(fn=fn.v13,iter = sample.size)
@@ -31,7 +31,7 @@ for(spc.i in seq_along(species.vec)){
   saveRDS(par.v13,fn.v13.out)
   
   # get param for v`10`
-  fn.v10=sprintf('cache/smv13.q1.qs0.chain.%s.Control.Ambient.rds',
+  fn.v10=sprintf('cache/smv0.chain.%s.Control.Ambient.rds',
                  species.in)
   # 
   # 

@@ -100,7 +100,7 @@ pace.effect.df$species <- factor(pace.effect.df$species,
 # get modelled responses
 pace.model.ls <- list()
 for (i in seq_along(species.vec[1:9])) {
-  fn.con <- sprintf('tmp/pred.smsmv13.2q.chain.%s.Control.Ambient.rds',
+  fn.con <- sprintf('tmp/pred.smv1.2q.chain.%s.Control.Ambient.rds',
                     species.vec[i])
   
   dat.con <- readRDS(fn.con)
@@ -109,7 +109,7 @@ for (i in seq_along(species.vec[1:9])) {
   names(dat.con) <- c("Date","GCC.mean.con",
                       'GCC.sd.con',"vwc.mean.con",'cover.pred.con','rain.con')
   
-  fn.drt <- sprintf('tmp/pred.smsmv13.2q.chain.%s.Control.predict.Ambient.rds',
+  fn.drt <- sprintf('tmp/pred.smv1.2q.chain.%s.Control.predict.Ambient.rds',
                     species.vec[i])
   dat.drought <- readRDS(fn.drt)
   dat.drought <- dat.drought[,c('Date','GCC.norm',

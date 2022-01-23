@@ -32,7 +32,7 @@ for (i in seq_along(species.vec[1:9])) {
   # plot control under control
   plot.mcmc.func.2q(df,species.vec[i],prep.in='Control',temp.in='Ambient',
                     my.fun = phenoGrass.func.v13,
-                    nm.note='smv13.2q.',use.smooth = TRUE,day.lag = 3,
+                    nm.note='v1.2q.',use.smooth = TRUE,day.lag = 3,
                     swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,bucket.size = bucket.size,
                     do.predict = 'Control')
   

@@ -28,7 +28,7 @@ tmp.ls <- list()
 spc.vec <- species.vec
 
 for (spc.i in seq_along(spc.vec)) {
-  fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',spc.vec[spc.i])
+  fn <- sprintf('cache/smv1.2q.chain.%s.Control.Ambient.rds',spc.vec[spc.i])
   
   # v13.chain <- get.fit.value.func(fn)
   

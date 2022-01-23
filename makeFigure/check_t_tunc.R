@@ -34,16 +34,16 @@ t.func <- function(t.mean,f.t.opt,t.max){
 
 }
 
-# #####testing T func####
-# f.vec.35 <- c()
-# f.vec.20 <- c()
-# for(i in seq_along(t.mean)){
-#   f.vec.35[i] <- t.func(t.mean = t.mean[i],
-#                      f.t.opt = 35,t.max=45)
-#   f.vec.20[i] <- t.func(t.mean = t.mean[i],
-#                         f.t.opt = 20,t.max=45)
-# }
+#####testing T func####
+f.vec.35 <- c()
+f.vec.20 <- c()
+for(i in seq_along(t.mean)){
+  f.vec.35[i] <- t.func(t.mean = t.mean[i],
+                     f.t.opt = 35,t.max=45)
+  f.vec.20[i] <- t.func(t.mean = t.mean[i],
+                        f.t.opt = 20,t.max=45)
+}
 
-# plot(f.vec.20~t.mean,ylim=c(0,1),col='navy')
-# points(f.vec.35~t.mean,col='red')
+plot(f.vec.20~t.mean,ylim=c(0,1),col='navy')
+points(f.vec.35~t.mean,col='red')
 

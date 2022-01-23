@@ -45,7 +45,7 @@ source('r/read_spc_nm.R')
 pace.ls <- list()
 
 for (i in seq_along(species.vec)) {
-  fn.con.11 <- sprintf('tmp/pred.smsmv13.2q.chain.%s.Control.Ambient.rds',
+  fn.con.11 <- sprintf('tmp/pred.smv1.2q.chain.%s.Control.Ambient.rds',
                     species.vec[i])
   
   dat.con.11 <- readRDS(fn.con.11)
@@ -62,7 +62,7 @@ pace.effect.df <- pace.effect.df[complete.cases(pace.effect.df),]
 pace.ls.v10 <- list()
 
 for (i in seq_along(species.vec)) {
-  fn.con.10 <- sprintf('tmp/pred.smv13.q1.qs0.chain.%s.Control.Ambient.rds',
+  fn.con.10 <- sprintf('tmp/pred.smv0.chain.%s.Control.Ambient.rds',
                     species.vec[i])
   
   dat.con.10 <- readRDS(fn.con.10)

@@ -7,7 +7,7 @@ palette(c(col.df$iris,col.df$daisy))
 png('figures/obs_fit_v10_scatter.png',height = 600,width = 600)
 par(mar=c(5,5,5,5))
 for (i in seq_along(species.vec)){
-  fn <- sprintf('tmp/pred.smv13.q1.qs0.chain.%s.Control.Ambient.rds',species.vec[i])
+  fn <- sprintf('tmp/pred.smv0.chain.%s.Control.Ambient.rds',species.vec[i])
   hufken.pace.pred <- readRDS(fn)
   # 
   ci.fm <- sprintf('tmp/ci.smv13.q1.qs0.chain.%s.Control.Ambient.rds',species.vec[i])
