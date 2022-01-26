@@ -151,16 +151,16 @@ mh.MCMC.func.2q <- function(iterations,par.df,
     # deal with missing q 
     if(is.null(q.given)){
       q.val = proposal[5]
-      q.past <- chain[i,5]
+      q.past <- chain$q[i]
     }else{
       q.past = q.val = q.given
     }
     
     if(is.null(q.s.given)){
       q.s.val = proposal[6]
-      q.s.past <- chain[i,6]
+      q.s.past <- chain$q.s[i]
     }else{
-      q.s.past = q.s.val = q.given
+      q.s.past = q.s.val = q.s.given
     }
 
     # prior.prob,data,data.sd,bucket.size = 300,...
