@@ -36,10 +36,10 @@ for (i in seq_along(species.vec)){
   par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
     f.t.opt = c(10,25,40,NA,NA,NA),
     f.extract = c(0.2,1.5,8,NA,NA,NA),
-    f.sec = c(0.1,0.15,0.5,NA,NA,NA),
-    f.growth = c(0.1,0.15,0.5,NA,NA,NA))
+    f.sec = c(0.05,0.15,0.5,NA,NA,NA),
+    f.growth = c(0.05,0.15,0.5,NA,NA,NA))
   row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
-  
+  
   # 
   fit.mcmc.2q.func(df,
                    n.iter = 50000,
