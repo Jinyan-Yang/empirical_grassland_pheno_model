@@ -4,7 +4,7 @@ source('r/read_spc_nm.R')
 pace.q.ls <- list()
 
 for (i in seq_along(species.vec)) {
-  fn.con.11 <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',
+  fn.con.11 <- sprintf('cache/smv1.2q.chain.%s.Control.Ambient.rds',
                        species.vec[i])
   
   par.con.11 <- readRDS(fn.con.11)

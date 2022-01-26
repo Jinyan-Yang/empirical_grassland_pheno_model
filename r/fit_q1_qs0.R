@@ -7,7 +7,7 @@ ym.18.df <- get.ym.func(18)
 gcc.met.con.df <- get.paddock.func('control')
 
 # loop through all spcies/site
-for (i in seq_along(species.vec)){
+for (i in seq_along(species.vec[1:3])){
   
   # use different soil water cap and wilt for different site
   if(species.vec[i]=='ym'){
@@ -36,13 +36,15 @@ for (i in seq_along(species.vec)){
   par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
     f.t.opt = c(10,25,40,NA,NA,NA),
     f.extract = c(0.2,1.5,8,NA,NA,NA),
-    f.sec = c(0.05,0.15,0.5,NA,NA,NA),
-    f.growth = c(0.05,0.15,0.5,NA,NA,NA))
+
+    f.sec = c(0.01,0.15,0.3,NA,NA,NA),
+    f.growth = c(0.01,0.15,0.3,NA,NA,NA))
+
   row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
-  
+  
   # 
   fit.mcmc.2q.func(df,
-                   n.iter = 50000,
+                   n.iter =50000,
                    species.in=species.vec[i],
                    prep.in = 'Control', temp.in ='Ambient',
                    my.fun = phenoGrass.func.v13,
@@ -53,3 +55,4 @@ for (i in seq_along(species.vec)){
   
   
 }
+
