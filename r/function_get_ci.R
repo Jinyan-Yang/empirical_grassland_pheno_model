@@ -133,26 +133,26 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
 
     pred.vec[[i]] <- hufken.pace.pred$cover.hufken
 
-    bic.ls[[i]] <- data.frame(f.t.opt = fit.par.vec[1],
-                              f.extract = fit.par.vec[2],
-                              f.sec= fit.par.vec[3],
-                              f.growth = fit.par.vec[4],
-                              q =  fit.par.vec[5],
-                              q.s =  fit.par.vec[6],
-                              bic = get.bic.func(model.vec = hufken.pace.pred$cover.hufken,
-                                                  data.vec = hufken.pace.pred$cover,n.fd = 6))
+    # bic.ls[[i]] <- data.frame(f.t.opt = fit.par.vec[1],
+    #                           f.extract = fit.par.vec[2],
+    #                           f.sec= fit.par.vec[3],
+    #                           f.growth = fit.par.vec[4],
+    #                           q =  fit.par.vec[5],
+    #                           q.s =  fit.par.vec[6],
+    #                           bic = get.bic.func(model.vec = hufken.pace.pred$cover.hufken,
+    #                                               data.vec = hufken.pace.pred$cover,n.fd = 6))
 
 
   }
 
   # save results
   pred.m <- do.call(rbind,pred.vec)
-  bic.df <- do.call(rbind,bic.ls)
+  # bic.df <- do.call(rbind,bic.ls)
   # quantile(pred.m[1,],probs = c(0.05,0.95),na.rm=T)
   pred.ci.m <- apply(pred.m,2,quantile,probs = c(0.05,0.95,0.5),na.rm=T)
 
   # save prediction for future use
   saveRDS(pred.ci.m,rds.nm)
-  rds.nm.bic <- paste0('tmp/bic.',sm.nm,nm.note,'chain.',species.in,'.',prep.in,'.',temp.in,'.rds')
-  saveRDS(bic.df,rds.nm.bic)
+  # rds.nm.bic <- paste0('tmp/bic.',sm.nm,nm.note,'chain.',species.in,'.',prep.in,'.',temp.in,'.rds')
+  # saveRDS(bic.df,rds.nm.bic)
 }

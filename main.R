@@ -9,6 +9,9 @@
 # 3. in the code model v1 is refered as v13 and v0 refered as v10
 # This is because i can and I want to make whoever reads the code suffer =P
 # It's acutally because various versions of model tested are not presented
+# 4. there is a day.lay term which was used to determ the legency effect of water and T but
+# the term is not currently useful; please ingore while using 
+# what it does is simply ingnore the number of days of data
 
 # Step I: load environment####
 source('r/read_spc_nm.R')
