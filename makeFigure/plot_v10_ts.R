@@ -11,7 +11,7 @@ par(mfrow=c(5,2))
 par(mar=c(5,5,1,5))
 for (i in seq_along(species.vec)) {
   fn <-  paste0('tmp/pred.smv13.q1.qs0.chain.',species.vec[i],'.Control.Ambient.rds')
-  plot.ts.func(fn)
+  plot.ts.ci.func(fn)
   # # fn <- paste0('tmp/pred.smv13.q1.qs0.chain.Bis.Control.Ambient.rds')
   # hufken.pace.pred <- readRDS(fn)
   # # timeserie only
