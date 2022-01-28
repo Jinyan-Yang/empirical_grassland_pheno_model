@@ -43,27 +43,27 @@ for (i in seq_along(species.vec)) {
     q.s = c(0.1,1,15,NA,NA,NA))
   row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
   
-  # do ploting and prediction for v11
-  plot.mcmc.func.2q(df,species.vec[i],
-                    prep.in='Control',temp.in='Ambient',
-                    my.fun = phenoGrass.func.v13,
-                    nm.note='v1.2q.',use.smooth = TRUE,day.lag = 3,
-                    swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
-                    bucket.size = bucket.size)
-  plot.title.func(species.vec[i])
+  # # do ploting and prediction for v11
+  # plot.mcmc.func.2q(df,species.vec[i],
+  #                   prep.in='Control',temp.in='Ambient',
+  #                   my.fun = phenoGrass.func.v13,
+  #                   nm.note='v1.2q.',use.smooth = TRUE,day.lag = 3,
+  #                   swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
+  #                   bucket.size = bucket.size)
+  # plot.title.func(species.vec[i])
   
-# # do the predict for v10
-  plot.mcmc.func.2q(df = df,
-                    species.in=species.vec[i],
-                    prep.in='Control',temp.in='Ambient',
-                    my.fun = phenoGrass.func.v13,
-                    nm.note='v0.',use.smooth = TRUE,
-                    day.lag = 3,
-                    swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
-                    bucket.size = bucket.size,
-                    q.s.in=0,q.in=1)
+# do the predict for v10
+plot.mcmc.func.2q(df = df,
+                  species.in=species.vec[i],
+                  prep.in='Control',temp.in='Ambient',
+                  my.fun = phenoGrass.func.v13,
+                  nm.note='v0.',use.smooth = TRUE,
+                  day.lag = 3,
+                  swc.in.cap = swc.cap,swc.in.wilt = swc.wilt,
+                  bucket.size = bucket.size,
+                  q.s.in=0,q.in=1)
 
-  plot.title.func(species.vec[i])
+plot.title.func(species.vec[i])
 }
 dev.off()
 
