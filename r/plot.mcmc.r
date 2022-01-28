@@ -244,7 +244,7 @@ plot.mcmc.func.2q = function(df = gcc.met.pace.df,
   
 }
 
-# this will do for a modis site 
+# this will do for a modis site ######
 # not used for now
 plot.mcmc.func.2q.modis = function(df = gcc.met.pace.df,
                              species.in,prep.in,temp.in,subplot=NULL,
@@ -434,3 +434,49 @@ t_col <- function(color, percent = 50, name = NULL) {
   ## Save the color
   invisible(t.col)
 }
+
+# function to plot ts####
+
+plot.ts.ci.func <- function(fn){
+  
+  # fn <-  paste0('tmp/pred.smv13.q1.qs0.chain.',species.vec[i],'.Control.Ambient.rds')
+  # fn <- paste0('tmp/pred.smv13.q1.qs0.chain.Bis.Control.Ambient.rds')
+  hufken.pace.pred <- readRDS(fn)
+  # timeserie only
+  plot(GCC.norm~Date,data = hufken.pace.pred,type='p',pch=16,#lwd='2',
+       xlab=' ',ylab='Cover',ylim=c(0,1),col = col.df$iris[4],
+       xaxt='n')
+  # add ci for obs
+  polygon(x = c(hufken.pace.pred$Date,
+                rev(hufken.pace.pred$Date)),
+          y=c((hufken.pace.pred$cover+hufken.pace.pred$GCC.norm.sd),
+              (hufken.pace.pred$cover-hufken.pace.pred$cover.05)),
+          col=t_col('grey',60),border = NA
+  )
+  # plot model pred
+  points(cover.hufken~Date,data = hufken.pace.pred,type='l',lwd='2',col=col.df$auLandscape[2],lty='solid')
+  
+  # add date
+  date.range = range(hufken.pace.pred$Date,na.rm=T)
+  s.date <- as.Date(paste0(format(date.range[1],'%Y-%m'),'-01'))
+  e.date <- as.Date( paste0(format(date.range[2],'%Y-%m'),'-01'))
+  
+  mons.vec =  seq(s.date,e.date,by='mon')
+  
+  mon.c <- format(mons.vec,'%m')
+  axis(1,at = mons.vec,labels = mon.c)
+  # mtext('2018',side = 1,adj=0,line = 3)
+  # mtext('2019',side = 1,adj=0.5,line = 3)
+  yr.vec <- unique(year(hufken.pace.pred$Date))
+  where.c <- which(mon.c =='01') / length(mon.c)
+  num.yr <- length(where.c)
+  mtext(yr.vec[(length(yr.vec) - num.yr + 1):length(yr.vec)],side = 1,adj = where.c,line = 3)
+  
+  # add harvest
+  clip(min(hufken.pace.pred$Date), max(hufken.pace.pred$Date), 0.0, 0.1)
+  abline(v = hufken.pace.pred$Date[hufken.pace.pred$harvest ==1],lty='dotted')
+  
+  legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
+         bty='n')
+}
+

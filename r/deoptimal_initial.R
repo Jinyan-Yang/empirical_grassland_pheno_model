@@ -56,7 +56,7 @@ get.ini.func <- function(par.df,...){
   OptBB.de.fit <- DEoptim(fn=model.de.func,lower=lower,upper=upper,
                           dat=gcc.met.pace.df.16,
                           DEoptim.control(VTR = 1,
-                                          NP = NPmax,itermax=maxiter,trace=1,parallelType = 0,
+                                          NP = NPmax,itermax=maxiter,trace=1,parallelType = 1,
                                           parVar = list('phenoGrass.func.v13',
                                                         'pet.func',
                                                         't.func',

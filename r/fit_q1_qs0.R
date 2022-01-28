@@ -7,7 +7,7 @@ ym.18.df <- get.ym.func(18)
 gcc.met.con.df <- get.paddock.func('control')
 
 # loop through all spcies/site
-for (i in seq_along(species.vec[1:3])){
+for (i in seq_along(species.vec)){
   
   # use different soil water cap and wilt for different site
   if(species.vec[i]=='ym'){
@@ -36,8 +36,10 @@ for (i in seq_along(species.vec[1:3])){
   par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
     f.t.opt = c(10,25,40,NA,NA,NA),
     f.extract = c(0.2,1.5,8,NA,NA,NA),
+
     f.sec = c(0.01,0.15,0.3,NA,NA,NA),
     f.growth = c(0.01,0.15,0.3,NA,NA,NA))
+
   row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
   
   # 

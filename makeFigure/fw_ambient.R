@@ -7,17 +7,25 @@ source('r/load.R')
 #                  'YM','Flux')
 # species.vec <- c('Bis','Luc','Dig','Kan','Rho','Fes','Pha','Rye','YM','Flux')
 
+# out.df <- data.frame(spc = species.vec,
+#                      f.t.opt =NA,
+#                      f.extract =NA,
+#                      f.sec =NA,
+#                      f.growth = NA,
+#                      q = NA,
+#                      q.s = NA,
+#                      q.05=NA,
+#                      q.95=NA,
+#                      q.s.05=NA,
+#                      q.s.95=NA)
+
 out.df <- data.frame(spc = species.vec,
                      f.t.opt =NA,
                      f.extract =NA,
                      f.sec =NA,
                      f.growth = NA,
                      q = NA,
-                     q.s = NA,
-                     q.05=NA,
-                     q.95=NA,
-                     q.s.05=NA,
-                     q.s.95=NA)
+                     q.s = NA)
 for(i in seq_along(species.vec)){
   # fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
   # 
@@ -31,22 +39,29 @@ for(i in seq_along(species.vec)){
   # tmp.str <- gsub('sm',replacement = '',nm.note)
   fn <- sprintf('cache/v13.2q.chain.%s.bestfit.rds',species.vec[i])
   print(paste0('par file used: ',fn))
-  chain.fes <- readRDS(fn)
-  
+  # chain.fes <- readRDS(fn)
+  # 
+  # q.quant <- quantile(chain.fes[,5],probs = c(.05,.95,0.5))
+  # qs.quant <- quantile(chain.fes[,6],probs = c(.05,.95,0.5))
+  # 
+  # out.df$q.05[i] <- q.quant[[1]]
+  # out.df$q.95[i] <- q.quant[[2]]
+  # out.df$q.50[i] <- q.quant[[3]]
+  # 
+  # out.df$q.s.05[i] <- qs.quant[[1]]
+  # out.df$q.s.95[i] <- qs.quant[[2]]
+  # out.df$q.s.50[i] <- qs.quant[[3]]
+  # 
+  chain.fes =  readRDS(fn)
+  # 
+  # chain.fes <- do.call(rbind,in.chain)
+  fit.par.vec <- subset(chain.fes[which(chain.fes$ll==max(chain.fes$ll)),],select=-c(ll))
+  # 
   # fitted.val <- subset(chain.fes,select=-c(ll))
-  
+  out.df$q[i] <- fit.par.vec$q
+  out.df$q.s[i] <- fit.par.vec$q.s
   # out.df[i,2:7] <- fitted.val
-  
-  q.quant <- quantile(chain.fes[,5],probs = c(.05,.95,0.5))
-  qs.quant <- quantile(chain.fes[,6],probs = c(.05,.95,0.5))
 
-  out.df$q.05[i] <- q.quant[[1]]
-  out.df$q.95[i] <- q.quant[[2]]
-  out.df$q.50[i] <- q.quant[[3]]
-  
-  out.df$q.s.05[i] <- qs.quant[[1]]
-  out.df$q.s.95[i] <- qs.quant[[2]]
-  out.df$q.s.50[i] <- qs.quant[[3]]
 }
 
 
@@ -63,8 +78,8 @@ beta.func <- function(x,a=0.05,b=0.3,q=5,is.q.s = FALSE){
 swc.vec <- seq(0,1,by=0.001)
 beta.growth.ls <- beta.sene.ls <- list()
 for (i.nm in seq_along(species.vec)) {
-  beta.growth.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q.50[i.nm])
-  beta.sene.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q.s.50[i.nm],is.q.s = TRUE)
+  beta.growth.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q[i.nm])
+  beta.sene.ls[[i.nm]] <- beta.func(x=swc.vec,q=out.df$q.s[i.nm],is.q.s = TRUE)
 }
 
 

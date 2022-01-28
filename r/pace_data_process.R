@@ -136,7 +136,7 @@ get.pace.func <- function(gcc.met.pace.df,
     gcc.met.pace.df.16$harvest = 0
   }
   
-  print('data processed')
+  print(paste0(species.in,' data processed'))
   return(gcc.met.pace.df.16)
 }
 
