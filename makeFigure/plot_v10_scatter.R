@@ -4,7 +4,7 @@ devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?
 
 palette(c(col.df$iris,col.df$daisy))
 # plot
-png('figures/obs_fit_v10_scatter.png',height = 600,width = 600)
+png('figures/obs_fit_v10_scatter.png',height = 610,width = 610)
 par(mar=c(5,5,5,5))
 for (i in seq_along(species.vec)){
   fn <- sprintf('tmp/pred.smv0.chain.%s.Control.Ambient.rds',species.vec[i])
@@ -28,7 +28,7 @@ for (i in seq_along(species.vec)){
   }
   legend('bottomright',legend = species.vec.nm,col=palette(),
          pch=16,bty='n')
-  legend('topleft',legend = '(b)',bty='n',col = 2)
+  # legend('topleft',legend = '(b)',bty='n',col = 2)
   abline(a=0,b=1,lty='dashed',col='grey',lwd=2)
   
 }
