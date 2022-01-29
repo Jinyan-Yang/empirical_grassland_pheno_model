@@ -33,7 +33,7 @@ source('makeFigure/plot_fit.R')
 
 # fig 1 theoretical plot
 source('makeFigure/hypotheses.R')
-# fig 3 ts for v10
+# fig 3 for v10
 source('makeFigure/plot_v10_scatter.R')
 # fig 4 ts and scatter v13
 source('makeFigure/plot_fit_TS_scatter.R')
