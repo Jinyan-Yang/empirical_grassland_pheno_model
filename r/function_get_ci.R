@@ -112,19 +112,21 @@ get.mod.ci.func <-  function(df = gcc.met.pace.df,
   #                      q.s =  chain.sample[,6],
   #                      bic=NA)
 
-  bic.ls <- list()
+  # bic.ls <- list()
 
   for(i in 1:sample.size){
-    fit.par.vec <- unlist(unname(chain.sample[i,]))
+    fit.par.vec <- chain.sample[i,]#unlist(unname(chain.sample[i,]))
 
     hufken.pace.pred <- my.fun(gcc.met.pace.df.16,
                                f.h = 222,
-                               f.t.opt = fit.par.vec[1],
-                               f.extract = fit.par.vec[2],
-                               f.sec= fit.par.vec[3],
-                               f.growth = fit.par.vec[4],
-                               q =  fit.par.vec[5],
-                               q.s =  fit.par.vec[6],
+                               
+                               f.t.opt = fit.par.vec$f.t.opt,
+                               f.extract = fit.par.vec$f.extract,
+                               f.sec= fit.par.vec$f.sec,
+                               f.growth = fit.par.vec$f.growth,
+                               q =  fit.par.vec$q,
+                               q.s =  fit.par.vec$q.s,
+                               
                                bucket.size = bucket.size,
                                swc.wilt = swc.in.wilt ,
                                swc.capacity = swc.in.cap ,

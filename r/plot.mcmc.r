@@ -88,17 +88,17 @@ plot.mcmc.func.2q = function(df = gcc.met.pace.df,
   # read chains 
   print(paste0('par file used: ',fn))
   in.chain =  readRDS(fn)
-  
-  if(is.list(in.chain)){
-    # assuming 1/3 burn in
-    burnIn = 1
-    chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round((burn.proportion)*nrow(m.in)):nrow(m.in),])
-    
-    chain.fes <- do.call(rbind,chain.3.ls.new)
-  }else{
-    burnIn = nrow(in.chain)/3
-    chain.fes <- in.chain
-  }
+  # 
+  # if(is.list(in.chain)){
+  #   # assuming 1/3 burn in
+  #   burnIn = 1
+  #   chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round((burn.proportion)*nrow(m.in)):nrow(m.in),])
+  #   
+  #   chain.fes <- do.call(rbind,chain.3.ls.new)
+  # }else{
+  #   burnIn = nrow(in.chain)/3
+  #   chain.fes <- in.chain
+  # }
 
   # # # see how it works#####
   # par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
@@ -129,9 +129,11 @@ plot.mcmc.func.2q = function(df = gcc.met.pace.df,
   
   if(!'q' %in% names(fit.par.vec)){
     print(paste0('sensitivities of growth set to ',c(q.in)))
+    fit.par.vec$q = q.in
   }
   if(!'q.s' %in% names(fit.par.vec)){
     print(paste0('sensitivities of senesence set to ',c(q.s.in)))
+    fit.par.vec$q.s = q.s.in
   }
   
   # if(length(fit.par.vec)<5){
@@ -141,20 +143,21 @@ plot.mcmc.func.2q = function(df = gcc.met.pace.df,
   #   fit.par.vec[6] <- q.s.in
   #   print(paste0('sensitivitiy of senesence set to 1',q.s.in))
   # }
+  
 
-  par.df["fit",] <- fit.par.vec
+  # par.df["fit",] <- fit.par.vec
   print(fit.par.vec)
   # 
   # bucket.size = 300
   gcc.met.pace.df.16 <- gcc.met.pace.df.16[order(gcc.met.pace.df.16$Date),]
   hufken.pace.pred <- my.fun(gcc.met.pace.df.16,
                              f.h = 222,
-                             f.t.opt = par.df["fit",1],
-                             f.extract = par.df["fit",2],
-                             f.sec= par.df["fit",3],
-                             f.growth = par.df["fit",4],
-                             q =  par.df["fit",5],
-                             q.s =  par.df["fit",6],
+                             f.t.opt = fit.par.vec$f.t.opt,
+                             f.extract = fit.par.vec$f.extract,
+                             f.sec= fit.par.vec$f.sec,
+                             f.growth = fit.par.vec$f.growth,
+                             q =  fit.par.vec$q,
+                             q.s =  fit.par.vec$q.s,
                              bucket.size = bucket.size,
                              swc.wilt = swc.in.wilt ,
                              swc.capacity = swc.in.cap ,
@@ -303,15 +306,15 @@ plot.mcmc.func.2q.modis = function(df = gcc.met.pace.df,
   }
 
   # # see how it works#####
-  par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
-    f.t.opt = c(10,15,20,NA,NA,NA),
-    f.extract = c(0.05,0.075,0.1,NA,NA,NA),
-    f.sec = c(0.05,0.1,0.15,NA,NA,NA),
-    f.growth = c(0.1,0.2,0.3,NA,NA,NA),
-    q = c(0.001,1,2,NA,NA,NA),
-    q.s = c(0.001,1,2,NA,NA,NA))
-  row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
-  par.df["fit",] <- colMeans(chain.fes[burnIn:nrow(chain.fes),])
+  # par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
+  #   f.t.opt = c(10,15,20,NA,NA,NA),
+  #   f.extract = c(0.05,0.075,0.1,NA,NA,NA),
+  #   f.sec = c(0.05,0.1,0.15,NA,NA,NA),
+  #   f.growth = c(0.1,0.2,0.3,NA,NA,NA),
+  #   q = c(0.001,1,2,NA,NA,NA),
+  #   q.s = c(0.001,1,2,NA,NA,NA))
+  # row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
+  # par.df["fit",] <- colMeans(chain.fes[burnIn:nrow(chain.fes),])
   # par.df["fit",] <- colMeans(luc.d.a.df[burnIn:nrow(luc.d.a.df),])
   # 
   # bucket.size = 300
@@ -442,17 +445,34 @@ plot.ts.ci.func <- function(fn){
   # fn <-  paste0('tmp/pred.smv13.q1.qs0.chain.',species.vec[i],'.Control.Ambient.rds')
   # fn <- paste0('tmp/pred.smv13.q1.qs0.chain.Bis.Control.Ambient.rds')
   hufken.pace.pred <- readRDS(fn)
+  
+  hufken.pace.pred <- hufken.pace.pred[order(hufken.pace.pred$Date),]
+  # hufken.pace.pred <- hufken.pace.pred[1:(nrow(hufken.pace.pred)),]
+  
   # timeserie only
-  plot(GCC.norm~Date,data = hufken.pace.pred,type='p',pch=16,#lwd='2',
-       xlab=' ',ylab='Cover',ylim=c(0,1),col = col.df$iris[4],
-       xaxt='n')
-  # add ci for obs
-  polygon(x = c(hufken.pace.pred$Date,
-                rev(hufken.pace.pred$Date)),
-          y=c((hufken.pace.pred$cover+hufken.pace.pred$GCC.norm.sd),
-              (hufken.pace.pred$cover-hufken.pace.pred$cover.05)),
-          col=t_col('grey',60),border = NA
-  )
+  
+
+  if(sum(hufken.pace.pred$GCC.norm.sd,na.rm=T)!=0){
+    hufken.pace.pred <- hufken.pace.pred[!is.na(hufken.pace.pred$GCC.norm.sd),]
+    plot(GCC.norm~Date,data = hufken.pace.pred,type='p',pch=16,#lwd='2',
+         xlab=' ',ylab='Cover',ylim=c(0,1),col = col.df$iris[4],
+         xaxt='n')
+    # add ci for obs
+    hi.vec <- hufken.pace.pred$GCC.norm.smooth+hufken.pace.pred$GCC.norm.sd
+    low.vec <- hufken.pace.pred$GCC.norm.smooth-hufken.pace.pred$GCC.norm.sd
+    polygon(x = c(hufken.pace.pred$Date,
+                  rev(hufken.pace.pred$Date)),
+            y=c(hi.vec,rev(low.vec)),
+            col=t_col(col.df$iris[4],80),border = NA
+    )
+  }else{
+    plot(GCC.norm~Date,data = hufken.pace.pred,type='p',pch=16,#lwd='2',
+         xlab=' ',ylab='Cover',ylim=c(0,1),col = col.df$iris[4],
+         xaxt='n')
+  }
+  
+
+  
   # plot model pred
   points(cover.hufken~Date,data = hufken.pace.pred,type='l',lwd='2',col=col.df$auLandscape[2],lty='solid')
   
