@@ -95,8 +95,17 @@ pace.obs.mean.df <- pace.obs.mean.df[order(pace.obs.mean.df$mean.response),]
 # 
 pace.effect.df$species <- factor(pace.effect.df$species,
                                  levels = c(as.character(pace.obs.mean.df$species)))
+pace.effect.df$plot.col.nm <- NA
+pace.effect.df$plot.col.nm[pace.effect.df$species %in% c('Bis', 'Med')] <- 1
+pace.effect.df$plot.col.nm[pace.effect.df$species %in% c('Dig','The','Chl')] <- 2
+pace.effect.df$plot.col.nm[pace.effect.df$species %in% c('Fes','Pha','Lol')] <- 3
+pace.effect.df$plot.col.nm[pace.effect.df$species %in% c('YM')] <- 4
 
-
+plot.col.df<- pace.effect.df[,c('plot.col.nm','species')]
+plot.col.df <- plot.col.df[!duplicated(plot.col.df),]
+plot.col.df <- plot.col.df[order(plot.col.df$species),]
+  
+  
 # get modelled responses
 pace.model.ls <- list()
 for (i in seq_along(species.vec[1:9])) {
@@ -144,8 +153,7 @@ palette(c(col.df$iris))
 # obs
 plot(c(drt.gcc)~species,data = pace.effect.df,xlab='',
      ylab='Cover drought / Cover control',ylim=c(0.3,1),
-     col=c(1,3,1,2,
-           2,4,3,3,2),
+     col=plot.col.df$plot.col.nm,
      pch='')
 # mod
 points(mean.annual.reduction.ped~spc.factoir,data = pace.model.df,

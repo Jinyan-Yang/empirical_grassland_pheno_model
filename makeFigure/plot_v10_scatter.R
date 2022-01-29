@@ -17,12 +17,12 @@ for (i in seq_along(species.vec)){
   hufken.pace.pred$cover.50 <- ci.m[3,]
   # 
   if(i == 1){
-    plot(GCC.norm~cover.50,data = hufken.pace.pred,
+    plot(GCC.norm~cover.hufken,data = hufken.pace.pred,
          xlim=c(0,1),ylim=c(0,1),
          xlab='Modelled cover',ylab = 'Observed cover',pch=16,col=i)
     
   }else{
-    points(GCC.norm~cover.50,data = hufken.pace.pred,
+    points(GCC.norm~cover.hufken,data = hufken.pace.pred,
            xlim=c(0,1),ylim=c(0,1),
            pch=16,col=i)
   }
