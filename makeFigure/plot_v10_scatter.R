@@ -4,7 +4,7 @@ devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?
 
 palette(c(col.df$iris,col.df$daisy))
 # plot
-png('figures/obs_fit_v10_scatter.png',height = 600,width = 600)
+png('figures/obs_fit_v10_scatter.png',height = 610,width = 610)
 par(mar=c(5,5,5,5))
 for (i in seq_along(species.vec)){
   fn <- sprintf('tmp/pred.smv0.chain.%s.Control.Ambient.rds',species.vec[i])
@@ -17,19 +17,20 @@ for (i in seq_along(species.vec)){
   hufken.pace.pred$cover.50 <- ci.m[3,]
   # 
   if(i == 1){
-    plot(GCC.norm~cover.50,data = hufken.pace.pred,
+    plot(GCC.norm~cover.hufken,data = hufken.pace.pred,
          xlim=c(0,1),ylim=c(0,1),
          xlab='Modelled cover',ylab = 'Observed cover',pch=16,col=i)
     
   }else{
-    points(GCC.norm~cover.50,data = hufken.pace.pred,
+    points(GCC.norm~cover.hufken,data = hufken.pace.pred,
            xlim=c(0,1),ylim=c(0,1),
            pch=16,col=i)
   }
   legend('bottomright',legend = species.vec.nm,col=palette(),
          pch=16,bty='n')
-  legend('topleft',legend = '(b)',bty='n',col = 2)
+  # legend('topleft',legend = '(b)',bty='n',col = 2)
   abline(a=0,b=1,lty='dashed',col='grey',lwd=2)
   
 }
 dev.off()
+
