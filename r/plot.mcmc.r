@@ -469,6 +469,14 @@ plot.ts.ci.func <- function(fn){
     plot(GCC.norm~Date,data = hufken.pace.pred,type='p',pch=16,#lwd='2',
          xlab=' ',ylab='Cover',ylim=c(0,1),col = col.df$iris[4],
          xaxt='n')
+    
+    sd.gcc <- sd(hufken.pace.pred$GCC.norm,na.rm=T)
+    hi.vec <- hufken.pace.pred$GCC.norm.smooth+sd.gcc
+    low.vec <- hufken.pace.pred$GCC.norm.smooth-sd.gcc
+    polygon(x = c(hufken.pace.pred$Date,
+                  rev(hufken.pace.pred$Date)),
+            y=c(hi.vec,rev(low.vec)),
+            col=t_col(col.df$iris[4],80),border = NA)
   }
   
 

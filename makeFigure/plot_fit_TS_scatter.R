@@ -12,7 +12,7 @@ plot.ts.func <- function(hufken.pace.pred){
        ann=F,axes=F,col = 'navy')
   max.irrig = ceiling(max(hufken.pace.pred$irrig.tot,na.rm=T))
   axis(4,at = seq(0,max.irrig,by=10),labels = seq(0,max.irrig,by=10))
-  mtext('irrigation (mm)',side = 4,line = 3)
+  mtext('Rainfall (mm)',side = 4,line = 3)
   par(new=TRUE)
   plot(GCC.norm~Date,data = hufken.pace.pred,type='p',pch=16,#lwd='2',
        xlab=' ',ylab='Cover',ylim=c(0,1),col = col.df$iris[4],
@@ -59,11 +59,21 @@ hufken.pace.pred$cover.50 <- ci.m[3,]
 
 plot.ts.func(hufken.pace.pred)
 
+# polygon(x = c(hufken.pace.pred$Date,
+#               rev(hufken.pace.pred$Date)),
+#         y=c(hufken.pace.pred$cover.95,rev(hufken.pace.pred$cover.05)),
+#         col=t_col(col.df$iris[4],60),border = NA
+#         )
+sd.gcc <- sd(hufken.pace.pred$GCC.norm,na.rm=T)
+hi.vec <- hufken.pace.pred$GCC.norm.smooth+sd.gcc
+low.vec <- hufken.pace.pred$GCC.norm.smooth-sd.gcc
 polygon(x = c(hufken.pace.pred$Date,
               rev(hufken.pace.pred$Date)),
-        y=c(hufken.pace.pred$cover.95,rev(hufken.pace.pred$cover.05)),
-        col=t_col(col.df$iris[4],60),border = NA
-        )
+        y=c(hi.vec,rev(low.vec)),
+        col=t_col(col.df$iris[4],80),border = NA
+)
+
+
 # 
 # points(cover.05~Date,data = hufken.pace.pred,
 #        type='l',lwd=2,col=col.df$iris[5],lty='dashed')
