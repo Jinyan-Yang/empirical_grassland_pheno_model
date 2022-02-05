@@ -165,7 +165,7 @@ points(q.5~swc,data = pred.ci.ls[[7]],type='l',col=3,lwd=2,lty=2)
 points(q.5~swc,data = pred.ci.ls[[8]],type='l',col=3,lwd=2,lty=3)
 points(q.5~swc,data = pred.ci.ls[[9]],type='l',col=4,lwd=2,lty=1)
 
-legend('bottomright',legend = '(k)',bty='n')
+legend('topleft',legend = '(k)',bty='n')
 # species.vec.nm <- species.vec
 # species.vec.nm[species.vec.nm=='Flux'] <-' Flux Tower'
 legend('bottomright',legend = species.vec.nm,
