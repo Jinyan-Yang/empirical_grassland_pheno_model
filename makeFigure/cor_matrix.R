@@ -20,7 +20,7 @@ for (i in seq_along(species.vec)) {
 
 names(param.ls) <- species.vec.nm
 
-out.ls <- lapply(param.ls,cov)
+out.ls <- lapply(param.ls,cor)
 
 # cov###
 for (i in seq_along(out.ls)) {
@@ -32,7 +32,7 @@ for (i in seq_along(out.ls)) {
 
 out.df <- do.call(rbind,out.ls)
 
-write.csv(out.df,'cache/cov_matrix.csv')
+write.csv(out.df,'cache/cor_matrix.csv')
 # 
 png('figures/cov_plot.png',width = 800,height = 800*.618)
 par(mfrow=c(2,2))
