@@ -137,7 +137,7 @@ y.nm.vec <- c(expression(T[opt]),expression(r[extract]),
               expression(q[growth]),expression(q[senescence]))
 
 # plot in the right order
-var.vec <- c(1,2,3,4,6,5)
+var.vec <- c(1,2,4,3,5,6)
 for (plot.var.nm in seq_along(var.vec)) {
   
   if(var.vec[plot.var.nm] == 5){
