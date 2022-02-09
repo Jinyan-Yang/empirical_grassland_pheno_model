@@ -137,7 +137,7 @@ y.nm.vec <- c(expression(T[opt]),expression(r[extract]),
               expression(q[growth]),expression(q[senescence]))
 
 # plot in the right order
-var.vec <- c(1,2,3,4,6,5)
+var.vec <- c(1,2,4,3,5,6)
 for (plot.var.nm in seq_along(var.vec)) {
   
   if(var.vec[plot.var.nm] == 5){
@@ -180,15 +180,15 @@ dev.off()
 pdf('figures/significance.pdf',width = 4*2,height = 4*3)
 
 y.nm.vec <- c(expression((a)~T[opt]),expression((b)~r[extract]),
-              expression((c)~r[senescence]),expression((d)~r[growth]),
-              expression((f)~q[growth]),expression((e)~q[senescence]))
+              expression((d)~r[senescence]),expression((c)~r[growth]),
+              expression((e)~q[growth]),expression((f)~q[senescence]))
 
 
 library(raster)
 par(mfrow=c(3,2))
 par(mar=c(5,6,1,1))
 index.nm <- 1
-for(plot.var.nm in c(1,2,3,4,6,5)){
+for(plot.var.nm in c(1,2,4,3,5,6)){
   # subset for only the par needed
   plot.df <- out.ls[[plot.var.nm]]
   plot.m <- as.matrix(plot.df[2:10,1:9])
