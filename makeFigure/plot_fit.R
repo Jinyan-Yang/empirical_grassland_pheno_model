@@ -102,6 +102,8 @@ par(mar=c(5,5,1,5))
 for (i in seq_along(species.vec)) {
   fn <-  paste0('tmp/pred.smv1.2q.chain.',species.vec[i],'.Control.Ambient.rds')
   plot.ts.ci.func(fn)
+  # legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
+  #        bty='n')
   # # fn <- paste0('tmp/pred.smv13.q1.qs0.chain.Bis.Control.Ambient.rds')
   # hufken.pace.pred <- readRDS(fn)
   # 
@@ -141,8 +143,7 @@ for (i in seq_along(species.vec)) {
   #         col=t_col(col.df$iris[4],60),border = NA
   # )
   # 
-  # legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
-  #        bty='n')
+
 }
 
 dev.off()
