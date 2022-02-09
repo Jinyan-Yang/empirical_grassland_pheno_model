@@ -499,12 +499,13 @@ plot.ts.ci.func <- function(fn){
   where.c <- which(mon.c =='01') / length(mon.c)
   num.yr <- length(where.c)
   mtext(yr.vec[(length(yr.vec) - num.yr + 1):length(yr.vec)],side = 1,adj = where.c,line = 3)
-  
+  # 
+  legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
+         bty='n')
   # add harvest
   clip(min(hufken.pace.pred$Date), max(hufken.pace.pred$Date), 0.0, 0.1)
   abline(v = hufken.pace.pred$Date[hufken.pace.pred$harvest ==1],lty='dotted')
   
-  legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
-         bty='n')
+
 }
 
