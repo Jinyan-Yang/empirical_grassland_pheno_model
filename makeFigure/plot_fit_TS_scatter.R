@@ -52,7 +52,7 @@ layout(matrix(c(1,2,1,3),2,2, byrow = FALSE),
 # plot obs cover
 par(mar=c(5,5,1,5))
 fn <- 'tmp/pred.smv1.2q.chain.ym.Control.Ambient.rds'
-hufken.pace.pred <- readRDS(fn)
+# hufken.pace.pred <- readRDS(fn)
 
 # ci.fm <- ('tmp/ci.smv13.2q.chain.ym.Control.Ambient.rds')
 # ci.m <- readRDS(ci.fm)
@@ -60,7 +60,7 @@ hufken.pace.pred <- readRDS(fn)
 # hufken.pace.pred$cover.95 <- ci.m[2,]
 # hufken.pace.pred$cover.50 <- ci.m[3,]
 # v1
-plot.ts.func(hufken.pace.pred)
+plot.ts.ci.func(fn)
 
 # v0
 
@@ -80,14 +80,14 @@ points(cover.hufken~Date,data = hufken.pace.pred.v0,type='l',lwd=2,col=col.df$au
 #         y=c(hufken.pace.pred$cover.95,rev(hufken.pace.pred$cover.05)),
 #         col=t_col(col.df$iris[4],60),border = NA
 #         )
-sd.gcc <- sd(hufken.pace.pred$GCC.norm,na.rm=T)
-hi.vec <- hufken.pace.pred$GCC.norm.smooth+sd.gcc
-low.vec <- hufken.pace.pred$GCC.norm.smooth-sd.gcc
-polygon(x = c(hufken.pace.pred$Date,
-              rev(hufken.pace.pred$Date)),
-        y=c(hi.vec,rev(low.vec)),
-        col=t_col(col.df$iris[4],80),border = NA
-)
+# sd.gcc <- sd(hufken.pace.pred$GCC.norm,na.rm=T)
+# hi.vec <- hufken.pace.pred$GCC.norm.smooth+sd.gcc
+# low.vec <- hufken.pace.pred$GCC.norm.smooth-sd.gcc
+# polygon(x = c(hufken.pace.pred$Date,
+#               rev(hufken.pace.pred$Date)),
+#         y=c(hi.vec,rev(low.vec)),
+#         col=t_col(col.df$iris[4],80),border = NA
+# )
 
 
 # 
@@ -157,6 +157,45 @@ for (i in seq_along(species.vec)){
 }
 
 dev.off()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

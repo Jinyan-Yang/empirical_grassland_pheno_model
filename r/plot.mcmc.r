@@ -502,9 +502,13 @@ plot.ts.ci.func <- function(fn){
   # 
   legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
          bty='n')
-  # add harvest
-  clip(min(hufken.pace.pred$Date), max(hufken.pace.pred$Date), 0.0, 0.1)
-  abline(v = hufken.pace.pred$Date[hufken.pace.pred$harvest ==1],lty='dotted')
+  
+  if(sum(hufken.pace.pred$harvest,na.rm=T)>0){
+    # add harvest
+    clip(min(hufken.pace.pred$Date), max(hufken.pace.pred$Date), 0.0, 0.1)
+    abline(v = hufken.pace.pred$Date[hufken.pace.pred$harvest ==1],lty='dotted')
+  }
+
   
 
 }
