@@ -94,15 +94,7 @@ plot.box.func <- function(spc.vec,col2plot,burin.frac=0.75,y.nm,log.y=F,y.range=
   
   tmp.ls <- list()
   for (i in seq_along(spc.vec)) {
-    # fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',spc.vec[i])
-    # # fn <- sprintf('cache/smv13.qs1.chain.%s.Control.Ambient.rds',spc.vec[i])
-    # 
-    # in.chain =  readRDS(fn)
-    # burnIn = 1
-    # chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
-    # 
-    # chain.fes <- do.call(rbind,chain.3.ls.new)
-    
+
     fn.1 <- sprintf('cache/v13.2q.chain.%s.bestfit.rds',spc.vec[i])
     chain.fes <- readRDS(fn.1)
     tmp.ls[[i]] <- data.frame(spc = species.vec.nm[i],

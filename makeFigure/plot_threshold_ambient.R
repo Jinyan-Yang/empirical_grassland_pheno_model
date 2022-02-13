@@ -6,25 +6,6 @@ out.sample.ls <- list()
 
 # Loop over species: randomly sample parameter values from the output chains
 for(i in  seq_along(species.vec)){
-  # fn <- sprintf('cache/smsmv13.2q.chain.%s.Control.Ambient.rds',species.vec[i])
-  # # read the RDS for that species. Contains 3 chains of 50000 entries each with 6 values
-  # chain.3.ls = readRDS(fn)
-  # 
-  # # Take the last 12500 elements (25%) of each chain
-  # chain.3.ls.new = lapply(chain.3.ls, function(m.in) m.in[round(nrow(m.in)*0.75):nrow(m.in),])
-  # # and make into one big long chain
-  # chain.fes <- do.call(rbind,chain.3.ls.new)
-  # 
-  # # Get 200 random numbers between 1 and 37500 
-  # set.seed(1935)
-  # sample.index <- sample(1:nrow(chain.fes),200)
-  # 
-  # # Extract those elements from the chain & add a column with species name
-  # tmp.m <- as.data.frame(chain.fes[sample.index,])
-  # tmp.m <- as.data.frame(tmp.m)
-  # tmp.m$spc <- species.vec[i]
-  
-  
   fn.1 <- sprintf('cache/v13.2q.chain.%s.bestfit.rds',species.vec[i])
   chain.fes <- readRDS(fn.1)
   chain.fes$spc <- species.vec[i]

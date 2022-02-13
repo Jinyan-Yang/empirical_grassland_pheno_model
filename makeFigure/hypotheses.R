@@ -78,19 +78,13 @@ points(x.vec[which.max(y.vec.ll)],y.vec.ll[which.max(y.vec.ll)],cex=2,pch=3,col=
 points(x.vec[which.max(y.vec.hh)],y.vec.hh[which.max(y.vec.hh)],cex=2,pch=3,col='grey20')
 
 # 
-# legend('bottomright',legend = c('Onset of Brown-down',
-#                                  'Low growth and senescence sensitivities', 
-#                                  'High growth and senescence sensitivities'),bty='n',
-#        pch=c(3,rep(NA,2)),
-#        lty = 1,lwd=3,
-#        col = c('grey',palette()))
 legend('bottom',legend = c('Onset of Brown-down'),bty='n',
        pch=c(3),
        col = c('grey20'))
-# abline(v=hufken.pace.pred.lgls$Date[20],lty='dashed',col='navy')
+
 legend('topleft',legend = '(c)',bty='n')
 
-# d#########
+# #########
 # first try one set of parameter
 swc.capacity <- 0.3
 swc.wilt <- 0.05
@@ -152,10 +146,7 @@ plot(threshold.vec.ll~cover.vec,ylim=c(0.05,0.3),
      xlab = 'Cover',ylab = 'Soil moisture',
      type='l',lwd=2,col = 'black',yaxt='n')
 axis(2,at = seq(0,0.3,length.out = 5),labels = seq(0,1,length.out = 5))
-# points(threshold.vec.lh~cover.vec,
-#        type='l',lwd=2,col = 2)
-# points(threshold.vec.hl~cover.vec,
-#        type='l',lwd=2,col = 3)
+
 points(threshold.vec.hh~cover.vec,
        type='l',lwd=2,col = 'red')
 legend('topleft',legend = '(d)',bty='n')
