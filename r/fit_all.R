@@ -3,10 +3,6 @@
 # and fit CH model to them
 #############################################################
 
-# #this bit is not used but kept for debuging purpose
-# source('r/load.R')
-# source('r/read_spc_nm.R')
-
 #read in data #################
 ym.18.df <- get.ym.func(18)
 gcc.met.con.df <- get.paddock.func('control')

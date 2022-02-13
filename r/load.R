@@ -1,4 +1,5 @@
-day.lag <- 3
+# prepare the enviroenment
+day.lag <- 3#this removes the first three days of data
 source('r/pace_data_process.R')
 source('r/ym_data_process.R')
 source('r/v13_common_fun.R')
