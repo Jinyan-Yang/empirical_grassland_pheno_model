@@ -470,7 +470,7 @@ plot.ts.ci.func <- function(fn){
          xlab=' ',ylab='Cover',ylim=c(0,1),col = col.df$iris[4],
          xaxt='n')
     
-    sd.gcc <- sd(hufken.pace.pred$GCC.norm,na.rm=T)
+    sd.gcc <- 0.08#sd(hufken.pace.pred$GCC.norm,na.rm=T)
     hi.vec <- hufken.pace.pred$GCC.norm.smooth+sd.gcc
     low.vec <- hufken.pace.pred$GCC.norm.smooth-sd.gcc
     polygon(x = c(hufken.pace.pred$Date,
@@ -502,9 +502,13 @@ plot.ts.ci.func <- function(fn){
   # 
   legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
          bty='n')
-  # add harvest
-  clip(min(hufken.pace.pred$Date), max(hufken.pace.pred$Date), 0.0, 0.1)
-  abline(v = hufken.pace.pred$Date[hufken.pace.pred$harvest ==1],lty='dotted')
+  
+  if(sum(hufken.pace.pred$harvest,na.rm=T)>0){
+    # add harvest
+    clip(min(hufken.pace.pred$Date), max(hufken.pace.pred$Date), 0.0, 0.1)
+    abline(v = hufken.pace.pred$Date[hufken.pace.pred$harvest ==1],lty='dotted')
+  }
+
   
 
 }

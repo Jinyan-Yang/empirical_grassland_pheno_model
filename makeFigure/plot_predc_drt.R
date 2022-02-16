@@ -21,9 +21,6 @@ for (i in seq_along(species.vec[1:9])) {
     stop('flux site should not be here')
   }else{
     df = gcc.met.pace.df
-    # df$irrig.tot[month(df$Date) %in% 6:11] <- df$irrig.tot[month(df$Date) %in% 6:11] * 0.4
-    # df$Rain[month(df$Date) %in% 6:11] <- df$Rain[month(df$Date) %in% 6:11] * 0.4
-    # df$irrig.tot <- df$irrig.tot * 0.4
     swc.cap = 0.13
     swc.wilt = 0.05
     bucket.size=300

@@ -1,5 +1,6 @@
-# test whther the fitted par are different each other
-# 
+# ###############################################################
+# test whether the fitted par are different each other
+# ###############################################################
 
 # function to get the 5% and 95% quantiles of the difference between the par vals of two fit
 get.quantile.func <- function(sm.nm.1,sm.nm.2,var.index){
@@ -10,27 +11,10 @@ get.quantile.func <- function(sm.nm.1,sm.nm.2,var.index){
   fn.2 <- sprintf('cache/v13.2q.chain.%s.bestfit.rds',sm.nm.2)
   
   # # # read chain
-  # # fn.1=paste0('cache/smsmv13.2q.chain.',sm.nm.1,'.Control.Ambient.rds')
-  # # fn.2=paste0('cache/smsmv13.2q.chain.',sm.nm.2,'.Control.Ambient.rds')
-  # # set burn in
-  # burin.frac=0.75
-  # # combine chains
   in.chain.1 =  readRDS(fn.1)
-  # chain.1= lapply(in.chain.1,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
-  # chain.1.full <- do.call(rbind,chain.1)
-  
   in.chain.2 =  readRDS(fn.2)
-  # chain.2= lapply(in.chain.2,function(m.in)m.in[round(nrow(m.in)* (burin.frac)):nrow(m.in),])
-  # chain.2.full <- do.call(rbind,chain.2)
-  
-  # # reorder chains
-  # set.seed(1965)
-  # chain.1.random <- sample(chain.1.full[,var.index])
-  # set.seed(1965)
-  # chain.2.random <- sample(chain.2.full[,var.index])
   
   # get difference
-  # diff.1.2 <- chain.1.random - chain.2.random
   diff.1.2 <- in.chain.1[,var.index] - in.chain.2[,var.index]
   # get quantile
   bond <- quantile(diff.1.2,probs = c(0.05,0.95))

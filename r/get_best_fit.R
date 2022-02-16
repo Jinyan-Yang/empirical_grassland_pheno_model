@@ -34,7 +34,6 @@ for(spc.i in seq_along(species.vec)){
   fn.v10=sprintf('cache/smv0.chain.%s.Control.Ambient.rds',
                  species.in)
   # 
-  # 
   par.v10 <- get.par.func(fn=fn.v10,iter = sample.size)
   # 
   fn.v10.out <- sprintf('cache/v13.q1.qs0.chain.%s.bestfit.rds',

@@ -91,5 +91,4 @@ get.r.func(pace.effect.df.v10$cover.hufken,
 rmse.func(pace.effect.df.v10$cover.hufken,
           pace.effect.df.v10$cover)
 
-# plot(pace.effect.df.v10$cover.hufken~pace.effect.df$cover.hufken)
-# pace.effect.df.v10$cover.hufken-pace.effect.df$cover.hufken
+

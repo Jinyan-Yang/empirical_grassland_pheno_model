@@ -1,5 +1,5 @@
 source('r/read_spc_nm.R')
-# 
+# read color palette
 devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
 
 palette(c(col.df$iris,col.df$daisy))
@@ -12,8 +12,7 @@ for (i in seq_along(species.vec)){
   # 
   ci.fm <- sprintf('tmp/ci.smv13.q1.qs0.chain.%s.Control.Ambient.rds',species.vec[i])
   ci.m <- readRDS(ci.fm)
-  # hufken.pace.pred$cover.05 <- ci.m[1,]
-  # hufken.pace.pred$cover.95 <- ci.m[2,]
+
   hufken.pace.pred$cover.50 <- ci.m[3,]
   # 
   if(i == 1){
@@ -28,7 +27,6 @@ for (i in seq_along(species.vec)){
   }
   legend('bottomright',legend = species.vec.nm,col=palette(),
          pch=16,bty='n')
-  # legend('topleft',legend = '(b)',bty='n',col = 2)
   abline(a=0,b=1,lty='dashed',col='grey',lwd=2)
   
 }
