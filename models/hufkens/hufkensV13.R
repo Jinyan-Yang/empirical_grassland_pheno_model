@@ -86,7 +86,7 @@ phenoGrass.func.v13 <- function(gcc.df,
 
   # 2.daily simulation start
   for (nm.day in (day.lay+1):nrow(gcc.df)){
-    water.avi[nm.day] <- max(0,(swc.vec[nm.day-1]- swc.wilt*bucket.size))
+    water.avi[nm.day] <- max(0,(swc.vec[nm.day-1]- swc.wilt * bucket.size))
 
     # define water stress using a beta function
     swc.norm <-water.avi[nm.day] / (swc.cap.true - swc.wilt) / bucket.size
