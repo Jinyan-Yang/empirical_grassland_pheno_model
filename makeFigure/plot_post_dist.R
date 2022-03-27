@@ -13,17 +13,20 @@ y.nm.vec <- c(expression(T[opt]),expression(r[extract]),
 palette(col.df$cityNight[c(3:5)])
 # palette(col.df$iris[c(1,1,2,2,2,3,3,3,4,4)])
 
-pdf('figures/chain.V1.pdf',width = 8,height = 8*.618)
+
 for (i in seq_along(species.vec)) {
   fn <- sprintf('cache/smv1.2q.chain.%s.Control.Ambient.rds',species.vec[i])
   chain.3.ls = readRDS(fn)
 
   # plot.check.mcmc.func(chain.3.ls[[1]],species.in=species.vec[i],
   #                      nm.vec = y.nm.vec,plot.par.no=1:6,col.in = t_col(palette()[1],percent = 50))
+  png(sprintf('figures/chain_distribution/chain.%s.V1.png',species.vec.nm[i]),
+      width = 600,height = 600*.618)
+  par(cex.lab=1.5,cex.main=1.1)
   plot.hist.func(chain.3.ls,nm.vec = y.nm.vec,plot.par.no=1:6)
   # lapply(chain.3.ls, plot.check.mcmc.func,species.in=species.vec[i],
   #        nm.vec =y.nm.vec,plot.par.no=1:6,col.in = i)
-  plot.title.func(species.vec.nm[i],where.to=0.5)
+  plot.title.func(species.vec.nm[i],where.to=0.4)
   # par(mfrow=c(3,2),mar=c(5,5,1,1))
   # for(par.num in 1:6){
   # 
@@ -32,14 +35,19 @@ for (i in seq_along(species.vec)) {
   #   plot.line.mcmc.func(chain.3.ls,par.num,range.iter =  round(start.row:nrow(chain.3.ls[[1]])))
   # 
   # }
+  dev.off()
 }
-dev.off()
+
 # 
 palette(col.df$cityNight[c(3:5)])
-pdf('figures/chain.V0.pdf',width = 8,height = 8*.618)
+# pdf('figures/chain.V0.pdf',width = 8,height = 8*.618)
 for (i in seq_along(species.vec)) {
   fn <- sprintf('cache/smv0.chain.%s.Control.Ambient.rds',species.vec[i])
   chain.3.ls = readRDS(fn)
+  
+  png(sprintf('figures/chain_distribution/chain.%s.V0.png',species.vec.nm[i]),
+      width = 600,height = 600*.618)
+  par(cex.lab=1.5,cex.main=1.1)
   plot.hist.func(chain.3.ls,nm.vec = y.nm.vec,plot.par.no=1:4)
   # lapply(chain.3.ls, plot.check.mcmc.func,species.in=species.vec[i],
   #        nm.vec =y.nm.vec,plot.par.no=1:6,col.in = i)
@@ -61,5 +69,6 @@ for (i in seq_along(species.vec)) {
   # par(mfrow=c(1,1),mar=c(5,5,3,1))
   # plot(1,pch=NA,ann=F,axes=F)
   # title(species.vec.nm[i],line=3.5)
+  dev.off()
 }
-dev.off()
+
