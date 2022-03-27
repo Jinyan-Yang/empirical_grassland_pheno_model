@@ -143,7 +143,7 @@ for (i in seq_along(cover.vec)){
 
 # 
 plot(threshold.vec.ll~cover.vec,ylim=c(0.05,0.3),
-     xlab = 'Cover',ylab = 'Soil moisture',
+     xlab = 'Cover',ylab = 'Soil moisture availability threshold',
      type='l',lwd=2,col = 'black',yaxt='n')
 axis(2,at = seq(0,0.3,length.out = 5),labels = seq(0,1,length.out = 5))
 

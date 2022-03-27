@@ -66,7 +66,7 @@ points(cover.hufken~Date,data = hufken.pace.pred.v0,type='l',lwd=2,col=col.df$au
 legend('topleft',legend = '(a) YM',bty='n')
 legend('topright',legend = c('OBS','V0','V1'),
        pch=c(16,NA,NA),lty=c(NA,'dashed','solid'),
-       col=c( col.df$iris[4],col.df$auLandscape[2]),
+       col=c( col.df$iris[4],col.df$auLandscape[2],col.df$auLandscape[2]),
        bty='n')
 # scatter v0$####
 for (i in seq_along(species.vec)){
