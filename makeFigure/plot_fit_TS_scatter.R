@@ -56,7 +56,8 @@ fn <- 'tmp/pred.smv1.2q.chain.ym.Control.Ambient.rds'
 # hufken.pace.pred$cover.50 <- ci.m[3,]
 # v1
 plot.ts.ci.func(fn)
-
+# legend('topleft',legend = sprintf('(%s) %s',letters[1],species.vec.nm[9]),
+#        bty='n')
 # v0
 
 fn.v0 <- 'tmp/pred.smv0.chain.ym.Control.Ambient.rds'

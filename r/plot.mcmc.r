@@ -530,8 +530,7 @@ plot.ts.ci.func <- function(fn){
   num.yr <- length(where.c)
   mtext(yr.vec[(length(yr.vec) - num.yr + 1):length(yr.vec)],side = 1,adj = where.c,line = 3)
   # 
-  legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
-         bty='n')
+
   
   if(sum(hufken.pace.pred$harvest,na.rm=T)>0){
     # add harvest
