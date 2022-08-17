@@ -57,7 +57,12 @@ fn <- 'tmp/pred.smv1.2q.chain.ym.Control.Ambient.rds'
 # hufken.pace.pred$cover.50 <- ci.m[3,]
 # v1
 plot.ts.ci.func(fn)
+<<<<<<< HEAD
 legend('topleft',legend = '(a)', bty='n')
+=======
+# legend('topleft',legend = sprintf('(%s) %s',letters[1],species.vec.nm[9]),
+#        bty='n')
+>>>>>>> fa560942d9fc89753dc48e59d486dec0182dba9a
 # v0
 
 fn.v0 <- 'tmp/pred.smv0.chain.ym.Control.Ambient.rds'
@@ -67,7 +72,7 @@ points(cover.hufken~Date,data = hufken.pace.pred.v0,type='l',lwd=2,col=col.df$au
 legend('topleft',legend = '(a) YM',bty='n')
 legend('topright',legend = c('OBS','V0','V1'),
        pch=c(16,NA,NA),lty=c(NA,'dashed','solid'),
-       col=c( col.df$iris[4],col.df$auLandscape[2]),
+       col=c( col.df$iris[4],col.df$auLandscape[2],col.df$auLandscape[2]),
        bty='n')
 # scatter v0$####
 for (i in seq_along(species.vec)){

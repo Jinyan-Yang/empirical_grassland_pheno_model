@@ -2,10 +2,10 @@
 # funtions to plot#
 ######################################
 #
-plot.title.func=function(species.in){
+plot.title.func=function(species.in,where.to=0.5){
   par(mfrow=c(1,1),new=T,mar=c(1,1,1,1))
   plot(0,ann=F,axes=F,pch=' ')
-  title(main = species.in,line = 0)
+  title(main = species.in,line = 0,adj=where.to)
 }
 
 # 
@@ -376,18 +376,48 @@ plot.mcmc.func.2q.modis = function(df = gcc.met.pace.df,
 }
 
 # functions to ckeck if fitting makes sense##############
-plot.check.mcmc.func=function(chain.in,species.in='',nm.vec = c('Topt','f.extract','senescence','growth','q','qs')){
+plot.check.mcmc.func=function(chain.in,species.in='',nm.vec = c('Topt','f.extract','senescence','growth','q','qs'),
+                              plot.par.no=1:6,col.in='grey'){
   
   burnIn = round(nrow(chain.in) / 4*3)
   
-  par(mfrow=c(3,2),mar=c(5,5,1,1))
+  par(mfrow=c(length(plot.par.no)/2,2),mar=c(5,5,1,1))
   
-  for(i in 1:ncol(chain.in)){
+  for(i in plot.par.no){
     hist(chain.in[burnIn:nrow(chain.in),i],xlab = nm.vec[i],
-         main='')
+         main='',col=col.in)
     
   }
-  plot.title.func(species.in = species.in)
+  # plot.title.func(species.in = species.in)
+}
+
+# 
+# functions to chist##############
+plot.hist.func=function(chain.in,
+                        nm.vec = c('Topt','f.extract','senescence','growth','q','qs'),
+                        plot.par.no=1:6){
+  
+  burnIn = round(nrow(chain.in[[1]]) / 4*3)
+  
+  par(mfrow=c(length(plot.par.no)/2,2),mar=c(5,5,1,1))
+
+  range.list <- list(c(10,40),
+                     c(0.2,8),
+                     c(0.01,0.5),
+                     c(0.01,0.5),
+                     c(0.01,15),
+                     c(0.01,15))
+  for(i in plot.par.no){
+    x.range <- range.list[[i]]
+    hist(chain.in[[1]][burnIn:nrow(chain.in[[1]]),i],xlab = nm.vec[i],
+         main='',col=t_col(palette()[1],percent = 70),border =NA,xlim = x.range)
+    hist(chain.in[[2]][burnIn:nrow(chain.in[[2]]),i],xlab = nm.vec[i],
+         main='',col=t_col(palette()[2],percent = 70),add=TRUE,border =NA)
+    hist(chain.in[[3]][burnIn:nrow(chain.in[[3]]),i],xlab = nm.vec[i],
+         main='',col=t_col(palette()[3],percent = 70),add=TRUE,border =NA)
+    
+  }
+  # plot.title.func(species.in = species.in)
 }
 
 # 
@@ -412,7 +442,7 @@ plot.line.mcmc.func <- function(chain.3.ls,val.nm,
   
   max.val <- max(max(chain.3.ls[[1]][range.iter,val.nm]),max(chain.3.ls[[3]][range.iter,val.nm]),max(chain.3.ls[[2]][range.iter,val.nm]))
   # 
-  plot(chain.3.ls[[1]][range.iter,val.nm],pch=16,ylim=c(min.val,max.val),ylab=nm.vec[val.nm],xlab='Iteration')
+  plot(chain.3.ls[[1]][range.iter,val.nm],pch=16,ylim=c(min.val,max.val),ylab=nm.vec[val.nm],xlab='Iteration',col=1)
   print(acceptance.func(chain.3.ls[[1]][range.iter,val.nm]))
   for (i in 2:3) {
     points(chain.3.ls[[i]][range.iter,val.nm],pch=16,col=i)
