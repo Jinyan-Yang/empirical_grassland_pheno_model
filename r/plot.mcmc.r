@@ -500,8 +500,7 @@ plot.ts.ci.func <- function(fn){
   num.yr <- length(where.c)
   mtext(yr.vec[(length(yr.vec) - num.yr + 1):length(yr.vec)],side = 1,adj = where.c,line = 3)
   # 
-  legend('topleft',legend = sprintf('(%s) %s',letters[i],species.vec.nm[i]),
-         bty='n')
+
   
   if(sum(hufken.pace.pred$harvest,na.rm=T)>0){
     # add harvest
@@ -509,7 +508,165 @@ plot.ts.ci.func <- function(fn){
     abline(v = hufken.pace.pred$Date[hufken.pace.pred$harvest ==1],lty='dotted')
   }
 
-  
+
 
 }
 
+# ####
+plot.with.given.par.func = function(df = gcc.met.pace.df,
+                                    fit.par.vec,
+                                    species.in,prep.in,temp.in,subplot=NULL,
+                                    nm.note='',use.smooth=FALSE,
+                                    my.fun = phenoGrass.func.v11,
+                                    swc.in.cap = 0.13,swc.in.wilt = 0.05,bucket.size =300,
+                                    norm.min.max=NULL,
+                                    day.lag=3,q.s.in=NULL,q.in=NULL){
+  do.predict=NULL
+  if(is.null(subplot)){
+    gcc.met.pace.df.16 <- get.pace.func(df,
+                                        species.in = species.in,
+                                        prep.in = prep.in,
+                                        temp.in =temp.in,
+                                        norm.min.max=norm.min.max)
+    
+    if(use.smooth){
+      sm.nm='sm'
+    }else{
+      sm.nm=''
+    }
+    
+    if(is.null(do.predict)){
+      fn=paste0('cache/',sm.nm,nm.note,'chain.',
+                species.in,'.',prep.in,'.',temp.in,'.rds')
+      rds.nm = paste0('tmp/pred.',sm.nm,nm.note,'chain.',
+                      species.in,'.',
+                      prep.in,'.',
+                      temp.in,'.rds')
+      print(rds.nm)
+    }else{
+      fn=paste0('cache/',sm.nm,nm.note,'chain.',
+                species.in,'.',do.predict,'.',temp.in,'.rds')
+      rds.nm = paste0('tmp/pred.',sm.nm,nm.note,'chain.',species.in,'.',do.predict,'.predict.',temp.in,'.rds')
+      
+      # reduce rainfall for drt species
+      
+      if(tolower(species.in) == 'ym'){
+        gcc.met.pace.df.16$irrig.tot <- gcc.met.pace.df.16$irrig.tot * 0.35
+        gcc.met.pace.df.16$Rain <- gcc.met.pace.df.16$Rain * 0.35
+        
+      }else{
+        gcc.met.pace.df.16$irrig.tot[month(gcc.met.pace.df.16$Date) %in% 6:11] <-
+          gcc.met.pace.df.16$irrig.tot[month(gcc.met.pace.df.16$Date) %in% 6:11] * 0.4
+        gcc.met.pace.df.16$Rain[month(gcc.met.pace.df.16$Date) %in% 6:11] <-
+          gcc.met.pace.df.16$Rain[month(gcc.met.pace.df.16$Date) %in% 6:11] * 0.4
+      }
+    }
+    
+    
+    # fn=paste0('cache/chain.',species.in,'.',prep.in,'.',temp.in,'.rds')
+    
+    
+  }else{
+    species.in = subplot
+    prep.in = ''
+    temp.in =''
+    gcc.met.pace.df.16 <- get.pace.func(gcc.met.pace.df,subplot = subplot)
+    
+    if(use.smooth){
+      sm.nm='sm'
+    }else{
+      sm.nm=''
+    }
+    
+    fn=paste0('cache/',sm.nm,nm.note,'chain.',subplot,'.rds')
+    
+    rds.nm = paste0('tmp/pred.',sm.nm,nm.note,'chain.',subplot,'.rds')
+  }
+  report.df <<- gcc.met.pace.df.16
+  # fn='cache/smv10.testchain.Fes.Control.Ambient.rds'
+  # gcc.met.pace.df.16 <- gcc.met.pace.df.16[(gcc.met.pace.df.16$Date) < as.Date('2019-11-26'),]
+  # gcc.met.pace.df.16$map <- 760
+  
+  # chain.fes <- readRDS('cache/chain.Rye.Control.Ambient.rds')
+  # # read chains 
+  # print(paste0('par file used: ',fn))
+  # in.chain =  readRDS(fn)
+  # 
+  # if(is.list(in.chain)){
+  #   # assuming 1/3 burn in
+  #   burnIn = 1
+  #   chain.3.ls.new = lapply(in.chain,function(m.in)m.in[round((burn.proportion)*nrow(m.in)):nrow(m.in),])
+  #   
+  #   chain.fes <- do.call(rbind,chain.3.ls.new)
+  # }else{
+  #   burnIn = nrow(in.chain)/3
+  #   chain.fes <- in.chain
+  # }
+  
+  # # # see how it works#####
+  # par.df <- data.frame(#f.h = c(200,220,240,NA,NA),
+  #   f.t.opt = c(10,15,20,NA,NA,NA),
+  #   f.extract = c(0.05,0.075,0.1,NA,NA,NA),
+  #   f.sec = c(0.05,0.1,0.15,NA,NA,NA),
+  #   f.growth = c(0.1,0.2,0.3,NA,NA,NA),
+  #   q = c(0.001,1,2,NA,NA,NA),
+  #   q.s = c(0.001,1,2,NA,NA,NA))
+  # row.names(par.df) <- c('min','initial','max','fit','stdv','prop')
+  
+  # par.df["fit",] <- colMeans(chain.fes[burnIn:nrow(chain.fes),])
+  
+  # fit.par.vec <- apply(chain.fes[burnIn:nrow(chain.fes),],2,median)
+  
+  # # read tge best performing par
+  # fn = paste0('tmp/bic.',sm.nm,nm.note,'chain.',
+  #             species.in,'.',
+  #             prep.in,'.',
+  #             temp.in,'.rds')
+  # in.chain =  readRDS(fn)
+  # fit.par.vec <- in.chain[which(in.chain$bic==min(in.chain$bic)),]
+  # # 
+  # chain.fes <- do.call(rbind,in.chain)
+  # fit.par.vec <- subset(chain.fes[which(chain.fes$ll==max(chain.fes$ll)),],select=-c(ll))
+  # fit.par.vec <- fit.par.vec[!duplicated(fit.par.vec),]
+  # 
+  
+  if(!'q' %in% names(fit.par.vec)){
+    print(paste0('sensitivities of growth set to ',c(q.in)))
+    fit.par.vec$q = q.in
+  }
+  if(!'q.s' %in% names(fit.par.vec)){
+    print(paste0('sensitivities of senesence set to ',c(q.s.in)))
+    fit.par.vec$q.s = q.s.in
+  }
+  
+  # if(length(fit.par.vec)<5){
+  #   fit.par.vec[5:6] <-c(q.in,q.s.in)
+  #   print(paste0('sensitivities of growth and senesence set to ',c(q.in,q.s.in)))
+  # }else if(length(fit.par.vec)<6){
+  #   fit.par.vec[6] <- q.s.in
+  #   print(paste0('sensitivitiy of senesence set to 1',q.s.in))
+  # }
+  
+  
+  # par.df["fit",] <- fit.par.vec
+  print(fit.par.vec)
+  # 
+  # bucket.size = 300
+  gcc.met.pace.df.16 <- gcc.met.pace.df.16[order(gcc.met.pace.df.16$Date),]
+  hufken.pace.pred <- my.fun(gcc.met.pace.df.16,
+                             f.h = 222,
+                             f.t.opt = fit.par.vec$f.t.opt,
+                             f.extract = fit.par.vec$f.extract,
+                             f.sec= fit.par.vec$f.sec,
+                             f.growth = fit.par.vec$f.growth,
+                             q =  fit.par.vec$q,
+                             q.s =  fit.par.vec$q.s,
+                             bucket.size = bucket.size,
+                             swc.wilt = swc.in.wilt ,
+                             swc.capacity = swc.in.cap ,
+                             t.max = 45,
+                             day.lay = day.lag,use.smooth = use.smooth)
+  
+  return(hufken.pace.pred)
+  
+}

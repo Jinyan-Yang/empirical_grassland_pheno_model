@@ -10,18 +10,22 @@ logLikelihood.func <- function (model.out){
   
   mod <- model.out$cover.hufken
   
+  obs.swc <- model.out$vwc
+  mod.swc <- model.out$vwc.hufken
   # if sd of obs can be estimated then use it 
   # otherwise assume a 10% sd
   if(sum(model.out$GCC.norm.sd,na.rm = T) != 0){
     obs.sd <- model.out$GCC.norm.sd 
   }else{
-    obs.sd <- sd(model.out$GCC.norm,na.rm=T) 
+    obs.sd <- sd(model.out$GCC.norm,na.rm=T)
   }
+  obs.vwc.sd <- model.out$vwc.sd
   
   logLi <-  - (0.5 * ((mod - obs)/obs.sd)^2 + log(obs.sd) + 0.5*log(2*pi))
+  logLi.swc <- 0#(0.5 * ((mod.swc - obs.swc)/obs.vwc.sd)^2 + log(obs.sd) + 0.5*log(2*pi))
   # mse <- mean((mod - obs)^2,na.rm=T)
   # logLi <- log(mse)
-  return(sum(logLi,na.rm=T))
+  return(sum(logLi,na.rm=T) + sum(logLi.swc,na.rm=T))
 }
 
 # The code below modifed from 

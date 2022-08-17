@@ -38,7 +38,11 @@ model.de.func <- function(pars,dat,bucket.size,swc.in.wilt,swc.in.cap,day.lag,us
 
   resid.gs <- ((hufken.pace.pred$cover.hufken - hufken.pace.pred$cover)/sd.gcc)^2
   
-  return(sum(resid.gs,na.rm = T))
+  sd.swc <- sd(hufken.pace.pred$vwc,na.rm = T)
+  
+  resid.swc <- 0#((hufken.pace.pred$vwc.hufken - hufken.pace.pred$vwc)/sd.swc)^2
+  
+  return(sum(resid.gs,na.rm = T) + sum(resid.swc,na.rm = T))
 }
 
 

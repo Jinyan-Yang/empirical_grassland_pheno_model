@@ -120,6 +120,7 @@ get.pace.func <- function(gcc.met.pace.df,
   # only used when 1 obs per day
   if(sum(gcc.met.pace.df.16$GCC.norm.sd,na.rm=T) == 0){
     # gcc.met.pace.df.16$GCC.norm.sd = abs( gcc.met.pace.df.16$GCC.norm * 0.1)
+    gcc.met.pace.df.16$GCC.norm.sd = gcc.met.pace.df.16$GCC.norm.sd /(0.42-0.3)
     warning('SD of GCC not given')
   }
 

@@ -49,7 +49,7 @@ fit.mcmc.2q.func <- function(df = gcc.met.pace.df,
   
   # get deoptim to fit initial values
   if(cal.initial){
-    source('r/deoptimal_initial.R')
+  
     initial.vec <- get.ini.func(par.df = par.df,q.given =q.given,q.s.given=q.s.given)
      # out.nm <- paste0('tmp/deopt_',q.given,q.s.given,de.note,species.in,prep.in,temp.in,'.rds')
      # saveRDS(initial.vec,out.nm)

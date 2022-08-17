@@ -1,7 +1,6 @@
 library(Evapotranspiration)
-# pet fucntion####
 data("constants") #this is used for penman et value; data from Adleide
-pet.func <- function(Date,PPFD,Tair,Tmax,Tmin,RHmax,RHmin,u2,P = 101.3,lat = 33.618891 ){
+pet.func <- function(Date,PPFD,Tair,Tmax,Tmin,RHmax,RHmin,u2,P = 101.3,lat = -33.618891 ){
   gcc.met.df <- data.frame(Date = as.Date(Date),
                            PPFD = PPFD,
                            Tair = Tair,
@@ -10,15 +9,16 @@ pet.func <- function(Date,PPFD,Tair,Tmax,Tmin,RHmax,RHmin,u2,P = 101.3,lat = 33.
                            RHmax = RHmax,
                            RHmin = RHmin,
                            u2=u2)
-  
-  
+  # 
+  lat.rad <- lat * pi / 180
+  # 
   gcc.met.df$J <- lubridate::yday(gcc.met.df$Date)
   gcc.met.df$n <-  gcc.met.df$PPFD * 10^-6/4.57 * 3600 *24
   R_s <-  gcc.met.df$PPFD * 10^-6/4.57 * 3600 *24
   # data <- gcc.met.df
   
   Ta <- gcc.met.df$Tair
-  P <- 101.3 
+  # P <- 101.3 
   delta <- 4098 * (0.6108 * exp((17.27 * Ta)/(Ta + 237.3)))/((Ta + 237.3)^2)
   gamma <- 0.00163 * P/constants$lambda
   d_r2 <- 1 + 0.033 * cos(2 * pi/365 * gcc.met.df$J)
@@ -26,8 +26,8 @@ pet.func <- function(Date,PPFD,Tair,Tmax,Tmin,RHmax,RHmin,u2,P = 101.3,lat = 33.
   
   w_s <- acos(tan(lat * pi /180) * tan(delta2))
   N <- 24/pi * w_s
-  R_a <- (1440/pi) * d_r2 * constants$Gsc * (w_s * sin(constants$lat_rad) * 
-                                               sin(delta2) + cos(constants$lat_rad) * cos(delta2) * 
+  R_a <- (1440/pi) * d_r2 * constants$Gsc * (w_s * sin(lat.rad) * 
+                                               sin(delta2) + cos(lat.rad) * cos(delta2) * 
                                                sin(w_s))
   R_so <- (0.75 + (2 * 10^-5) * constants$Elev) * R_a
   
@@ -58,7 +58,6 @@ pet.func <- function(Date,PPFD,Tair,Tmax,Tmin,RHmax,RHmin,u2,P = 101.3,lat = 33.
   Epenman.Daily <- max(0,Epenman.Daily)
   return(Epenman.Daily)
 }
-
 # get a scaling factor####
 scaling.f.func <- function(map,f.h){
   # map is input, h should be fitted

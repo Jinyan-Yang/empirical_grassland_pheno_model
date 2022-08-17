@@ -138,7 +138,7 @@ phenoGrass.func.v13 <- function(gcc.df,
 
     # account for harvest
     if(gcc.df$harvest[nm.day] == 1){
-      cover.pred.vec[nm.day] <- mean(gcc.df$cover[nm.day:(nm.day+2)])
+      cover.pred.vec[nm.day] <- min(gcc.df$cover[nm.day:(nm.day+7)])
     }
     # calculate swc
     evap.vec[nm.day] <- (1 - cover.pred.vec[nm.day-1]) *
@@ -157,7 +157,7 @@ phenoGrass.func.v13 <- function(gcc.df,
     
     # apply drainage
     drain.vec[nm.day] <- drainage.func(swc.vec[nm.day] / bucket.size,
-                                       theta.sat  = swc.capacity)
+                                       theta.sat  = 0.3)
     swc.vec[nm.day] <- swc.vec[nm.day] - drain.vec[nm.day]
 
     swc.vec[nm.day] <- max(0,swc.vec[nm.day])

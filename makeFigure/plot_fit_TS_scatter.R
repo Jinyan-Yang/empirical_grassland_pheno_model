@@ -39,7 +39,8 @@ plot.ts.func <- function(hufken.pace.pred,lty.in='solid'){
 
 # v1#########################################
 palette(c(col.df$iris,col.df$daisy))
-png('figures/obs_fit_TS_scatter.png',height = 400*2,width = 800/.618)
+# tiff('figures/obs_fit_TS_scatter.png',height = 400*2,width = 800/.618)
+pdf('figures/obs_fit_TS_scatter.pdf',height = 8,width = 8/.618)
 # par(mfrow =c(2,1))
 layout(matrix(c(1,2,1,3),2,2, byrow = FALSE),
        # c(3,1), c(1,3),
@@ -56,7 +57,7 @@ fn <- 'tmp/pred.smv1.2q.chain.ym.Control.Ambient.rds'
 # hufken.pace.pred$cover.50 <- ci.m[3,]
 # v1
 plot.ts.ci.func(fn)
-
+legend('topleft',legend = '(a)', bty='n')
 # v0
 
 fn.v0 <- 'tmp/pred.smv0.chain.ym.Control.Ambient.rds'
@@ -117,36 +118,36 @@ dev.off()
 
 
 
-# v0#########################################
-palette(c(col.df$iris,col.df$daisy))
-png('figures/obs_fit_TS_scatter_v0.png',height = 400*2,width = 400/.618)
-par(mfrow =c(2,1))
-
-# plot obs cover
-par(mar=c(5,5,1,5))
-fn <- 'tmp/pred.smv0.chain.ym.Control.Ambient.rds'
-hufken.pace.pred <- readRDS(fn)
-
-
-
-plot.ts.func(hufken.pace.pred)
-
-sd.gcc <- sd(hufken.pace.pred$GCC.norm,na.rm=T)
-hi.vec <- hufken.pace.pred$GCC.norm.smooth+sd.gcc
-low.vec <- hufken.pace.pred$GCC.norm.smooth-sd.gcc
-polygon(x = c(hufken.pace.pred$Date,
-              rev(hufken.pace.pred$Date)),
-        y=c(hi.vec,rev(low.vec)),
-        col=t_col(col.df$iris[4],80),border = NA
-)
-
-legend('topleft',legend = '(a) YM',bty='n')
-legend('topright',legend = c('OBS','MOD'),
-       pch=c(16,NA),lty=c(NA,'solid'),
-       col=c( col.df$iris[4],col.df$auLandscape[2]),
-       bty='n')
-
-
-
-dev.off()
-
+# # v0#########################################
+# palette(c(col.df$iris,col.df$daisy))
+# png('figures/obs_fit_TS_scatter_v0.png',height = 400*2,width = 400/.618)
+# par(mfrow =c(2,1))
+# 
+# # plot obs cover
+# par(mar=c(5,5,1,5))
+# fn <- 'tmp/pred.smv0.chain.ym.Control.Ambient.rds'
+# hufken.pace.pred <- readRDS(fn)
+# 
+# 
+# 
+# plot.ts.func(hufken.pace.pred)
+# 
+# sd.gcc <- sd(hufken.pace.pred$GCC.norm,na.rm=T)
+# hi.vec <- hufken.pace.pred$GCC.norm.smooth+sd.gcc
+# low.vec <- hufken.pace.pred$GCC.norm.smooth-sd.gcc
+# polygon(x = c(hufken.pace.pred$Date,
+#               rev(hufken.pace.pred$Date)),
+#         y=c(hi.vec,rev(low.vec)),
+#         col=t_col(col.df$iris[4],80),border = NA
+# )
+# 
+# legend('topleft',legend = '(a) YM',bty='n')
+# legend('topright',legend = c('OBS','MOD'),
+#        pch=c(16,NA),lty=c(NA,'solid'),
+#        col=c( col.df$iris[4],col.df$auLandscape[2]),
+#        bty='n')
+# 
+# 
+# 
+# dev.off()
+# 

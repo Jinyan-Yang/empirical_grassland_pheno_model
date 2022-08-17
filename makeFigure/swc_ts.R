@@ -1,3 +1,4 @@
+source('r/load.R')
 source('r/plot.mcmc.r')
 source('r/read_spc_nm.R')
 # 
@@ -65,21 +66,21 @@ plot.swc.ts <- function(whereToLook){
            type='l',lwd=4,col = col.df$auLandscape[2],
            xlab=' ',ylab='Soil volumetric water content',ylim=c(0,0.2),
            xaxt='n',cex=1)
-      if(nrow(swc.trt.df.spc)>0){
-        swc.sum <- summaryBy(vwc ~ Date +Species,data = swc.trt.df.spc,
-                             FUN=c(mean,sd),na.rm=T)
-        hi.vec <- swc.sum$vwc.mean+swc.sum$vwc.sd
-        low.vec <- swc.sum$vwc.mean-swc.sum$vwc.sd
-        points(vwc.mean~Date,data = swc.sum,type='l',lty='dashed',lwd=3,col = t_col(col.df$iris[4],50))
-        polygon(x = c(swc.sum$Date,
-                      rev(swc.sum$Date)),
-                y=c(hi.vec,rev(low.vec)),
-                col=t_col(col.df$iris[4],80),border = NA)
-        legend('topright',legend = c('MOD','OBS'),lty=c('solid','dashed'),
-               bty='n',col = c(col.df$auLandscape[2],t_col(col.df$iris[4],50)),
-               lwd=2)
-        
-      }
+      # if(nrow(swc.trt.df.spc)>0){
+      #   swc.sum <- summaryBy(vwc ~ Date +Species,data = swc.trt.df.spc,
+      #                        FUN=c(mean,sd),na.rm=T)
+      #   hi.vec <- swc.sum$vwc.mean+swc.sum$vwc.sd
+      #   low.vec <- swc.sum$vwc.mean-swc.sum$vwc.sd
+      #   points(vwc.mean~Date,data = swc.sum,type='l',lty='dashed',lwd=3,col = t_col(col.df$iris[4],50))
+      #   polygon(x = c(swc.sum$Date,
+      #                 rev(swc.sum$Date)),
+      #           y=c(hi.vec,rev(low.vec)),
+      #           col=t_col(col.df$iris[4],80),border = NA)
+      #   legend('topright',legend = c('MOD','OBS'),lty=c('solid','dashed'),
+      #          bty='n',col = c(col.df$auLandscape[2],t_col(col.df$iris[4],50)),
+      #          lwd=2)
+      #   
+      # }
       legend('topright',legend = c('MOD'),lty=c('solid'),
              bty='n',col = col.df$auLandscape[2],
              lwd=2)

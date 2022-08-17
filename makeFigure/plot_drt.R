@@ -1,10 +1,11 @@
 ############################################
 # plot drought response and comare to model predictions
 ############################################
+source('makeFigure/plot_predc_drt.R')
 
 # process ym data
 ym.18.df <- get.ym.func(18)
-ym.con.df.sum <- get.pace.func(ym.18.df,
+ym.con.df.sum <- get.pace.func(gcc.met.pace.df = ym.18.df,
                                species.in='ym',
                                prep.in = 'Control',
                                temp.in ='Ambient',

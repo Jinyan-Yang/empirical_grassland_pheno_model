@@ -5,6 +5,11 @@
 
 #read in data #################
 ym.18.df <- get.ym.func(18)
+ym.drt.df <- get.ym.func('Drought')
+sd.df <- summaryBy(GCC ~ Date,
+                   data = ym.drt.df,FUN=c(sd),na.rm=TRUE,keep.names = F)
+ym.18.df$GCC.sd <- sd.df$GCC.sd
+
 gcc.met.con.df <- get.paddock.func('control')
 
 # loop through all spcies/site##################
@@ -16,14 +21,14 @@ for (i in seq_along(species.vec)){
     ym.met.df <- readRDS('cache/ym/ym.met.rds')
     
     swc.ym.con <- quantile(ym.met.df$swc,na.rm=T,probs = c(0.01,0.99))
-    swc.cap = round(swc.ym.con[[2]]*10)/10
-    swc.wilt = round(swc.ym.con[[1]]*100)/100
+    swc.cap = 0.3#round(swc.ym.con[[2]]*10)/10
+    swc.wilt = .05#round(swc.ym.con[[1]]*100)/100
     bucket.size=1000
   }else if(species.vec[i]=='flux'){
     df = gcc.met.con.df
     swc.q.con <- quantile(gcc.met.con.df$vwc,na.rm=T,probs = c(0.01,0.99))
-    swc.cap =  round(swc.q.con[[2]]*10)/10
-    swc.wilt = round(swc.q.con[[1]]*100)/100
+    swc.cap =  0.3#round(swc.q.con[[2]]*10)/10
+    swc.wilt = 0.01#round(swc.q.con[[1]]*100)/100
     bucket.size=1000
   }else{
     df = gcc.met.pace.df
