@@ -20,6 +20,7 @@ source('r/load.R')
 # Step II: fit model to data####
 source('r/fit_all.R')#v13
 source('r/fit_q1_qs0.R')#v10
+
 # get best fits
 source('r/get_best_fit.R')
 # get Ci for fitting
